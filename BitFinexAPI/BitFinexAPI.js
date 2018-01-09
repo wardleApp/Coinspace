@@ -9,7 +9,7 @@ var BitfinexAPI = () => {
 		})
 		.catch((error) => {
 			reject(error)
-		}) 	
+		})
 	})
 };
 

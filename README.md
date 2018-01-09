@@ -9,10 +9,6 @@
   - Nuno Neves
   - Derrick Cross
 
-# Greenfield
-
-> Pithy project description
-
 ## Team 4
 
   - Nuno Neves

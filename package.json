@@ -2,6 +2,7 @@
   "name": "Coinspace",
   "version": "1.0.0",
   "description": "Who needs Coinbase when you've got Coinspace?",
+  "main": "web.js",
   "author": "Derrick Cross, Dillon Lin, Jackie Jou, Nuno Neves",
   "license": "ISC",
   "scripts": {

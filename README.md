@@ -9,13 +9,6 @@
   - Nuno Neves
   - Derrick Cross
 
-## Team 4
-
-  - Nuno Neves
-  - Dillon Lin
-  - Derrick Cross
-  - Jackie Jou
-
 ## Table of Contents
 
 1. [Usage](#Usage)
@@ -31,7 +24,6 @@
 > Some usage instructions
 
 ## Requirements
-
 
 - Node 8.9.4
 - Redis 2.6.x

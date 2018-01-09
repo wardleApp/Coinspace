@@ -1,0 +1,18 @@
+@font-face {
+font-family: babyblocks;
+src: url(fonts/baby-blocks.ttf);
+}
+
+@font-face {
+font-family: fipps;
+src: url(fonts/fipps-regular.otf);
+}
+
+@font-face {
+font-family: minecraft;
+src: url(fonts/minecraft.ttf);
+}
+
+* {
+	font-family: minecraft;
+}

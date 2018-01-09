@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": "8.9.1"
+  },
   "name": "Coinspace",
   "version": "1.0.0",
   "description": "Who needs Coinbase when you've got Coinspace?",
@@ -6,6 +9,7 @@
   "author": "Derrick Cross, Dillon Lin, Jackie Jou, Nuno Neves",
   "license": "ISC",
   "scripts": {
+    "start": "nodemon server/server.js",
     "server-dev": "nodemon server/server.js",
     "react-dev": "webpack -d --watch"
   },

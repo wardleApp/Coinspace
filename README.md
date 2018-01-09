@@ -1,6 +1,6 @@
 # Project Name
 
-> Pithy project description
+> This project is meant to emulate Coinbase.
 
 ## Team
 

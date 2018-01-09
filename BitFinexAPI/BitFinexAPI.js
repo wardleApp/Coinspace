@@ -1,9 +1,9 @@
 var axios = require('axios');
 
 var BitfinexAPI = () => {
-	return new Promise(function(resolve, reject) {
+	return new Promise((resolve, reject) => {
 		axios.get(`https://api.bitfinex.com/v2/tickers?symbols=tBTCUSD,tETHUSD,tXRPUSD,tLTCUSD`)
-		.then(function(response) {
+		.then((response) => {
 			response = response.data;
 			resolve(response)
 		})

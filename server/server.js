@@ -2,6 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cryptoAPI = require('../BitFinexAPI/BitFinexAPI.js');
 const CronJob = require('cron').CronJob;
+const moment = require('moment');
+const db = require('../database/index.js');
+
 const app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -10,14 +13,14 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../client/dist'));
 
 new CronJob('*/30 * * * *', () => {
-  console.log('You will see this message every half hour', new Date());
 	// API call
 	cryptoAPI.BitfinexAPI()
 	.then((data) => {
 		console.log('This is the data', data);
 		Promise.all(data.map((coin, index) => {
 			// then write to dB
-			db.query(`insert into price_history (coin_id, time_stamp, price) values (${index + 1}, time, ${coin[1]})`)
+			let now = moment(new Date()).format(`MM/DD/YYYY`);
+			db.query(`insert into price_history (coin_id, time_stamp, price) values (${index + 1}, ${now}, ${coin[1]})`)
 				.then(result => {
 					console.log('insert sucess');
 				})
@@ -41,10 +44,19 @@ new CronJob('*/30 * * * *', () => {
   //							   14122 // LOW]]
 }, null, true, 'America/Los_Angeles');
 
-app.get('/init', () => {
+app.get('/update', (req, res) => {
 	// front end has cronJob to ask for new update every half hour
 	// Read from db and then respond with latest prices
-	db.query('')
+	db.query(`select *, to_date(time_stamp, 'MM/DD/YYYY') as new_date from price_history order by new_date desc limit 3`)
+	.then(results => {
+		// TO DO
+	}).catch(err => {
+		console.log('get current price err', err);
+	})
+});
+
+app.get('/init', (req, res) => {
+	// load historical data into client
 });
 
 const port = process.env.PORT || 3000;

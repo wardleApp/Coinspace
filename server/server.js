@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cryptoAPI = require('../BitFinexAPI/BitFinexAPI.js');
-// const CronJob = require('cron').CronJob;
+const CronJob = require('cron').CronJob;
 const moment = require('moment');
 const db = require('../database/index.js').client;
 
@@ -12,25 +12,24 @@ app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/../client/dist'));
 
-// new CronJob('*/30 * * * *', () => {
+new CronJob('*/30 * * * *', () => {
 // API call
-cryptoAPI.BitfinexAPI()
-  .then((data) => {
-    console.log('This is the data', data);
-    Promise.all(data.map((coin, index) => {
-      // then write to dB
-      let now = moment(new Date()).format(`MM/DD/YYYY`);
-      return db.query(`insert into price_history (coin_id, time_stamp, price) values (${index + 1}, ${now}, ${coin[1]})`)
-        .then(result => {
-          console.log('insert sucess', result);
-        })
-        .catch(err => {
-          console.log('insert err', err);
-        });
-    }));
-  }).catch(err => {
-    console.log('api err', err);
-  });
+  cryptoAPI.BitfinexAPI()
+    .then((data) => {
+      console.log('This is the data', data);
+      let now = moment(new Date()).format(`MM/DD/YYYY`);  
+      Promise.all(data.map((coin, index) => {
+        // then write to dB
+        return db.query(`insert into price_history (coin_id, time_stamp, price) values (${index + 1}, '${now}', ${coin[1]})`);
+      })).then(result => {
+        console.log('insert sucess', result);
+        db.client.end();
+      }).catch(err => {
+        console.log('insert err', err);
+      });
+    }).catch(err => {
+      console.log('api err', err);
+    });
 
 // sample result [[ 'tBTCUSD', // SYMBOL
 //                 14721, // BID
@@ -43,7 +42,7 @@ cryptoAPI.BitfinexAPI()
 //                 45888.69199867, // VOLUME
 //                 15355, // HIGH
 //                 14122 // LOW]]
-// }, null, true, 'America/Los_Angeles');
+}, null, true, 'America/Los_Angeles');
 
 app.get('/update', (req, res) => {
   // front end has cronJob to ask for new update every half hour

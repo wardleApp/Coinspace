@@ -17,7 +17,7 @@ new CronJob('*/30 * * * *', () => {
   cryptoAPI.BitfinexAPI()
     .then((data) => {
       console.log('This is the data', data);
-      let now = moment(new Date()).format(`MM/DD/YYYY`);  
+      let now = moment(new Date()).format(`MM/DD/YYYY HH`);
       Promise.all(data.map((coin, index) => {
         // then write to dB
         return db.query(`insert into price_history (coin_id, time_stamp, price) values (${index + 1}, '${now}', ${coin[1]})`);
@@ -46,9 +46,9 @@ new CronJob('*/30 * * * *', () => {
 app.get('/update', (req, res) => {
   // front end has cronJob to ask for new update every half hour
   // Read from db and then respond with latest prices
-  db.query(`select *, to_date(time_stamp, 'MM/DD/YYYY') as new_date from price_history order by new_date desc limit 3`)
+  db.query(`select *, to_date(time_stamp, 'MM/DD/YYYY HH') as new_date from price_history order by new_date desc limit 4`)
     .then(results => {
-      // TO DO
+      res.json(results);
     }).catch(err => {
       console.log('get current price err', err);
     });
@@ -61,5 +61,5 @@ app.get('/init', (req, res) => {
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
-  console.log(`listening on port ${port}`);
+  console.log(`server, listening on port ${port}`);
 });

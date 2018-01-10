@@ -1,5 +1,8 @@
 node_modules/
-./database/Initialize_database_data/
+database/Initialize_database_data/
+.env
+.DS_Store
+
 
 ### node etc ###
 
@@ -27,4 +30,3 @@ coverage
 node_modules/
 
 
-.DS_Store

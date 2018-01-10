@@ -11,7 +11,7 @@
   "scripts": {
     "start": "nodemon server/server.js",
     "react-dev": "webpack -d --watch",
-    "postinstall": "webpack -d --watch"
+    "postinstall": "webpack -d"
   },
   "dependencies": {
     "axios": "^0.17.1",

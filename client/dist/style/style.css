@@ -14,5 +14,73 @@ src: url(fonts/minecraft.ttf);
 }
 
 * {
-	font-family: minecraft;
+  font-family: minecraft;
 }
+
+/*
+body {
+  background-image: url('/../img/x-pattern.png');
+  background-repeat: repeat;
+}
+*/
+
+#header {
+  letter-spacing: 1px;
+  font-size: 15px;
+  font-family: fipps;
+}
+
+#currencyDisplay {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+}
+
+.nav {
+  letter-spacing: 1px;
+  color: gray;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tab {
+  margin-right: 30px;
+}
+
+.centered {
+  display: block; margin: 0 auto;
+  display: inline-block; text-align: center;
+}
+
+.medium {
+  font-family: babyblocks;
+  font-size: 30px;
+}
+
+.large {
+  font-family: babyblocks;
+  font-size: 50px;
+}
+
+
+@keyframes animatedBackground {
+  from { background-position: 0 100%; }
+  to { background-position: 0 0; }
+}
+
+body {  
+  background-image: url('/../img/x-pattern-gray.png');
+  background-position: 0px 0px;
+  background-repeat: repeat;
+
+  animation: animatedBackground 20s linear infinite;
+}
+
+#credits {
+  letter-spacing: 1px;
+  font-size: 10px;
+  color: gray;
+}
+
+
+

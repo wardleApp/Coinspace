@@ -64,6 +64,12 @@ class App extends React.Component {
     // });
     this.getChartData();
     this.getUpdate();
+    axios.get('/init')
+      .then(results => {
+        console.log('YEAR DATA', results.data);
+      }).catch(err => {
+        console.log('init client', err);
+      });
   }
 
   getChartData(){
@@ -131,9 +137,9 @@ class App extends React.Component {
     // axios call to server
     // on success, set timeout(at the 00 minute, set the state)
     axios.get('/update')
-      .then((data) => {
+      .then(results => {
         let minute = new Date().getMinutes() % 30;
-        console.log(data.data.rows);
+        console.log('Half hour update', results.data.rows);
         // setTimeout(()=>{ changeState(data); }, 1800000 - 60000 * minute);
       }).catch(err => {
         console.log('update err', err);

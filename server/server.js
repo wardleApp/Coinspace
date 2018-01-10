@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cryptoAPI = require('../BitFinexAPI/BitFinexAPI.js');
 const CronJob = require('cron').CronJob;
 const moment = require('moment');
-const db = require('../database/index.js').client;
+const db = require('../database/index.js');
 
 const app = express();
 
@@ -20,7 +20,7 @@ new CronJob('*/30 * * * *', () => {
       let now = moment(new Date()).format(`MM/DD/YYYY HH`);
       Promise.all(data.map((coin, index) => {
         // then write to dB
-        return db.query(`insert into price_history (coin_id, time_stamp, price) values (${index + 1}, '${now}', ${coin[1]})`);
+        return db.client.query(`insert into price_history (coin_id, time_stamp, price) values (${index + 1}, '${now}', ${coin[1]})`);
       })).then(result => {
         console.log('insert sucess', result);
       }).catch(err => {
@@ -46,7 +46,7 @@ new CronJob('*/30 * * * *', () => {
 app.get('/update', (req, res) => {
   // front end has cronJob to ask for new update every half hour
   // Read from db and then respond with latest prices
-  db.query(`select *, to_date(time_stamp, 'MM/DD/YYYY HH') as new_date from price_history order by new_date desc limit 4`)
+  db.client.query(`select *, to_date(time_stamp, 'MM/DD/YYYY HH') as new_date from price_history order by new_date desc limit 4`)
     .then(results => {
       res.json(results);
     }).catch(err => {
@@ -56,6 +56,11 @@ app.get('/update', (req, res) => {
 
 app.get('/init', (req, res) => {
   // load historical data into client
+  db.getYearData().then(results => {
+    res.json(results);
+  }).catch(err => {
+    console.log('init err', err);
+  });
 });
 
 const port = process.env.PORT || 3000;

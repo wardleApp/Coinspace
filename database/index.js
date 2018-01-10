@@ -6,7 +6,7 @@ const pool = new Pool({
   host: process.env.HOST,
   database: process.env.DATABASE,
   password: process.env.PASSWORD,
-  port: process.env.PORT,
+  port: process.env.DB_PORT,
   ssl: true,
 });
 
@@ -22,7 +22,7 @@ const client = new Client({
   host: process.env.HOST,
   database: process.env.DATABASE,
   password: process.env.PASSWORD,
-  port: process.env.PORT,
+  port: process.env.DB_PORT,
   ssl: true,
 });
 client.connect();
@@ -37,7 +37,7 @@ client.query('SELECT NOW()', (err, res) => {
 var getWeeklyData = () => {
   return new Promise(function(resolve, reject) {
     client.query(
-      `select a.name, b.coin_id, b.price
+      `select a.name, b.coin_id, b.price, to_date(time_stamp, 'mm/dd/yy') as date
       from coin a
       inner join price_history b on a.id = b.coin_id
       where to_date(time_stamp, 'mm/dd/yy')
@@ -56,7 +56,7 @@ var getWeeklyData = () => {
 var getMonthData = () => {
   return new Promise(function(resolve, reject) {
     client.query(
-      `select a.name, b.coin_id, b.price
+      `select a.name, b.coin_id, b.price, to_date(time_stamp, 'mm/dd/yy') as date
       from coin a
       inner join price_history b on a.id = b.coin_id
       where to_date(time_stamp, 'mm/dd/yy')

@@ -5,10 +5,10 @@ const ltcHistory = require('./LTCUSDHistoricalData.js');
 const xrpHistory = require('./XRPUSDHistoricalData.js');
 
 const client = new Client({
-  user: 'phtdwlpkawbshv',
-  host: 'ec2-23-21-246-25.compute-1.amazonaws.com',
-  database: 'd3so2vpgo9l9f1',
-  password: '459bfdb9f90b71503b1d7c3d5b2bd924f34022ca44f2a06ae7ccc2e5d50d4ff5',
+  user: '',
+  host: '',
+  database: '',
+  password: '',
   port: 5432,
   ssl: true, 
 });

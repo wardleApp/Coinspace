@@ -1,5 +1,6 @@
 node_modules/
-./database/Initialize_database_data/
+database/Initialize_database_data/
+.env
 
 ### node etc ###
 

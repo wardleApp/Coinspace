@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import img from '../dist/img/graphTemplate.png';
 import axios from 'axios';
+import CoinChart from './components/CoinChart.jsx';
+import BTCHistorical from '../../database/Initalize_database_data/BTCUSDHistoricalData.js';
+import ETHHistorical from '../../database/Initalize_database_data/ETHUSDHistoricalData.js';
+import XRPHistorical from '../../database/Initalize_database_data/XRPUSDHistoricalData.js';
+import LTCHistorical from '../../database/Initalize_database_data/LTCUSDHistoricalData.js';
 
 //these three could potentially be the same component with few adjustments...
 const Price = function(props) {
@@ -42,7 +46,9 @@ const SinceLastYearPercent = function(props) {
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      chartData: {}
+    };
   }
 
   componentDidMount() {
@@ -56,10 +62,70 @@ class App extends React.Component {
     // }).catch(err => {
     //   console.log('set interval err', err);
     // });
+    this.getChartData();
   }
+
+  getChartData(){
+    // Ajax calls here
+    this.setState({
+      chartData:{
+        labels: BTCHistorical.map((entry) => entry.Date).reverse(),
+        datasets:[
+          {
+            label:'Price',
+            data: BTCHistorical.map((entry) => entry.Price).reverse(),
+            backgroundColor:[
+              'rgba(255, 99, 132, 0.6)',
+              'rgba(54, 162, 235, 0.6)',
+              'rgba(255, 206, 86, 0.6)',
+              'rgba(75, 192, 192, 0.6)',
+              'rgba(153, 102, 255, 0.6)',
+              'rgba(255, 159, 64, 0.6)',
+              'rgba(255, 99, 132, 0.6)'
+            ]
+          }
+        ]
+      }
+    });
+  }
+
+  onSetData(coinName) {
+    if(coinName === 'BTC') {
+      var coin = BTCHistorical;
+    } else if(coinName === 'ETH') {
+      var coin = ETHHistorical;
+    } else if(coinName === 'XRP') {
+      var coin = XRPHistorical;
+    } else if(coinName === 'LTC') {
+      var coin = LTCHistorical;
+    }
+    this.setState({
+      chartData:{
+        labels: coin.map((entry) => entry.Date).reverse(),
+        datasets:[
+          {
+            label:'Price',
+            data: coin.map((entry) => entry.Price).reverse(),
+            backgroundColor:[
+              'rgba(255, 99, 132, 0.6)',
+              'rgba(54, 162, 235, 0.6)',
+              'rgba(255, 206, 86, 0.6)',
+              'rgba(75, 192, 192, 0.6)',
+              'rgba(153, 102, 255, 0.6)',
+              'rgba(255, 159, 64, 0.6)',
+              'rgba(255, 99, 132, 0.6)'
+            ]
+          }
+        ]
+      }
+    });
+  }
+
   changeState(data) {
     this.setState({data: data});
   }
+
+
   getUpdate() {
     // axios call to server
     // on success, set timeout(at the 00 minute, set the state)
@@ -99,7 +165,7 @@ class App extends React.Component {
         </div>
 
         <div id="graph">
-          <img src={require('../dist/img/graphTemplate.png')}/>
+        <CoinChart chartData={this.state.chartData} onSetData={this.onSetData.bind(this)}/>
         </div>
       </div>
     );

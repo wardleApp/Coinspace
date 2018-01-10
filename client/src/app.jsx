@@ -15,7 +15,7 @@ const Price = function(props) {
       <span className="tab" className="large">14.960</span>
       <span className="tab" className="medium">.00</span>
       <p>BITCOIN PRICE</p>
-    </div> 
+    </div>
   );
 };
 
@@ -63,6 +63,7 @@ class App extends React.Component {
     //   console.log('set interval err', err);
     // });
     this.getChartData();
+    this.getUpdate();
   }
 
   getChartData(){
@@ -132,12 +133,13 @@ class App extends React.Component {
     axios.get('/update')
       .then((data) => {
         let minute = new Date().getMinutes() % 30;
-        setTimeout(()=>{ changeState(data); }, 1800000 - 60000 * minute);
+        console.log(data.data.rows);
+        // setTimeout(()=>{ changeState(data); }, 1800000 - 60000 * minute);
       }).catch(err => {
         console.log('update err', err);
       });
   }
-  
+
   render() {
 
     return (
@@ -155,7 +157,7 @@ class App extends React.Component {
             <span className="tab" id="monthly">1M</span>
             <span className="tab" id="yearly">1Y</span>
           </div>
-          
+
         </div>
 
         <div className="centered" id="currencyDisplay">

@@ -5,9 +5,9 @@ const ltcHistory = require('./LTCUSDHistoricalData.js');
 const xrpHistory = require('./XRPUSDHistoricalData.js');
 
 const client = new Client({
-  user: 'decross',
-  host: 'localhost',
-  database: 'postgres',
+  user: '',
+  host: '',
+  database: '',
   password: '',
   port: 5432,
 });

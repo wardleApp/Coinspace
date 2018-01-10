@@ -1,21 +1,8 @@
 const { Pool, Client } = require('pg');
-const btcHistory = './BTCUSDHistoricalData.js';
-const ethHistory = './ETHUSDHistoricalData.js';
-const ltcHistory = './LTCUSDHistoricalData.js';
-const xrpHistory = './XRPUSDHistoricalData.js';
-
-const pool = new Pool({
-  user: 'decross',
-  host: 'localhost',
-  database: 'postgres',
-  password: '',
-  port: 5432,
-});
-
-pool.query('SELECT now()', (err, res) => {
-  console.log('Pool Connected');
-  pool.end();
-});
+const btcHistory = require('./BTCUSDHistoricalData.js');
+const ethHistory = require('./ETHUSDHistoricalData.js');
+const ltcHistory = require('./LTCUSDHistoricalData.js');
+const xrpHistory = require('./XRPUSDHistoricalData.js');
 
 const client = new Client({
   user: 'decross',
@@ -26,10 +13,58 @@ const client = new Client({
 });
 client.connect();
 
-client.query('SELECT now()', (err, res) => {
-  console.log('Client Connected');
-  console.log(btcHistory);
-  client.end();
+btcHistory.map((dateObj) => {
+  let date = dateObj.Date;
+  let coinId = 1;
+  let price = dateObj.Open;
+  console.log('date', date);
+  client.query(`insert into price_history (coin_id, time_stamp, price) values (${coinId}, '${date}', ${price})`
+    , (err, res) => {
+      if (err) {
+        console.log('Insertion Error', err);
+      }
+      console.log('Insertion Success', res);
+    });
 });
 
+ethHistory.map((dateObj) => {
+  let date = dateObj.Date;
+  let coinId = 2;
+  let price = dateObj.Open;
+  console.log('date', date);
+  client.query(`insert into price_history (coin_id, time_stamp, price) values (${coinId}, '${date}', ${price})`
+    , (err, res) => {
+      if (err) {
+        console.log('Insertion Error', err);
+      }
+      console.log('Insertion Success', res);
+    });
+});
 
+ltcHistory.map((dateObj) => {
+  let date = dateObj.Date;
+  let coinId = 3;
+  let price = dateObj.Open;
+  console.log('date', date);
+  client.query(`insert into price_history (coin_id, time_stamp, price) values (${coinId}, '${date}', ${price})`
+    , (err, res) => {
+      if (err) {
+        console.log('Insertion Error', err);
+      }
+      console.log('Insertion Success', res);
+    });
+});
+
+xrpHistory.map((dateObj) => {
+  let date = dateObj.Date;
+  let coinId = 4;
+  let price = dateObj.Open;
+  console.log('date', date);
+  client.query(`insert into price_history (coin_id, time_stamp, price) values (${coinId}, '${date}', ${price})`
+    , (err, res) => {
+      if (err) {
+        console.log('Insertion Error', err);
+      }
+      console.log('Insertion Success', res);
+    });
+});

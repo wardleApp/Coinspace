@@ -1,4 +1,5 @@
 node_modules/
+./database/Initialize_database_data/
 
 ### node etc ###
 

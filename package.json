@@ -10,7 +10,8 @@
   "license": "ISC",
   "scripts": {
     "start": "nodemon server/server.js",
-    "react-dev": "webpack -d --watch"
+    "react-dev": "webpack -d --watch",
+    "postinstall": "webpack -d --watch"
   },
   "dependencies": {
     "axios": "^0.17.1",
@@ -28,6 +29,7 @@
     "dotenv": "^4.0.0",
     "eslint-config-hackreactor": "github:reactorcore/eslint-config-hackreactor",
     "express": "^4.16.2",
+    "express-favicon":"^2.0.0",
     "file-loader": "^1.1.6",
     "html-webpack-plugin": "^2.30.1",
     "jquery": "^3.2.1",

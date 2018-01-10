@@ -2,7 +2,7 @@ node_modules/
 database/Initialize_database_data/
 .env
 .DS_Store
-
+client/dist/bundle.js
 
 ### node etc ###
 

@@ -4,11 +4,13 @@ const cryptoAPI = require('../BitFinexAPI/BitFinexAPI.js');
 const CronJob = require('cron').CronJob;
 const moment = require('moment');
 const db = require('../database/index.js');
+const favicon = require('express-favicon');
 
 const app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(favicon(__dirname + '/../client/dist/img/favicon.ico'));
 
 app.use(express.static(__dirname + '/../client/dist'));
 

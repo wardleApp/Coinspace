@@ -23,7 +23,6 @@ new CronJob('*/30 * * * *', () => {
         return db.query(`insert into price_history (coin_id, time_stamp, price) values (${index + 1}, '${now}', ${coin[1]})`);
       })).then(result => {
         console.log('insert sucess', result);
-        db.client.end();
       }).catch(err => {
         console.log('insert err', err);
       });

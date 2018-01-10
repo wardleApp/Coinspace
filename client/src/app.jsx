@@ -1,14 +1,18 @@
 import React from 'react';
-import render from 'react-dom';
+import ReactDOM from 'react-dom';
+import img from '../dist/img/graphTemplate.png';
 
-class App extends Component {
+class App extends React.Component {
+	constructor(props) {
+		super(props)
+	}
   render() {
     return (
       <div>
-        Hello from react
+        <img src={require("../dist/img/graphTemplate.png")}/>
       </div>
     );
   }
 }
 
-render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));

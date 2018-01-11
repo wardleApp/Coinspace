@@ -271,17 +271,12 @@ class App extends React.Component {
           </div>
         </div>
 
-<<<<<<< b49849c610f4f2453fb71e28cb502be25d8ae66b
-        <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
-        
-=======
         <div id="graph">
           <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
         </div>
         <div>
           <Chat/>
         </div>
->>>>>>> add chat component
       </div>
     );
   }
@@ -291,7 +286,7 @@ class App extends React.Component {
 
 ReactDOM.render(<App />, document.getElementById('app'));
 
-              
+
 
 
       // <div>

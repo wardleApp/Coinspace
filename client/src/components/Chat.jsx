@@ -6,17 +6,17 @@ class Chat extends React.Component{
     super(props);
 
     this.state = {
-        username: '',
-        message: '',
-        messages: []
+      username: '',
+      message: '',
+      messages: []
     };
-    this.socket = io('localhost:3000');
     const addMessage = (data) => {
       this.setState({messages: [...this.state.messages, data]});
-    }
+    };
+    this.socket = io('localhost:3000');
     this.socket.on('new message', function(data) {
       addMessage(data);
-    })
+    });
   }
 
   usernameOnChange(event) {
@@ -45,7 +45,7 @@ class Chat extends React.Component{
   render(){
       return (
           <div>
-            <div className="title">General Chat</div>
+            <div className="title">Chat</div>
             <hr/>
               <div className="messages">
                   {this.state.messages.map((message, index) =>

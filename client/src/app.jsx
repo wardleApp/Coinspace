@@ -273,7 +273,7 @@ class App extends React.Component {
         {
           page === 'Charts' ? (
 
-            <div className="ui grid">
+            <div id='background' className="ui grid">
               <div className="three column row"></div>
               <div className="sixteen column row">
 
@@ -299,10 +299,7 @@ class App extends React.Component {
               </div>
 
               <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
-
-            <div>
               <Chat/>
-            </div>
 
             </div>
 
@@ -313,6 +310,7 @@ class App extends React.Component {
 
           )
         }
+      </div>
     );
   }
 
@@ -322,29 +320,3 @@ class App extends React.Component {
 ReactDOM.render(<App />, document.getElementById('app'));
 
 
-
-
-      // <div>
-      //   <div className="ui equal width grid">
-
-      //     <div className="one wide column"> </div>
-      //     <SmallCurrencyToggle coin={BTCHistorical[0]} />
-      //     <SmallCurrencyToggle coin={ETHHistorical[0]} />
-      //     <SmallCurrencyToggle coin={LTCHistorical[0]} />
-      //     <SmallCurrencyToggle coin={XRPHistorical[0]} />
-      //     <div className="nine wide column"></div>
-
-      //     <button className="ui left floated mini button" id="daily">1D</button>
-      //     <button className="ui left floated mini button" id="monthly">1M</button>
-      //     <button className="ui left floated mini button" id="yearly">1Y</button>
-
-      //   </div>
-
-      //   <div className="centered" id="currencyDisplay">
-      //     <Price/>
-      //     <SinceLastYearUSD/>
-      //     <SinceLastYearPercent/>
-      //   </div>
-
-
-      // </div>

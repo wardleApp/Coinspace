@@ -7,9 +7,7 @@ class SmallCurrentToggle extends React.Component {
 
   render() {
     return (
-      <button className="ui left floated button">
-        TEST
-      </button>
+      <button className="ui left floated button">{this.props.name + ' ' + this.props.coin.Price} </button>
     );
   }
 }

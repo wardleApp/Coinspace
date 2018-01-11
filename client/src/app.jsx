@@ -11,9 +11,9 @@ import LTCHistorical from '../../database/Initalize_database_data/LTCUSDHistoric
 //these three could potentially be the same component with few adjustments...
 const Price = function(props) {
   return (
-    <div className="centered" id="presentValue">
-      <span className="tab" className="medium">$</span>
-      <span className="tab" className="large">14.960</span>
+    <div style={{paddingLeft: 165}} className="column">
+      <span className="tab" className="small">$</span>
+      <span className="tab" className="medium">14,960</span>
       <span className="tab" className="medium">.00</span>
       <p>BITCOIN PRICE</p>
     </div>
@@ -22,22 +22,22 @@ const Price = function(props) {
 
 const SinceLastYearUSD = function(props) {
   return (
-    <div className="centered" id="sinceLastYear$">
+    <div style={{paddingLeft: 100}} className="column">
       <span className="plus_minus medium">+</span>
-      <span className="medium">$</span>
-      <span className="large">14.059</span>
+      <span className="small">$</span>
+      <span className="medium">14,059</span>
       <span className="medium">.79</span>
-      <p>TESTING WHATEVER</p>
+      <p>TOTAL CHANGE</p>
     </div>
   );
 };
 
 const SinceLastYearPercent = function(props) {
   return (
-    <div className="centered" id="sinceLastYear%">
+    <div style={{paddingLeft: 40}} className="column">
       <span className="plus_minus medium">+</span>
-      <span className="large">1555.29</span>
-      <span className="medium">%</span>
+      <span className="medium">1555.29</span>
+      <span className="small">%</span>
       <p>SINCE LAST YEAR (%)</p>
     </div>
   );
@@ -245,31 +245,33 @@ class App extends React.Component {
   render() {
 
     return (
-      <div>
-        <div className="ui equal width grid">
+      <div className="ui grid">
+        <div className="three column row"></div>
+        <div className="sixteen column row">
 
           <div className="one wide column"> </div>
-          <SmallCurrencyToggle coin={BTCHistorical[0]} />
-          <SmallCurrencyToggle coin={ETHHistorical[0]} />
-          <SmallCurrencyToggle coin={LTCHistorical[0]} />
-          <SmallCurrencyToggle coin={XRPHistorical[0]} />
-          <div className="eight wide column"></div>
+          <SmallCurrencyToggle name='BitCoin' coin={BTCHistorical[0]} />
+          <SmallCurrencyToggle name='Ethereum' coin={ETHHistorical[0]} />
+          <SmallCurrencyToggle name='Lite Coin' coin={LTCHistorical[0]} />
+          <SmallCurrencyToggle name='Ripple' coin={XRPHistorical[0]} />
+          <div className="six wide column"></div>
 
-          <button className="ui left floated button" id="daily">1D</button>
-          <button className="ui left floated button" id="monthly">1M</button>
-          <button className="ui left floated button" id="yearly">1Y</button>
+          <button className="ui left floated mini button" id="daily">1D</button>
+          <button className="ui left floated mini button" id="monthly">1M</button>
+          <button className="ui left floated mini button" id="yearly">1Y</button>
 
         </div>
 
-        <div className="centered" id="currencyDisplay">
-          <Price/>
-          <SinceLastYearUSD/>
-          <SinceLastYearPercent/>
+        <div className="row">
+          <div className="ui three column divided grid triComponentRow">
+            <Price/>
+            <SinceLastYearUSD/>
+            <SinceLastYearPercent/>
+          </div>
         </div>
 
-        <div id="graph">
-          <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
-        </div>
+        <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
+        
       </div>
     );
   }
@@ -278,3 +280,31 @@ class App extends React.Component {
 
 
 ReactDOM.render(<App />, document.getElementById('app'));
+
+              
+
+
+      // <div>
+      //   <div className="ui equal width grid">
+
+      //     <div className="one wide column"> </div>
+      //     <SmallCurrencyToggle coin={BTCHistorical[0]} />
+      //     <SmallCurrencyToggle coin={ETHHistorical[0]} />
+      //     <SmallCurrencyToggle coin={LTCHistorical[0]} />
+      //     <SmallCurrencyToggle coin={XRPHistorical[0]} />
+      //     <div className="nine wide column"></div>
+
+      //     <button className="ui left floated mini button" id="daily">1D</button>
+      //     <button className="ui left floated mini button" id="monthly">1M</button>
+      //     <button className="ui left floated mini button" id="yearly">1Y</button>
+
+      //   </div>
+
+      //   <div className="centered" id="currencyDisplay">
+      //     <Price/>
+      //     <SinceLastYearUSD/>
+      //     <SinceLastYearPercent/>
+      //   </div>
+
+
+      // </div>

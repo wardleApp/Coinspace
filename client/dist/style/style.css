@@ -82,5 +82,15 @@ body {
   color: gray;
 }
 
+.graphRow {
+  height: 50px;
+}
 
+.triComponentRow {
+ height: 75px;
+}
+
+.triProps {
+  padding-left: 165px;
+}
 

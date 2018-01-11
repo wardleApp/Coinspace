@@ -4,6 +4,7 @@ import axios from 'axios';
 import CoinChart from './components/CoinChart.jsx';
 import Chat from './components/Chat.jsx';
 import SmallCurrencyToggle from './components/SmallCurrencyToggle.jsx';
+import PortfolioPage from './components/PortfolioPage.jsx';
 import BTCHistorical from '../../database/Initalize_database_data/BTCUSDHistoricalData.js';
 import ETHHistorical from '../../database/Initalize_database_data/ETHUSDHistoricalData.js';
 import XRPHistorical from '../../database/Initalize_database_data/XRPUSDHistoricalData.js';
@@ -57,8 +58,11 @@ class App extends React.Component {
       monthlyData: [],
       yearlyData: [],
       historicalData: [],
-      chartData: {}
+      chartData: {}, 
+      renderedPage: 'Charts'
     };
+
+    this.changePage = this.changePage.bind(this);
   }
 
   componentDidMount() {
@@ -243,41 +247,72 @@ class App extends React.Component {
       });
   }
 
+  changePage(e) {
+    this.setState({
+      renderedPage: e.target.name
+    });
+  }
+
   render() {
+    const page = this.state.renderedPage;
 
     return (
-      <div className="ui grid">
-        <div className="three column row"></div>
-        <div className="sixteen column row">
-
-          <div className="one wide column"> </div>
-          <SmallCurrencyToggle name='BitCoin' coin={BTCHistorical[0]} />
-          <SmallCurrencyToggle name='Ethereum' coin={ETHHistorical[0]} />
-          <SmallCurrencyToggle name='Lite Coin' coin={LTCHistorical[0]} />
-          <SmallCurrencyToggle name='Ripple' coin={XRPHistorical[0]} />
-          <div className="six wide column"></div>
-
-          <button className="ui left floated mini button" id="daily">1D</button>
-          <button className="ui left floated mini button" id="monthly">1M</button>
-          <button className="ui left floated mini button" id="yearly">1Y</button>
-
-        </div>
-
-        <div className="row">
-          <div className="ui three column divided grid triComponentRow">
-            <Price/>
-            <SinceLastYearUSD/>
-            <SinceLastYearPercent/>
+      <div>
+        <div className="ui massive inverted menu">
+          <div className="ui container">
+            <a className="item" name="Charts" onClick={this.changePage}>Charts</a>
+            <a className="item" name="Portfolio" onClick={this.changePage}>Portfolio</a>
+            <div className="right menu">
+              <div className="item">
+                <a className="item">Log in</a>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div id="graph">
-          <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
-        </div>
-        <div>
-          <Chat/>
-        </div>
-      </div>
+        {
+          page === 'Charts' ? (
+
+            <div className="ui grid">
+              <div className="three column row"></div>
+              <div className="sixteen column row">
+
+                <div className="one wide column"> </div>
+                <SmallCurrencyToggle name='BitCoin' coin={BTCHistorical[0]} />
+                <SmallCurrencyToggle name='Ethereum' coin={ETHHistorical[0]} />
+                <SmallCurrencyToggle name='Lite Coin' coin={LTCHistorical[0]} />
+                <SmallCurrencyToggle name='Ripple' coin={XRPHistorical[0]} />
+                <div className="six wide column"></div>
+
+                <button className="ui left floated mini button" id="daily">1D</button>
+                <button className="ui left floated mini button" id="monthly">1M</button>
+                <button className="ui left floated mini button" id="yearly">1Y</button>
+
+              </div>
+
+              <div className="row">
+                <div className="ui three column divided grid triComponentRow">
+                  <Price/>
+                  <SinceLastYearUSD/>
+                  <SinceLastYearPercent/>
+                </div>
+              </div>
+
+              <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
+
+            <div>
+              <Chat/>
+            </div>
+
+            </div>
+
+
+          ) : (
+
+            <PortfolioPage />
+
+          )
+        }
     );
   }
 

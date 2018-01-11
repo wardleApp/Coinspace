@@ -59,7 +59,7 @@ btcHistory.map((dateObj) => {
   let date = dateObj.Date;
   let coinId = 1;
   let price = dateObj.Open;
-  client.query(`insert into price_history (coin_id, time_stamp, price) values (${coinId}, '${date}', ${price})`
+  client.query(`insert into price_history (coin_id, time_stamp, price) values (${coinId}, '${date} 12', ${price})`
     , (err, res) => {
       if (err) {
         console.log('Insertion Error', err);
@@ -72,7 +72,7 @@ ethHistory.map((dateObj) => {
   let date = dateObj.Date;
   let coinId = 2;
   let price = dateObj.Open;
-  client.query(`insert into price_history (coin_id, time_stamp, price) values (${coinId}, '${date}', ${price})`
+  client.query(`insert into price_history (coin_id, time_stamp, price) values (${coinId}, '${date} 12', ${price})`
     , (err, res) => {
       if (err) {
         console.log('Insertion Error', err);
@@ -85,7 +85,7 @@ ltcHistory.map((dateObj) => {
   let date = dateObj.Date;
   let coinId = 3;
   let price = dateObj.Open;
-  client.query(`insert into price_history (coin_id, time_stamp, price) values (${coinId}, '${date}', ${price})`
+  client.query(`insert into price_history (coin_id, time_stamp, price) values (${coinId}, '${date} 12', ${price})`
     , (err, res) => {
       if (err) {
         console.log('Insertion Error', err);
@@ -98,7 +98,7 @@ xrpHistory.map((dateObj) => {
   let date = dateObj.Date;
   let coinId = 4;
   let price = dateObj.Open;
-  client.query(`insert into price_history (coin_id, time_stamp, price) values (${coinId}, '${date}', ${price})`
+  client.query(`insert into price_history (coin_id, time_stamp, price) values (${coinId}, '${date} 12', ${price})`
     , (err, res) => {
       if (err) {
         console.log('Insertion Error', err);

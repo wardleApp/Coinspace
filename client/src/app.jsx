@@ -257,8 +257,8 @@ class App extends React.Component {
     const page = this.state.renderedPage;
 
     return (
-      <div>
-        <div className="ui massive inverted menu">
+      <div id="mainWrapper">
+        <div id="mainMenu" className="ui massive inverted menu">
           <div className="ui container">
             <a className="item" name="Charts" onClick={this.changePage}>Charts</a>
             <a className="item" name="Portfolio" onClick={this.changePage}>Portfolio</a>

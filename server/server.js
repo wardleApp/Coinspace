@@ -74,7 +74,6 @@ app.get('/init', (req, res) => {
         initialLoadObject.weeklyData = results;
       })
       .then(() => {
-        console.log('THIS IS INITIALLOADOBJECT', initialLoadObject);
         res.json(initialLoadObject);
       })
     })

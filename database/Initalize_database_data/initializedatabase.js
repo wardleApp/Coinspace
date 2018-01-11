@@ -5,12 +5,22 @@ const ethHistory = require('./ETHUSDHistoricalData.js');
 const ltcHistory = require('./LTCUSDHistoricalData.js');
 const xrpHistory = require('./XRPUSDHistoricalData.js');
 
+// FOR REAL LIFE HEROKU DEPLOYMENT
+// const client = new Client({
+//   user: process.env.USER,
+//   host: process.env.HOST,
+//   database: process.env.DATABASE,
+//   password: process.env.PASSWORD,
+//   ssl: true
+// });
+
+// FOR LOCAL DATABASE TESTING
 const client = new Client({
-  user: process.env.USER,
-  host: process.env.HOST,
-  database: process.env.DATABASE,
-  password: process.env.PASSWORD,
-  ssl: true
+  user: 'dillonlin',
+  host: 'localhost',
+  database: 'coinspace',
+  password: '',
+  ssl: false,
 });
 
 client.connect();

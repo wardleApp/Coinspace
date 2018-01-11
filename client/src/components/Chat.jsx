@@ -36,30 +36,39 @@ class Chat extends React.Component{
 
   sendMessage() {
     this.socket.emit('message', {
-      username: this.state.username,
-      message: this.state.message
+        username: this.state.username,
+        message: this.state.message
     });
     this.setState({message: ''});
   }
 
-  render() {
-    return (
-      <div className='row chatRow'>
-        <div className="title">Chat</div>
-        <div className="messages">
-          {this.state.messages.map((message, index) =>
-            <div key={index}>{message.username}: {message.message}</div>
-          )}
-        </div>
-        <div>
-          <input type="text" placeholder="Username" value={this.state.username} onChange={this.usernameOnChange.bind(this)}/>
-          <br/>
-          <input type="text" placeholder="Message" value={this.state.message} onChange={this.messageOnChange.bind(this)} onKeyUp={this.handleKeyUp.bind(this)}/>
-          <br/>
-          <button onClick={this.sendMessage.bind(this)}>Send</button>
-        </div>
-      </div>
-    );
+  render(){
+      return (
+          <div>
+            <div className="title">Chat</div>
+            <hr/>
+              <div className="messages">
+                  {this.state.messages.map((message, index) => {
+                    if (message instanceof Object) {
+                      return (
+                        <div key={index}>{message.username}: {message.message}</div>
+                      )
+                    } else {
+                      return (
+                        <div key={index}>{message}</div>
+                      )
+                    }
+                  })}
+              </div>
+            <div>
+                <input type="text" placeholder="Username" value={this.state.username} onChange={this.usernameOnChange.bind(this)}/>
+                <br/>
+                <input type="text" placeholder="Message" value={this.state.message} onChange={this.messageOnChange.bind(this)} onKeyUp={this.handleKeyUp.bind(this)}/>
+                <br/>
+                <button onClick={this.sendMessage.bind(this)}>Send</button>
+            </div>
+          </div>
+      );
   }
 }
 

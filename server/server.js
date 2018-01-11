@@ -94,10 +94,12 @@ const server = app.listen(port, () => {
 const io = socket(server);
 
 io.on('connection', (socket) => {
-  console.log(socket.id);
+  io.emit('new message', 'A new user joined the chat');
   socket.on('message', function(data){
-    console.log(data);
     io.emit('new message', data);
+  });
+  socket.on('disconnect', function() {
+    io.emit('new message', 'A user disconnected');
   });
 });
 

@@ -47,6 +47,14 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentCoin: 1,
+      currentTimePeriod: '1H',
+      hourlyData: [],
+      dailyData: [],
+      weeklyData: [],
+      monthlyData: [],
+      yearlyData: [],
+      historicalData: [],
       chartData: {}
     };
   }
@@ -65,11 +73,17 @@ class App extends React.Component {
     this.getChartData();
     this.getUpdate();
     axios.get('/init')
-      .then(results => {
-        console.log('YEAR DATA', results.data);
-      }).catch(err => {
-        console.log('init client', err);
-      });
+    .then(results => {
+      console.log('LOADED DATA', results.data);
+      this.setState({
+        weeklyData: results.data.weeklyData,
+        monthlyData: results.data.monthlyData,
+        yearlyData: results.data.yearlyData,
+      })
+    })
+    .catch(err => {
+      console.log('init client', err);
+    });
   }
 
   getChartData(){
@@ -81,47 +95,65 @@ class App extends React.Component {
           {
             label:'Price',
             data: BTCHistorical.map((entry) => entry.Price).reverse(),
-            backgroundColor:[
-              'rgba(255, 99, 132, 0.6)',
-              'rgba(54, 162, 235, 0.6)',
-              'rgba(255, 206, 86, 0.6)',
-              'rgba(75, 192, 192, 0.6)',
-              'rgba(153, 102, 255, 0.6)',
-              'rgba(255, 159, 64, 0.6)',
-              'rgba(255, 99, 132, 0.6)'
-            ]
+            backgroundColor:['rgba(255, 99, 132, 0.6)']
           }
         ]
       }
     });
   }
 
-  onSetData(coinName) {
-    if(coinName === 'BTC') {
-      var coin = BTCHistorical;
-    } else if(coinName === 'ETH') {
-      var coin = ETHHistorical;
-    } else if(coinName === 'XRP') {
-      var coin = XRPHistorical;
-    } else if(coinName === 'LTC') {
-      var coin = LTCHistorical;
+  onSetCoin(coinID) {
+    this.setState({currentCoin: parseInt(coinID)});
+    if(this.state.currentTimePeriod === '1H') {
+      var currentDataSet = this.state.hourlyData;
+    } else if(this.state.currentTimePeriod === '1D') {
+      var currentDataSet = this.state.dailyData;
+    } else if(this.state.currentTimePeriod === '1W') {
+      var currentDataSet = this.state.weeklyData;
+    } else if(this.state.currentTimePeriod === '1M') {
+      var currentDataSet = this.state.monthlyData;
+    } else if(this.state.currentTimePeriod === '1Y') {
+      var currentDataSet = this.state.yearlyData;
+    } else if(this.state.currentTimePeriod === 'ALL') {
+      var currentDataSet = this.state.historicalData;
     }
     this.setState({
-      chartData:{
-        labels: coin.map((entry) => entry.Date).reverse(),
+      chartData: {
+        labels: currentDataSet.map((entry) => entry.Date).reverse(),
         datasets:[
           {
             label:'Price',
-            data: coin.map((entry) => entry.Price).reverse(),
-            backgroundColor:[
-              'rgba(255, 99, 132, 0.6)',
-              'rgba(54, 162, 235, 0.6)',
-              'rgba(255, 206, 86, 0.6)',
-              'rgba(75, 192, 192, 0.6)',
-              'rgba(153, 102, 255, 0.6)',
-              'rgba(255, 159, 64, 0.6)',
-              'rgba(255, 99, 132, 0.6)'
-            ]
+            data: currentDataSet.map((entry) => entry.Price).reverse(),
+            backgroundColor:['rgba(255, 99, 132, 0.6)']
+          }
+        ]
+      }
+    });
+  }
+
+  onSetTimePeriod(timePeriod) {
+    this.setState({currentTimePeriod: timePeriod});
+    if(this.state.currentTimePeriod === '1H') {
+      var currentDataSet = this.state.hourlyData;
+    } else if(this.state.currentTimePeriod === '1D') {
+      var currentDataSet = this.state.dailyData;
+    } else if(this.state.currentTimePeriod === '1W') {
+      var currentDataSet = this.state.weeklyData;
+    } else if(this.state.currentTimePeriod === '1M') {
+      var currentDataSet = this.state.monthlyData;
+    } else if(this.state.currentTimePeriod === '1Y') {
+      var currentDataSet = this.state.yearlyData;
+    } else if(this.state.currentTimePeriod === 'ALL') {
+      var currentDataSet = this.state.historicalData;
+    }
+    this.setState({
+      chartData:{
+        labels: currentDataSet.map((entry) => entry.Date).reverse(),
+        datasets:[
+          {
+            label:'Price',
+            data: currentDataSet.map((entry) => entry.Price).reverse(),
+            backgroundColor:['rgba(255, 99, 132, 0.6)']
           }
         ]
       }
@@ -173,7 +205,7 @@ class App extends React.Component {
         </div>
 
         <div id="graph">
-        <CoinChart chartData={this.state.chartData} onSetData={this.onSetData.bind(this)}/>
+        <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
         </div>
       </div>
     );

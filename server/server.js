@@ -58,9 +58,28 @@ app.get('/update', (req, res) => {
 
 app.get('/init', (req, res) => {
   // load historical data into client
-  db.getYearData().then(results => {
-    res.json(results);
-  }).catch(err => {
+  var initialLoadObject = {};
+  db.getYearData()
+  .then(results => {
+    initialLoadObject.yearlyData = results;
+  })
+  .then(() => {
+    db.getMonthData()
+    .then(results => {
+      initialLoadObject.monthlyData = results;
+    })
+    .then(() => {
+      db.getWeeklyData()
+      .then(results => {
+        initialLoadObject.weeklyData = results;
+      })
+      .then(() => {
+        console.log('THIS IS INITIALLOADOBJECT', initialLoadObject);
+        res.json(initialLoadObject);
+      })
+    })
+  })
+  .catch(err => {
     console.log('init err', err);
   });
 });

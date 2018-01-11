@@ -3,37 +3,46 @@ import ReactDOM from 'react-dom';
 import {Pie, Line, Bar} from 'react-chartjs-2';
 
 class CoinChart extends React.Component {
-	constructor(props) {
-		super(props)
+  constructor(props) {
+    super(props)
   }
 
-  onClickHandle(e) {
-    this.props.onSetData(e.target.value)
+  onClickCoinName(e) {
+    this.props.onSetCoin(e.target.value)
+  }
+
+  onClickTimePeriod(e) {
+    this.props.onSetTimePeriod(e.target.value)
   }
 
   render(){
     return (
       <div className="chart">
       <div>
-      <button value="BTC" onClick={this.onClickHandle.bind(this)}>Bitcoin</button>
+      <button value="1" onClick={this.onClickCoinName.bind(this)}>Bitcoin</button>
       </div>
       <div>
-      <button value="ETH" onClick={this.onClickHandle.bind(this)}>Ethereum</button>
+      <button value="2" onClick={this.onClickCoinName.bind(this)}>Ethereum</button>
       </div>
       <div>
-      <button value="XRP" onClick={this.onClickHandle.bind(this)}>Ripple</button>
+      <button value="3" onClick={this.onClickCoinName.bind(this)}>Ripple</button>
       </div>
       <div>
-      <button value="LTC" onClick={this.onClickHandle.bind(this)}>Litecoin</button>
+      <button value="4" onClick={this.onClickCoinName.bind(this)}>Litecoin</button>
       </div>
-        <Line data={this.props.chartData}/>
+        <div>
+        <button value="1H" onClick={this.onClickTimePeriod.bind(this)}>1H</button><button value="1D" onClick={this.onClickTimePeriod.bind(this)}>1D</button><button value="1W" onClick={this.onClickTimePeriod.bind(this)}>1W</button><button value="1M" onClick={this.onClickTimePeriod.bind(this)}>1M</button><button value="1Y" onClick={this.onClickTimePeriod.bind(this)}>1Y</button><button value="ALL" onClick={this.onClickTimePeriod.bind(this)}>ALL</button>
+        </div>
+        <Line data={this.props.chartData} options={{
+          scales: { xAxes: [{ gridLines: { display:false }}], yAxes: [{ gridLines: { display:false }}]},
+          legend: { display: false }
+          }}/>
       </div>
     )
   }
 }
 
 export default CoinChart;
-
 
 
 

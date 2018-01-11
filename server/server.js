@@ -5,6 +5,7 @@ const CronJob = require('cron').CronJob;
 const moment = require('moment');
 const db = require('../database/index.js');
 const favicon = require('express-favicon');
+const socket = require('socket.io');
 
 const app = express();
 
@@ -86,8 +87,18 @@ app.get('/init', (req, res) => {
 
 const port = process.env.SERVER_PORT || 3000;
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`server, listening on port ${port}`);
+});
+
+const io = socket(server);
+
+io.on('connection', (socket) => {
+  console.log(socket.id);
+  socket.on('message', function(data){
+    console.log(data);
+    io.emit('new message', data);
+  });
 });
 
 module.exports = app;

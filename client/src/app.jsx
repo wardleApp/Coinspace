@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import CoinChart from './components/CoinChart.jsx';
+import Chat from './components/Chat.jsx';
 import SmallCurrencyToggle from './components/SmallCurrencyToggle.jsx';
 import BTCHistorical from '../../database/Initalize_database_data/BTCUSDHistoricalData.js';
 import ETHHistorical from '../../database/Initalize_database_data/ETHUSDHistoricalData.js';
@@ -270,8 +271,17 @@ class App extends React.Component {
           </div>
         </div>
 
+<<<<<<< b49849c610f4f2453fb71e28cb502be25d8ae66b
         <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
         
+=======
+        <div id="graph">
+          <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
+        </div>
+        <div>
+          <Chat/>
+        </div>
+>>>>>>> add chat component
       </div>
     );
   }

@@ -44,6 +44,8 @@
     "react-chartjs-2": "^2.6.4",
     "react-dom": "^16.2.0",
     "semantic-ui": "^2.2.13",
+    "socket.io": "^2.0.4",
+    "socket.io-client": "^2.0.4",
     "supertest": "^3.0.0",
     "url-loader": "^0.6.2",
     "webpack": "^3.10.0"

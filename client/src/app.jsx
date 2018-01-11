@@ -48,7 +48,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       currentCoin: 1,
-      currentTimePeriod: '1H',
+      currentTimePeriod: '1Y',
       hourlyData: [],
       dailyData: [],
       weeklyData: [],
@@ -76,9 +76,12 @@ class App extends React.Component {
     .then(results => {
       console.log('LOADED DATA', results.data);
       this.setState({
+        hourlyData: results.data.monthlyData,
+        dailyData: results.data.monthlyData,
         weeklyData: results.data.weeklyData,
         monthlyData: results.data.monthlyData,
         yearlyData: results.data.yearlyData,
+        historicalData: results.data.yearlyData,
       })
     })
     .catch(err => {
@@ -103,27 +106,57 @@ class App extends React.Component {
   }
 
   onSetCoin(coinID) {
-    this.setState({currentCoin: parseInt(coinID)});
     if(this.state.currentTimePeriod === '1H') {
       var currentDataSet = this.state.hourlyData;
+      var inputData = currentDataSet.filter((allCoins) => {return allCoins.coin_id === parseInt(coinID)}).map((entry) => entry.price);
+      var inputLabel = [];
+      for(var i = 0; i < inputData.length; i++) {
+        inputLabel.push(moment().subtract(i, 'minutes').format('HH:mm'));
+      }
     } else if(this.state.currentTimePeriod === '1D') {
       var currentDataSet = this.state.dailyData;
+      var inputData = currentDataSet.filter((allCoins) => {return allCoins.coin_id === parseInt(coinID)}).map((entry) => entry.price);
+      var inputLabel = [];
+      for(var i = 0; i < inputData.length; i++) {
+        inputLabel.push(moment().subtract(i, 'hours').format('YYYY-MM-DD HH:mm'));
+      }
     } else if(this.state.currentTimePeriod === '1W') {
       var currentDataSet = this.state.weeklyData;
+      var inputData = currentDataSet.filter((allCoins) => {return allCoins.coin_id === parseInt(coinID)}).map((entry) => entry.price);
+      var inputLabel = [];
+      for(var i = 0; i < inputData.length; i++) {
+        inputLabel.push(moment().subtract(i, 'days').format('MM-DD-YYYY'));
+      }
     } else if(this.state.currentTimePeriod === '1M') {
       var currentDataSet = this.state.monthlyData;
+      var inputData = currentDataSet.filter((allCoins) => {return allCoins.coin_id === parseInt(coinID)}).map((entry) => entry.price);
+      var inputLabel = [];
+      for(var i = 0; i < inputData.length; i++) {
+        inputLabel.push(moment().subtract(i, 'days').format('MM-DD-YYYY'));
+      }
     } else if(this.state.currentTimePeriod === '1Y') {
       var currentDataSet = this.state.yearlyData;
+      var inputData = currentDataSet.filter((allCoins) => {return allCoins.coin_id === parseInt(coinID)}).map((entry) => entry.avgmonthprice);
+      var inputLabel = [];
+      for(var i = 0; i < inputData.length; i++) {
+        inputLabel.push(moment().subtract(i, 'months').format('MM-DD-YYYY'));
+      }
     } else if(this.state.currentTimePeriod === 'ALL') {
       var currentDataSet = this.state.historicalData;
+      var inputData = currentDataSet.filter((allCoins) => {return allCoins.coin_id === parseInt(coinID)}).map((entry) => entry.avgmonthprice);
+      var inputLabel = [];
+      for(var i = 0; i < inputData.length; i++) {
+        inputLabel.push(moment().subtract(i, 'months').format('MM-DD-YYYY'));
+      }
     }
     this.setState({
+      currentCoin: parseInt(coinID),
       chartData: {
-        labels: currentDataSet.map((entry) => entry.Date).reverse(),
+        labels: inputLabel,
         datasets:[
           {
             label:'Price',
-            data: currentDataSet.map((entry) => entry.Price).reverse(),
+            data: inputData,
             backgroundColor:['rgba(255, 99, 132, 0.6)']
           }
         ]
@@ -135,24 +168,54 @@ class App extends React.Component {
     this.setState({currentTimePeriod: timePeriod});
     if(this.state.currentTimePeriod === '1H') {
       var currentDataSet = this.state.hourlyData;
+      var inputData = currentDataSet.filter((allCoins) => {return allCoins.coin_id === this.state.currentCoin}).map((entry) => entry.price);
+      var inputLabel = [];
+      for(var i = 0; i < inputData.length; i++) {
+        inputLabel.push(moment().subtract(i, 'minutes').format('HH:mm'));
+      }
     } else if(this.state.currentTimePeriod === '1D') {
       var currentDataSet = this.state.dailyData;
+      var inputData = currentDataSet.filter((allCoins) => {return allCoins.coin_id === this.state.currentCoin}).map((entry) => entry.price);
+      var inputLabel = [];
+      for(var i = 0; i < inputData.length; i++) {
+        inputLabel.push(moment().subtract(i, 'hours').format('YYYY-MM-DD HH:mm'));
+      }
     } else if(this.state.currentTimePeriod === '1W') {
       var currentDataSet = this.state.weeklyData;
+      var inputData = currentDataSet.filter((allCoins) => {return allCoins.coin_id === this.state.currentCoin}).map((entry) => entry.price);
+      var inputLabel = [];
+      for(var i = 0; i < inputData.length; i++) {
+        inputLabel.push(moment().subtract(i, 'days').format('MM-DD-YYYY'));
+      }
     } else if(this.state.currentTimePeriod === '1M') {
       var currentDataSet = this.state.monthlyData;
+      var inputData = currentDataSet.filter((allCoins) => {return allCoins.coin_id === this.state.currentCoin}).map((entry) => entry.price);
+      var inputLabel = [];
+      for(var i = 0; i < inputData.length; i++) {
+        inputLabel.push(moment().subtract(i, 'days').format('MM-DD-YYYY'));
+      }
     } else if(this.state.currentTimePeriod === '1Y') {
       var currentDataSet = this.state.yearlyData;
+      var inputData = currentDataSet.filter((allCoins) => {return allCoins.coin_id === this.state.currentCoin}).map((entry) => entry.avgmonthprice);
+      var inputLabel = [];
+      for(var i = 0; i < inputData.length; i++) {
+        inputLabel.push(moment().subtract(i, 'months').format('MM-DD-YYYY'));
+      }
     } else if(this.state.currentTimePeriod === 'ALL') {
       var currentDataSet = this.state.historicalData;
+      var inputData = currentDataSet.filter((allCoins) => {return allCoins.coin_id === this.state.currentCoin}).map((entry) => entry.avgmonthprice);
+      var inputLabel = [];
+      for(var i = 0; i < inputData.length; i++) {
+        inputLabel.push(moment().subtract(i, 'months').format('MM-DD-YYYY'));
+      }
     }
     this.setState({
-      chartData:{
-        labels: currentDataSet.map((entry) => entry.Date).reverse(),
+      chartData: {
+        labels: inputLabel,
         datasets:[
           {
             label:'Price',
-            data: currentDataSet.map((entry) => entry.Price).reverse(),
+            data: inputData,
             backgroundColor:['rgba(255, 99, 132, 0.6)']
           }
         ]

@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(favicon(__dirname + '/../client/dist/img/favicon.ico'));
 
-app.use(express.static(__dirname + '/../client/dist'));
+app.use(express.static(__dirname + '../../client/dist'));
 
 new CronJob('*/30 * * * *', () => {
 // API call
@@ -48,7 +48,7 @@ new CronJob('*/30 * * * *', () => {
 app.get('/update', (req, res) => {
   // front end has cronJob to ask for new update every half hour
   // Read from db and then respond with latest prices
-  db.client.query(`select *, to_date(time_stamp, 'MM/DD/YYYY HH') as new_date from price_history order by new_date desc limit 4`)
+  db.client.query(`select *, to_timestamp(time_stamp, 'MM/DD/YY HH24') as new_date from price_history order by new_date desc limit 4`)
     .then(results => {
       res.json(results);
     }).catch(err => {
@@ -74,6 +74,7 @@ app.get('/init', (req, res) => {
         initialLoadObject.weeklyData = results;
       })
       .then(() => {
+        // console.log('THIS IS INITIALLOADOBJECT', initialLoadObject);
         res.json(initialLoadObject);
       })
     })

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import CoinChart from './components/CoinChart.jsx';
+import SmallCurrencyToggle from './components/SmallCurrencyToggle.jsx';
 import BTCHistorical from '../../database/Initalize_database_data/BTCUSDHistoricalData.js';
 import ETHHistorical from '../../database/Initalize_database_data/ETHUSDHistoricalData.js';
 import XRPHistorical from '../../database/Initalize_database_data/XRPUSDHistoricalData.js';
@@ -26,7 +27,7 @@ const SinceLastYearUSD = function(props) {
       <span className="medium">$</span>
       <span className="large">14.059</span>
       <span className="medium">.79</span>
-      <p>SINCE LAST YEAR (USD)</p>
+      <p>TESTING WHATEVER</p>
     </div>
   );
 };
@@ -245,19 +246,18 @@ class App extends React.Component {
 
     return (
       <div>
-        <div className="nav">
+        <div className="ui equal width grid">
 
-          <div>
-            <span className="tab">Bitcoin $14,950.70</span>
-            <span className="tab">Ethereum $1,209.82</span>
-            <span className="tab">Litecoin $254.02</span>
-          </div>
+          <div className="one wide column"> </div>
+          <SmallCurrencyToggle coin={BTCHistorical[0]} />
+          <SmallCurrencyToggle coin={ETHHistorical[0]} />
+          <SmallCurrencyToggle coin={LTCHistorical[0]} />
+          <SmallCurrencyToggle coin={XRPHistorical[0]} />
+          <div className="eight wide column"></div>
 
-          <div>
-            <span className="tab" id="daily">1D</span>
-            <span className="tab" id="monthly">1M</span>
-            <span className="tab" id="yearly">1Y</span>
-          </div>
+          <button className="ui left floated button" id="daily">1D</button>
+          <button className="ui left floated button" id="monthly">1M</button>
+          <button className="ui left floated button" id="yearly">1Y</button>
 
         </div>
 
@@ -268,7 +268,7 @@ class App extends React.Component {
         </div>
 
         <div id="graph">
-        <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
+          <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
         </div>
       </div>
     );

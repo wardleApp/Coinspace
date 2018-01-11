@@ -94,3 +94,16 @@ body {
   padding-left: 165px;
 }
 
+#mainWrapper {
+  height: 640px; 
+}
+
+#mainMenu {
+  margin-bottom: 0px;
+}
+
+#portfolioPage {
+  margin-top: 0px;
+  border: 0px;
+}
+

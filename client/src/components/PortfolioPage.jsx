@@ -7,7 +7,7 @@ class PortfolioPage extends React.Component {
 
   render() {
     return (
-      <div className="ui segment pushable">>
+      <div className="ui segment pushable" id="portfolioPage">
         <div className="ui visible inverted left vertical sidebar menu">
           <a className="item">
             <i className="home icon"></i>
@@ -15,15 +15,15 @@ class PortfolioPage extends React.Component {
           </a>
           <a className="item">
             <i className="block layout icon"></i>
-            Topics
+            Total Allocations
           </a>
           <a className="item">
             <i className="smile icon"></i>
-            Friends
+            BitCoin
           </a>
           <a className="item">
             <i className="calendar icon"></i>
-            History
+            Ethereum
           </a>
         </div>
         <div className="pusher">

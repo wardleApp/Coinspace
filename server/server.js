@@ -49,7 +49,7 @@ new CronJob('*/30 * * * *', () => {
 app.get('/update', (req, res) => {
   // front end has cronJob to ask for new update every half hour
   // Read from db and then respond with latest prices
-  db.client.query(`select *, to_timestamp(time_stamp, 'MM/DD/YY HH24') as new_date from price_history order by new_date desc limit 4`)
+  db.client.query(`select *, to_timestamp(time_stamp, 'MM/DD/YY HH24') as date from price_history order by date desc limit 4`)
     .then(results => {
       res.json(results);
     }).catch(err => {

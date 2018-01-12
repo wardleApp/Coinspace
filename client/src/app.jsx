@@ -40,6 +40,7 @@ class App extends React.Component {
     };
 
     this.changePage = this.changePage.bind(this);
+    this.addData = this.addData.bind(this);
   }
 
   componentDidMount() {
@@ -134,8 +135,19 @@ class App extends React.Component {
     });
   }
 
-  changeState(data) {
-    this.setState({data: data});
+  addData(data) {
+    new Promise((resolve, reject) => {
+      this.setState({
+        hourlyData: [...this.state.hourlyData, ...data],
+        dailyData: [...this.state.dailyData, ...data],
+        weeklyData: [...this.state.weeklyData, ...data],
+        monthlyData: [...this.state.monthlyData, ...data],
+        yearlyData: [...this.state.yearlyData, ...data],
+        historicalData: [...this.state.historicalData, ...data]
+      });
+    }).then(results => {
+      console.log(data[3], 'equal', this.state.hourlyData.slice(-1));
+    });
   }
 
   getUpdate() {
@@ -144,8 +156,13 @@ class App extends React.Component {
     axios.get('/update')
       .then(results => {
         let minute = new Date().getMinutes() % 30;
-        // console.log('Half hour update', results.data.rows);
-        // setTimeout(()=>{ changeState(data); }, 1800000 - 60000 * minute);
+        console.log(`Half hour update in ${30 - minute} minutes`);
+        console.log(results.data.rows);
+        console.log(this);
+        this.addData(results.data.rows);
+        setTimeout(()=>{
+          // this.addData(results.data.rows);
+        }, 1800000 - 60000 * minute);
       }).catch(err => {
         console.log('update err', err);
       });

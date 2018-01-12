@@ -1,9 +1,5 @@
 const { Pool, Client } = require('pg');
 require('dotenv').config();
-const btcHistory = require('./BTCUSDHistoricalData.js');
-const ethHistory = require('./ETHUSDHistoricalData.js');
-const ltcHistory = require('./LTCUSDHistoricalData.js');
-const xrpHistory = require('./XRPUSDHistoricalData.js');
 
 // FOR REAL LIFE HEROKU DEPLOYMENT
 const client = new Client({
@@ -16,10 +12,10 @@ const client = new Client({
 
 // FOR LOCAL DATABASE TESTING
 // const client = new Client({
-//   user: 'dillonlin',
+//   user: 'postgres',
 //   host: 'localhost',
 //   database: 'coinspace',
-//   password: '',
+//   password: '0',
 //   ssl: false,
 // });
 
@@ -30,7 +26,7 @@ client.query(`CREATE TABLE IF NOT EXISTS coin (
   name varchar(50) NOT NULL
 )`);
 
-const coins = ['BitCoin', 'Ethereum', 'LiteCoin', 'Ripple'];
+const coins = ['Bitcoin', 'Ethereum', 'Litecoin', 'Ripple'];
 
 coins.forEach((coin, index) => {
   client.query(`insert into coin (id, name) values (${index + 1}, '${coin}')`, (err, res) => {
@@ -48,54 +44,18 @@ client.query(`CREATE TABLE IF NOT EXISTS price_history (
   price decimal NOT NULL
 )`);
 
-btcHistory.map((dateObj) => {
-  let date = dateObj.Date;
-  let coinId = 1;
-  let price = dateObj.Open;
-  client.query(`insert into price_history (coin_id, time_stamp, price) values (${coinId}, '${date} 12', ${price})`
-    , (err, res) => {
-      if (err) {
-        console.log('Insertion Error', err);
-      }
-      console.log('BTC Daily Data Insertion Success');
-    });
-});
+const data = [require('./BTCUSDHistoricalData.js'), require('./ETHUSDHistoricalData.js'), require('./LTCUSDHistoricalData.js'), require('./XRPUSDHistoricalData.js')];
 
-ethHistory.map((dateObj) => {
-  let date = dateObj.Date;
-  let coinId = 2;
-  let price = dateObj.Open;
-  client.query(`insert into price_history (coin_id, time_stamp, price) values (${coinId}, '${date} 12', ${price})`
-    , (err, res) => {
+data.forEach((history, index) => {
+  history.forEach((dateObj) => {
+    let date = dateObj.Date;
+    let coinId = index + 1;
+    let price = dateObj.Open;
+    client.query(`insert into price_history (coin_id, time_stamp, price) values (${coinId}, '${date} 12', ${price})`, (err, res) => {
       if (err) {
         console.log('Insertion Error', err);
       }
-      console.log('ETH Daily Data Insertion Success');
+      console.log(coinId, price, 'Daily Data Insertion Success');
     });
-});
-
-ltcHistory.map((dateObj) => {
-  let date = dateObj.Date;
-  let coinId = 3;
-  let price = dateObj.Open;
-  client.query(`insert into price_history (coin_id, time_stamp, price) values (${coinId}, '${date} 12', ${price})`
-    , (err, res) => {
-      if (err) {
-        console.log('Insertion Error', err);
-      }
-      console.log('LTC Daily Data Insertion Success');
-    });
-});
-
-xrpHistory.map((dateObj) => {
-  let date = dateObj.Date;
-  let coinId = 4;
-  let price = dateObj.Open;
-  client.query(`insert into price_history (coin_id, time_stamp, price) values (${coinId}, '${date} 12', ${price})`
-    , (err, res) => {
-      if (err) {
-        console.log('Insertion Error', err);
-      }
-      console.log('XRP Daily Data Insertion Success');
-    });
+  });
 });

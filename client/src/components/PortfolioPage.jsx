@@ -70,7 +70,7 @@ class PortfolioPage extends React.Component {
                   <canvas></canvas>
                 </div>
               </div>
-          {/* -------------- The Content Space HTML Ends here -------------------------*/}
+              {/* -------------- The Content Space HTML Ends here -------------------------*/}
 
 
             </div>

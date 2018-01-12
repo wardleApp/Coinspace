@@ -233,10 +233,10 @@ class App extends React.Component {
 
   render() {
     
-    if(this.state.weeklyData.length === 0) {
-      return <div/>
-    } else if(!this.state.chartData.datasets) {
-      return <div/>
+    if (this.state.weeklyData.length === 0) {
+      return <div/>;
+    } else if (!this.state.chartData.datasets) {
+      return <div/>;
     }
 
     const page = this.state.renderedPage;
@@ -258,7 +258,7 @@ class App extends React.Component {
         {
           page === 'Charts' ? (
 
-            <div className="ui grid">
+            <div id='background' className="ui grid">
               <div className="three column row"></div>
               <div className="sixteen column row">
 
@@ -278,15 +278,13 @@ class App extends React.Component {
               </div>
 
               <div className="row">
-                <div className="ui three column divided grid TriComponentRow">
+                <div className="ui five column divided grid TriComponentRow">
                   <TriComponentRow chartData={this.state.chartData} currentCoin={this.state.currentCoin} currentTimePeriod={this.state.currentTimePeriod}/>
                 </div>
               </div>
 
               <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
-              <div>
-                <Chat/>
-              </div>
+              <Chat/>
             </div>
           ) : (
 
@@ -299,4 +297,7 @@ class App extends React.Component {
   }
 }
 
+
 ReactDOM.render(<App />, document.getElementById('app'));
+
+

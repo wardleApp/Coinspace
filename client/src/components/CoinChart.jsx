@@ -6,31 +6,26 @@ defaults.global.defaultFontSize = 14;
 
 class CoinChart extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
-  render(){
+  render() {
     return (
       <div className="sixteen column row graphRow">
         <div className="two wide column"></div>
         <div className="twelve wide column">
           <Line data={this.props.chartData} options={{
-          layout: {
-            padding: {
-              left: 170,
-              right: 170,
-              top: 160,
-              bottom: 160,
-            }},
-          scales: { xAxes: [{ gridLines: { display:false }, ticks: { autoSkip: true, maxTicksLimit: 7, maxRotation: 0, minRotation: 0}}], 
-          yAxes: [{ gridLines: { display:false }, ticks: { maxTicksLimit: 1, maxRotation: 0, minRotation: 0, 
-            callback: function(value, index, values) {
-                        return '$' + (parseFloat(value).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-          }}}]},
-          legend: { display: false },
-          lineTension: 0,
-          elements: { point: { radius: 0, pointStyle: 'cross', hitRadius: 10, hoverRadius: 10 } }
-          }} height={56} width={100}/>
+            responsive: true, 
+            maintainAspectRatio: false, 
+            scales: { xAxes: [{ gridLines: { display:false }, ticks: { autoSkip: true, maxTicksLimit: 7, maxRotation: 0, minRotation: 0}}], 
+              yAxes: [{ gridLines: { display:false }, ticks: { maxTicksLimit: 1, maxRotation: 0, minRotation: 0, 
+                callback: function(value, index, values) {
+                  return '$' + (parseFloat(value).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+                }}}]},
+            legend: { display: false },
+            lineTension: 0,
+            elements: { point: { radius: 0, pointStyle: 'cross', hitRadius: 10, hoverRadius: 10 } }
+          }}/>
         </div>
         <div className="two wide column"></div>
       </div>

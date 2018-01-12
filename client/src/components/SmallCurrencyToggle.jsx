@@ -5,9 +5,9 @@ class SmallCurrentToggle extends React.Component {
     super(props);
   }
 
-	onClickHandle(e) {
-		this.props.onSetCoin(e.target.value)
-	 }
+  onClickHandle(e) {
+    this.props.onSetCoin(e.target.value);
+  }
 
   render() {
     return (

@@ -88,7 +88,7 @@ class App extends React.Component {
         datasets:[
           {
             label:'Price',
-            data: this.state.historicalData.filter((allCoins) => allCoins.coin_id === this.state.currentCoin).map((entry) => entry.price).reverse(),
+            data: this.state.historicalData.filter((allCoins) => allCoins.coin_id === this.state.currentCoin).map((entry) => entry.price),
             backgroundColor:[this.state.coins[0][1]],
             borderColor: [this.state.coins[0][2]]
           }
@@ -107,7 +107,7 @@ class App extends React.Component {
         datasets:[
           {
             label:'Price',
-            data: inputData.reverse(),
+            data: inputData,
             backgroundColor:[this.state.coins[coinID - 1][1]],
             borderColor: [this.state.coins[coinID - 1][2]]
           }
@@ -128,7 +128,7 @@ class App extends React.Component {
         datasets:[
           {
             label:'Price',
-            data: inputData.reverse(),
+            data: inputData,
             backgroundColor:[this.state.coins[this.state.currentCoin - 1][1]],
             borderColor: [this.state.coins[this.state.currentCoin - 1][2]]
           }

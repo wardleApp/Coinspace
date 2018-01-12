@@ -8,7 +8,7 @@ const pool = new Pool({
   database: process.env.DATABASE,
   password: process.env.PASSWORD,
   port: process.env.DB_PORT,
-  // ssl: true,
+  ssl: true,
 });
 
 // FOR LOCAL DATABASE TESTING
@@ -35,7 +35,7 @@ const client = new Client({
   database: process.env.DATABASE,
   password: process.env.PASSWORD,
   port: process.env.DB_PORT,
-  // ssl: true,
+  ssl: true,
 });
 
 // FOR LOCAL DATABASE TESTING

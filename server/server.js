@@ -6,6 +6,7 @@ const moment = require('moment');
 const db = require('../database/index.js');
 const favicon = require('express-favicon');
 const socket = require('socket.io');
+const router = require('./routes.js');
 
 const app = express();
 
@@ -14,6 +15,9 @@ app.use(bodyParser.json());
 app.use(favicon(__dirname + '/../client/dist/img/favicon.ico'));
 
 app.use(express.static(__dirname + '../../client/dist'));
+
+// Dillon Experimental Route for SignUp UserPassword
+app.use('/sign', router);
 
 new CronJob('*/30 * * * *', () => {
 // API call

@@ -5,9 +5,12 @@ import SmallCurrencyToggle from './components/SmallCurrencyToggle.jsx';
 import TriComponentRow from './components/TriComponentRow.jsx';
 import CoinChart from './components/CoinChart.jsx';
 import Chat from './components/Chat.jsx';
+import SignUp from './components/SignUp.jsx';
+import SignIn from './components/SignIn.jsx';
 import moment from 'moment';
 import Delay from 'react-delay';
 import PortfolioPage from './components/PortfolioPage.jsx';
+import Modal from 'react-responsive-modal';
 
 class App extends React.Component {
   constructor(props) {
@@ -38,7 +41,6 @@ class App extends React.Component {
       },
       renderedPage: 'Charts'
     };
-
     this.changePage = this.changePage.bind(this);
     this.addData = this.addData.bind(this);
   }
@@ -193,22 +195,23 @@ class App extends React.Component {
             <div className="right menu">
               <div className="item">
                 <a className="item">Log in</a>
+                <a className="item"><SignIn/></a>
+                <a className="item"><SignUp/></a>
               </div>
             </div>
+            {console.log('THIS STATE', this.state)}
           </div>
         </div>
 
         {
           page === 'Charts' ? (
-
             <div className="ui grid">
               <div className="three column row"></div>
               <div className="sixteen column row">
-                <div className="one wide column"> </div>
+                <div className="one wide column"></div>
                 {this.state.coins.map((coin, index) =>
                   <SmallCurrencyToggle key={index} onSetCoin={this.onSetCoin.bind(this)} coin_id={index + 1} name={coin[0]} coin={this.state.weeklyData.filter((allCoins) => {return allCoins.coin_id === index + 1})[0].price} />
                 )}
-
                 <div className="three wide column"></div>
                 {Object.keys(this.state.labels).map((label, index) =>
                   <button className="ui left floated mini button" key={index} value={label} onClick={this.onSetTimePeriod.bind(this)}>{label}</button>
@@ -220,7 +223,6 @@ class App extends React.Component {
                   <TriComponentRow chartData={this.state.chartData} currentCoin={this.state.currentCoin} currentTimePeriod={this.state.currentTimePeriod}/>
                 </div>
               </div>
-
               <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
               <Chat/>
             </div>

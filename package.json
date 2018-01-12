@@ -41,6 +41,8 @@
     "moment": "^2.20.1",
     "moment-timezone": "^0.5.14",
     "nodemon": "^1.14.9",
+    "passport": "^0.4.0",
+    "passport-facebook": "^2.1.1",
     "path": "^0.12.7",
     "pg": "^7.4.1",
     "postcss-load-config": "^1.2.0",

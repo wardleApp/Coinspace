@@ -9,13 +9,108 @@
 </head>
 
 <body>
-<!--   <div id="credits">
-    HRSF-86-G4
-  </div> -->
+
+<script>
+
+//SK setup
+window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '142468679794360', //our app's id on facebook
+      xfbml      : true,
+      version    : 'v2.11' //needs to be the lastest facebook sdk version
+    });
+    // FB.AppEvents.logPageView();
+
+    //check if we're logged in
+    FB.getLoginStatus(function(response) {
+    	statusChangeCallback(response);
+  	});
+  };
+
+  //FB Javascript SDK
+(function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+
+//statusChangeCallback
+const statusChangeCallback = function(response) {
+	if (response.status === 'connected') {
+		console.log('Logged in and authenticated');
+		console.dir(response);
+		testAPI("/me?fields=name,email");
+	} else {
+		console.log('Not authenticated');
+		 
+	}
+}
+
+//checks if logged in
+const checkLoginState = function() {
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+  });
+}
+
+//test incoming data
+const testAPI = function(query) {
+	FB.api(query, function(response) {
+		if (response) {
+			if (!response.error) {
+				console.log("Welcome, ", response.name);
+				console.dir(response);
+				buildProfile(response);
+			} else {
+				console.dir(response.error);
+			}
+			
+		} else {
+			console.log("no response from API");
+		}
+	});
+};
+
+//build a profile
+const buildProfile = function(response, callback) {
+	let user = {
+		name: response.name,
+		email: response.email
+	};
+
+	callback(user);
+};
+
+</script>
+
+<fb:login-button 
+  scope="public_profile,email"
+  onlogin="checkLoginState();">
+</fb:login-button>
+
+
+	<div class="ui massive inverted menu">
+	  <div class="ui container">
+	    <a class="item">Charts</a>
+	    <a class="item">Portfolio</a>
+	    <div class="right menu">
+	      <div class="item">
+	        <a class="item">Log in</a>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+
 	<div id="app"></div>
 	<script type="text/javascript" src="bundle.js"></script>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 	<script src="semantic/dist/semantic.min.js"></script>
+
+
 </body>
 
 <footer>

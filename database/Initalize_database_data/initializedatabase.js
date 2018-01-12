@@ -6,22 +6,22 @@ const ltcHistory = require('./LTCUSDHistoricalData.js');
 const xrpHistory = require('./XRPUSDHistoricalData.js');
 
 // FOR REAL LIFE HEROKU DEPLOYMENT
-// const client = new Client({
-//   user: process.env.USER,
-//   host: process.env.HOST,
-//   database: process.env.DATABASE,
-//   password: process.env.PASSWORD,
-//   ssl: true
-// });
+const client = new Client({
+  user: process.env.USER,
+  host: process.env.HOST,
+  database: process.env.DATABASE,
+  password: process.env.PASSWORD,
+  ssl: true
+});
 
 // FOR LOCAL DATABASE TESTING
-const client = new Client({
-  user: 'dillonlin',
-  host: 'localhost',
-  database: 'coinspace',
-  password: '',
-  ssl: false,
-});
+// const client = new Client({
+//   user: 'dillonlin',
+//   host: 'localhost',
+//   database: 'coinspace',
+//   password: '',
+//   ssl: false,
+// });
 
 client.connect();
 
@@ -30,32 +30,15 @@ client.query(`CREATE TABLE IF NOT EXISTS coin (
   name varchar(50) NOT NULL
 )`);
 
-client.query(`insert into coin (id, name) values (${1}, '${'BitCoin'}')`, (err, res) => {
-  if (err) {
-    console.log('BTC Coin Insertion Error', err);
-  }
-  console.log('BTC Coin Insertion Success');
-});
+const coins = ['BitCoin', 'Ethereum', 'LiteCoin', 'Ripple'];
 
-client.query(`insert into coin (id, name) values (${2}, '${'Ethereum'}')`, (err, res) => {
-  if (err) {
-    console.log('ETH Coin Insertion Error', err);
-  }
-  console.log('ETH Coin Insertion Success');
-});
-
-client.query(`insert into coin (id, name) values (${3}, '${'LiteCoin'}')`, (err, res) => {
-  if (err) {
-    console.log('LTC Coin Insertion Error', err);
-  }
-  console.log('LTC Coin Insertion Success');
-});
-
-client.query(`insert into coin (id, name) values (${4}, '${'Ripple'}')`, (err, res) => {
-  if (err) {
-    console.log('Ripple Coin Insertion Error', err);
-  }
-  console.log('Ripple Coin Insertion Success');
+coins.forEach((coin, index) => {
+  client.query(`insert into coin (id, name) values (${index + 1}, '${coin}')`, (err, res) => {
+    if (err) {
+      console.log(`${coin} Insertion Error`, err);
+    }
+    console.log(`${coin} Insertion Success`);
+  });
 });
 
 client.query(`CREATE TABLE IF NOT EXISTS price_history (

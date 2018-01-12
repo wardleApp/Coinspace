@@ -21,6 +21,8 @@ class PortfolioPage extends React.Component {
   render() {
     return (
       <div className="ui segment pushable" id="portfolioPage">
+
+        {/* ------- The HTML below is for the Left Main Sidebar ---------------*/}
         <div className="ui visible inverted left vertical sidebar menu">
           <a className="item" name="Dashboard" onClick={this.changeLayout}>
             <i className="large inverted blue dashboard icon"></i>
@@ -39,14 +41,18 @@ class PortfolioPage extends React.Component {
             Ethereum
           </a>
         </div>
+        {/* -------------- The Side Bar HTML Ends here -------------------------*/}
 
+
+        {/* ----- HTML Below Designates the Content Space (two cards wide) -----*/}
         <div className="pusher">
           <div className="ui segment">
             <h2 className="header centered"> {this.state.page} </h2>
             <div className="ui two stackable cards">
-            
+
               <CoinChartCard chartData={this.props.chartData}/>
 
+              {/* These are cards, they are how you add new content */}
               <div id="dashCard" className="ui blue raised link card">
                 <div className="content">
                   <h2 className="header">Total Allocations</h2>
@@ -64,6 +70,8 @@ class PortfolioPage extends React.Component {
                   <canvas></canvas>
                 </div>
               </div>
+          {/* -------------- The Content Space HTML Ends here -------------------------*/}
+
 
             </div>
           </div>

@@ -13,21 +13,21 @@ class TotalAllocations extends React.Component {
   render() {
     const data = {
       labels: [
-        'Red',
-        'Green',
-        'Yellow'
+        'BitCoin',
+        'Ethereum',
+        'LiteCoin'
       ],
       datasets: [{
         data: [300, 50, 100],
         backgroundColor: [
-          '#FF6384',
-          '#36A2EB',
-          '#FFCE56'
+          '#4FC7FF',
+          '#f2b632',
+          '#2ECC71'
         ],
         hoverBackgroundColor: [
-          '#FF6384',
-          '#36A2EB',
-          '#FFCE56'
+          '#4FC7FF',
+          '#f2b632',
+          '#2ECC71'
         ]
       }]
     };

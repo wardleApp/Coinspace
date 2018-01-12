@@ -56,22 +56,22 @@ class App extends React.Component {
     // });
     this.getUpdate();
     axios.get('/init')
-    .then(results => {
-      this.setState({
-        hourlyData: results.data.monthlyData,
-        dailyData: results.data.monthlyData,
-        weeklyData: results.data.weeklyData,
-        monthlyData: results.data.monthlyData,
-        yearlyData: results.data.yearlyData,
-        historicalData: results.data.yearlyData
+      .then(results => {
+        this.setState({
+          hourlyData: results.data.monthlyData,
+          dailyData: results.data.monthlyData,
+          weeklyData: results.data.weeklyData,
+          monthlyData: results.data.monthlyData,
+          yearlyData: results.data.yearlyData,
+          historicalData: results.data.yearlyData
+        });
       })
-    })
-    .then(() => {
-      this.getChartData()
-    })
-    .catch(err => {
-      console.log('init client', err);
-    });
+      .then(() => {
+        this.getChartData();
+      })
+      .catch(err => {
+        console.log('init client', err);
+      });
   }
 
   getChartData(){
@@ -226,7 +226,7 @@ class App extends React.Component {
             </div>
           ) : (
 
-            <PortfolioPage />
+            <PortfolioPage chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
 
           )
         }

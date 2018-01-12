@@ -1,6 +1,7 @@
 import React from 'react';
 import TotalAllocations from './TotalAllocations.jsx';
 import CoinChartCard from './CoinChartCard.jsx';
+import TopCryptoNews from './TopCryptoNews.jsx';
 
 class PortfolioPage extends React.Component {
   constructor(props) {
@@ -63,13 +64,7 @@ class PortfolioPage extends React.Component {
 
               <TotalAllocations />
 
-              <div id="dashCard" className="ui blue raised link card">
-                <div className="content">
-                  <h2 className="header">Line Graph</h2>
-                  <div className="ui divider"></div>
-                  <canvas></canvas>
-                </div>
-              </div>
+              <TopCryptoNews /> 
               {/* -------------- The Content Space HTML Ends here -------------------------*/}
 
 

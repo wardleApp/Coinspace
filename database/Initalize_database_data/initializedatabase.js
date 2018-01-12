@@ -11,15 +11,21 @@ require('dotenv').config();
 // });
 
 // FOR LOCAL DATABASE TESTING
-const client = new Client({
-  user: 'dillonlin',
-  host: 'localhost',
-  database: 'coinspace',
-  password: '',
-  ssl: false,
-});
+// const client = new Client({
+//   user: 'dillonlin',
+//   host: 'localhost',
+//   database: 'coinspace',
+//   password: '',
+//   ssl: false,
+// });
 
 client.connect();
+
+client.query(` CREATE TABLE IF NOT EXISTS users ()
+  id serial NOT NULL PRIMARY KEY,
+  email varchar(50) NOT NULL,
+  password text NOT NULL
+  )`);
 
 client.query(`CREATE TABLE IF NOT EXISTS coin (
   id int NOT NULL PRIMARY KEY,

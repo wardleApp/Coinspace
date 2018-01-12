@@ -9,10 +9,6 @@ import moment from 'moment';
 import Delay from 'react-delay';
 import PortfolioPage from './components/PortfolioPage.jsx';
 
-
-
-
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -25,12 +21,6 @@ class App extends React.Component {
       monthlyData: [],
       yearlyData: [],
       historicalData: [],
-<<<<<<< a149333c95e283726dd94aaebd34e1c601d9c5a9
-      backgroundColor: 'rgba(79, 232, 255, 0.1)',
-      borderColor: '#4FC7FF',
-      chartData: {},
-      renderedPage: 'Charts'
-=======
       chartData: {},
       coins: [
         ['Bitcoin', 'rgba(79, 232, 255, 0.1)', '#4FC7FF'],
@@ -45,8 +35,8 @@ class App extends React.Component {
         '1M': ['monthlyData', 'days', 'MMM DD'],
         '1Y': ['yearlyData', 'months', 'MMM DD'],
         'ALL': ['historicalData', 'days', 'MMM YYYY']
-      }
->>>>>>> cleanup
+      },
+      renderedPage: 'Charts'
     };
 
     this.changePage = this.changePage.bind(this);
@@ -95,7 +85,7 @@ class App extends React.Component {
         datasets:[
           {
             label:'Price',
-            data: this.state.historicalData.filter((allCoins) => {return allCoins.coin_id === this.state.currentCoin}).map((entry) => entry.price).reverse(),
+            data: this.state.historicalData.filter((allCoins) => allCoins.coin_id === this.state.currentCoin).map((entry) => entry.price).reverse(),
             backgroundColor:[this.state.coins[0][1]],
             borderColor: [this.state.coins[0][2]]
           }

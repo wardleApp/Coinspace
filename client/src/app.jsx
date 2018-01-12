@@ -10,6 +10,9 @@ import Delay from 'react-delay';
 import PortfolioPage from './components/PortfolioPage.jsx';
 
 
+
+
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -299,5 +302,4 @@ class App extends React.Component {
 
 
 ReactDOM.render(<App />, document.getElementById('app'));
-
 

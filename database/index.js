@@ -115,6 +115,30 @@ var getYearData = () => {
   });
 };
 
+var insertNewUser = (username, hashedPassword) => {
+  return new Promise(function(resolve, reject) {
+    client.query(
+      `insert into users (email, password) values ('${username}', '${hashedPassword}')`, (err, res) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(res.rows);
+      });
+  });
+};
+
+var findExistingUser = () => {
+  return new Promise(function(resolve, reject) {
+    client.query(
+      `select * from users`, (err, res) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(res.rows);
+      });
+  });
+};
+
 // var getYearData = () => {
 //   return new Promise(function(resolve, reject) {
 //     client.query(
@@ -143,5 +167,7 @@ module.exports = {
   pool,
   getWeeklyData,
   getMonthData,
-  getYearData
+  getYearData,
+  insertNewUser,
+  findExistingUser
 };

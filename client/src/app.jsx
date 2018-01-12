@@ -7,6 +7,11 @@ import CoinChart from './components/CoinChart.jsx';
 import Chat from './components/Chat.jsx';
 import moment from 'moment';
 import Delay from 'react-delay';
+import PortfolioPage from './components/PortfolioPage.jsx';
+
+
+
+
 
 class App extends React.Component {
   constructor(props) {
@@ -22,8 +27,11 @@ class App extends React.Component {
       historicalData: [],
       backgroundColor: 'rgba(79, 232, 255, 0.1)',
       borderColor: '#4FC7FF',
-      chartData: {}
+      chartData: {}, 
+      renderedPage: 'Charts'
     };
+
+    this.changePage = this.changePage.bind(this);
   }
 
   componentDidMount() {
@@ -220,45 +228,78 @@ class App extends React.Component {
       });
   }
 
+  changePage(e) {
+    this.setState({
+      renderedPage: e.target.name
+    });
+  }
+
   render() {
-    if(this.state.weeklyData.length === 0) {
-      return <div/>
-    } else if(!this.state.chartData.datasets) {
-      return <div/>
+    
+    if (this.state.weeklyData.length === 0) {
+      return <div/>;
+    } else if (!this.state.chartData.datasets) {
+      return <div/>;
     }
 
+    const page = this.state.renderedPage;
+
     return (
-      <div className="ui grid">
-        <div className="three column row"></div>
-        <div className="sixteen column row">
-          <div className="one wide column"> </div>
-
-          <SmallCurrencyToggle onSetCoin={this.onSetCoin.bind(this)} coin_id='1' name='Bitcoin' coin={this.state.weeklyData.filter((allCoins) => {return allCoins.coin_id === 1})[0].price} />
-          <SmallCurrencyToggle onSetCoin={this.onSetCoin.bind(this)} coin_id='2' name='Ethereum' coin={this.state.weeklyData.filter((allCoins) => {return allCoins.coin_id === 2})[0].price} />
-          <SmallCurrencyToggle onSetCoin={this.onSetCoin.bind(this)} coin_id='3' name='Litecoin' coin={this.state.weeklyData.filter((allCoins) => {return allCoins.coin_id === 3})[0].price} />
-          <SmallCurrencyToggle onSetCoin={this.onSetCoin.bind(this)} coin_id='4' name='Ripple' coin={this.state.weeklyData.filter((allCoins) => {return allCoins.coin_id === 4})[0].price} />
-
-          <div className="three wide column"></div>
-          <button className="ui left floated mini button" id="hourly" value="1H" onClick={this.onSetTimePeriod.bind(this)}>1H</button>
-          <button className="ui left floated mini button" id="daily" value="1D" onClick={this.onSetTimePeriod.bind(this)}>1D</button>
-          <button className="ui left floated mini button" id="weekly" value="1W" onClick={this.onSetTimePeriod.bind(this)}>1W</button>
-          <button className="ui left floated mini button" id="monthly" value="1M" onClick={this.onSetTimePeriod.bind(this)}>1M</button>
-          <button className="ui left floated mini button" id="yearly" value="1Y" onClick={this.onSetTimePeriod.bind(this)}>1Y</button>
-          <button className="ui left floated mini button" id="alltime" value="ALL" onClick={this.onSetTimePeriod.bind(this)}>ALL</button>
-        </div>
-
-        <div className="row">
-          <div className="ui three column divided grid TriComponentRow">
-            <TriComponentRow chartData={this.state.chartData} currentCoin={this.state.currentCoin} currentTimePeriod={this.state.currentTimePeriod}/>
+      <div id="mainWrapper">
+        <div id="mainMenu" className="ui massive inverted menu">
+          <div className="ui container">
+            <a className="item" name="Charts" onClick={this.changePage}>Charts</a>
+            <a className="item" name="Portfolio" onClick={this.changePage}>Portfolio</a>
+            <div className="right menu">
+              <div className="item">
+                <a className="item">Log in</a>
+              </div>
+            </div>
           </div>
         </div>
-        <div>
-          <Chat/>
-        </div>
-          <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
+
+        {
+          page === 'Charts' ? (
+
+            <div id='background' className="ui grid">
+              <div className="three column row"></div>
+              <div className="sixteen column row">
+
+                <div className="one wide column"> </div>
+                <SmallCurrencyToggle onSetCoin={this.onSetCoin.bind(this)} coin_id='1' name='Bitcoin' coin={this.state.weeklyData.filter((allCoins) => { return allCoins.coin_id === 1; })[0].price} />
+                <SmallCurrencyToggle onSetCoin={this.onSetCoin.bind(this)} coin_id='2' name='Ethereum' coin={this.state.weeklyData.filter((allCoins) => { return allCoins.coin_id === 2; })[0].price} />
+                <SmallCurrencyToggle onSetCoin={this.onSetCoin.bind(this)} coin_id='3' name='Litecoin' coin={this.state.weeklyData.filter((allCoins) => { return allCoins.coin_id === 3; })[0].price} />
+                <SmallCurrencyToggle onSetCoin={this.onSetCoin.bind(this)} coin_id='4' name='Ripple' coin={this.state.weeklyData.filter((allCoins) => { return allCoins.coin_id === 4; })[0].price} />
+
+                <div className="three wide column"></div>
+                <button className="ui left floated mini button" id="hourly" value="1H" onClick={this.onSetTimePeriod.bind(this)}>1H</button>
+                <button className="ui left floated mini button" id="daily" value="1D" onClick={this.onSetTimePeriod.bind(this)}>1D</button>
+                <button className="ui left floated mini button" id="weekly" value="1W" onClick={this.onSetTimePeriod.bind(this)}>1W</button>
+                <button className="ui left floated mini button" id="monthly" value="1M" onClick={this.onSetTimePeriod.bind(this)}>1M</button>
+                <button className="ui left floated mini button" id="yearly" value="1Y" onClick={this.onSetTimePeriod.bind(this)}>1Y</button>
+                <button className="ui left floated mini button" id="alltime" value="ALL" onClick={this.onSetTimePeriod.bind(this)}>ALL</button>
+              </div>
+
+              <div className="row">
+                <div className="ui five column divided grid TriComponentRow">
+                  <TriComponentRow chartData={this.state.chartData} currentCoin={this.state.currentCoin} currentTimePeriod={this.state.currentTimePeriod}/>
+                </div>
+              </div>
+
+              <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
+              <Chat/>
+            </div>
+          ) : (
+
+            <PortfolioPage />
+
+          )
+        }
       </div>
     );
   }
 }
 
+
 ReactDOM.render(<App />, document.getElementById('app'));
+

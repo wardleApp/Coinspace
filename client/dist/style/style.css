@@ -83,7 +83,7 @@ body {
 }
 
 .graphRow {
-  height: 50px;
+  height: 400px;
 }
 
 .triComponentRow {
@@ -92,5 +92,26 @@ body {
 
 .triProps {
   padding-left: 165px;
+}
+
+#mainWrapper {
+  height: 640px; 
+}
+
+#mainMenu {
+  margin-bottom: 0px;
+}
+
+#portfolioPage {
+  margin-top: 0px;
+  border: 0px;
+}
+
+.chatRow{
+  height: 125px;
+}
+
+#background {
+  /*background-color: #0e3877;*/
 }
 

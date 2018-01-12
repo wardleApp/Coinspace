@@ -1,0 +1,41 @@
+{
+  "name": "Coinspace",
+  "scripts": {
+  },
+  "env": {
+    "DATABASE": {
+      "required": true
+    },
+    "DB_PORT": {
+      "required": true
+    },
+    "HOST": {
+      "required": true
+    },
+    "PASSWORD": {
+      "required": true
+    },
+    "PORT": {
+      "required": true
+    },
+    "USER": {
+      "required": true
+    }
+  },
+  "formation": {
+    "nodemon": {
+      "quantity": 1
+    },
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}

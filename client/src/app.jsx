@@ -41,7 +41,6 @@ class App extends React.Component {
       },
       renderedPage: 'Charts'
     };
-
     this.changePage = this.changePage.bind(this);
     this.addData = this.addData.bind(this);
   }
@@ -196,18 +195,20 @@ class App extends React.Component {
             <div className="right menu">
               <div className="item">
                 <a className="item">Log in</a>
+                <a className="item"><SignIn/></a>
+                <a className="item"><SignUp/></a>
               </div>
             </div>
+            {console.log('THIS STATE', this.state)}
           </div>
         </div>
 
         {
           page === 'Charts' ? (
-
             <div className="ui grid">
               <div className="three column row"></div>
               <div className="sixteen column row">
-                <div className="one wide column"> </div>
+                <div className="one wide column"></div>
                 {this.state.coins.map((coin, index) =>
                   <SmallCurrencyToggle key={index} onSetCoin={this.onSetCoin.bind(this)} coin_id={index + 1} name={coin[0]} coin={this.state.weeklyData.filter((allCoins) => {return allCoins.coin_id === index + 1})[0].price} />
                 )}
@@ -221,10 +222,6 @@ class App extends React.Component {
                 <div className="ui five column divided grid TriComponentRow">
                   <TriComponentRow chartData={this.state.chartData} currentCoin={this.state.currentCoin} currentTimePeriod={this.state.currentTimePeriod}/>
                 </div>
-              </div>
-              <div>
-              <SignUp/>
-              <SignIn/>
               </div>
               <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
               <Chat/>

@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import $ from 'jquery';
+import 'semantic-ui/dist/semantic.min.js';
+import 'semantic-ui/dist/semantic.min.css';
 
 const TriComponentRow = (props) => {
+  $('#first').transition('set looping').transition('bounce', '2000ms')
   return (
     <div className="five column row">
       <div className='column'></div>
-      <div style={{}} className="column">
+      <div id="first" style={{}} className="column">
         <span className="tab" className="small">$</span>
         <span className="tab" className="medium">{parseFloat(props.chartData.datasets[0].data[props.chartData.datasets[0].data.length-1]).toFixed(2)}</span>
         <p>{props.currentCoin === 1 ? 'Bitcoin Price' : 

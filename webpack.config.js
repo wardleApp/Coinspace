@@ -1,6 +1,8 @@
 // We are using node's native package 'path'
 // https://nodejs.org/api/path.html
 const path = require('path');
+var webpack = require('webpack');
+
 
 // Constant with our paths
 const paths = {
@@ -15,6 +17,12 @@ module.exports = {
     path: paths.DIST,
     filename: 'bundle.js'
   },
+  plugins: [
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
+        })
+  ],
   module : {
     loaders : [
       {
@@ -35,7 +43,10 @@ module.exports = {
             }
           }
         ]
-      }
+      },
+      {test: /\.less$/,loader: 'style-loader!css-loader?importLoaders=2&sourceMap&localIdentName=[local]__[hash:base64:5]!less-loader'}, 
+      { test: /\.css/, loader: 'style-loader!css-loader?importLoaders=2&sourceMap&localIdentName=[local]__[hash:base64:5]' },
+      { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' }
     ]
   }
 };

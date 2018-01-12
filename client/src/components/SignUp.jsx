@@ -37,9 +37,9 @@ class SignUp extends React.Component {
   	const { open } = this.state;
   	return (
   		<div>
-        <button onClick={this.onOpenModal.bind(this)}>Become a CryptoMillionaire!</button>
+        <button onClick={this.onOpenModal.bind(this)}>Sign Up!</button>
         <Modal open={open} onClose={this.onCloseModal.bind(this)} little>
-          <h2>Simple centered modal</h2>
+          <h2>Become a CryptoMillionaire!</h2>
           <input id="emailInputField" type="text" defaultValue="Email Address"></input>
           <input id="passwordInputField" type="text" defaultValue="Please Put Your Password Here"></input>
           <button onClick={this.onClickSignUp.bind(this)}>Sign Up!</button>

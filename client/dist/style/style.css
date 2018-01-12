@@ -82,6 +82,11 @@ body {
   color: gray;
 }
 
+#centered {
+  display: block; margin: 0 auto;
+  display: inline-block; text-align: center;
+}
+
 .graphRow {
   height: 400px;
 }
@@ -95,7 +100,7 @@ body {
 }
 
 #mainWrapper {
-  height: 640px; 
+  height: 750px; 
 }
 
 #mainMenu {
@@ -115,3 +120,16 @@ body {
   /*background-color: #0e3877;*/
 }
 
+#portfolioHeading {
+  font-size: 22px;
+  height:100px;
+}
+
+#portfolioRow {
+  height: 300px;
+}
+
+#dashCard {
+  width: 600px;
+  height: 350px;
+}

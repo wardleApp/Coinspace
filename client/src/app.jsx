@@ -226,7 +226,7 @@ class App extends React.Component {
             </div>
           ) : (
 
-            <PortfolioPage />
+            <PortfolioPage chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
 
           )
         }

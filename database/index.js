@@ -47,10 +47,6 @@ const client = new Client({
 //   port: 5432,
 //   ssl: false,
 // });
-<<<<<<< c3c998b4438fd4c0f152649d793e688c77296e7a
-
-=======
->>>>>>> refactor and add default anonymous
 
 client.connect();
 

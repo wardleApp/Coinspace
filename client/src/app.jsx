@@ -218,7 +218,7 @@ class App extends React.Component {
               {this.state.coins.map((coin, index) =>
                 <SmallCurrencyToggle key={index} currentCoin={this.state.currentCoin} onSetCoin={this.onSetCoin.bind(this)} coin_id={index + 1} name={coin[0]} coin={this.state.historicalData.filter((allCoins) => {return allCoins.coin_id === index + 1}).reverse()[0].price} />
               )}
-              <div className="five wide column"></div>
+              <div className="four wide column"></div>
               {Object.keys(this.state.labels).map((label, index) =>
                 <Menu pointing secondary>
                 <Menu.Menu position='right'>
@@ -227,9 +227,9 @@ class App extends React.Component {
                 </Menu>
               )}
 
-            <div className="row">
-              <div className="ui five column divided grid TriComponentRow">
-                <TriComponentRow state={this.state} chartData={this.state.chartData} currentCoin={this.state.currentCoin} currentTimePeriod={this.state.currentTimePeriod}/>
+            <div className="one cloumn row">
+              <div className="one wide column">
+                <TriComponentRow state={this.state}/>
               </div>
             </div>
             <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>

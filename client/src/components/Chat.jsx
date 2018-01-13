@@ -35,11 +35,13 @@ class Chat extends React.Component{
   }
 
   sendMessage() {
-    this.socket.emit('message', {
+    if (this.state.message) {
+      this.socket.emit('message', {
         username: this.state.username,
         message: this.state.message
-    });
-    this.setState({message: ''});
+      });
+      this.setState({message: ''});
+    }
   }
 
   render(){
@@ -48,17 +50,13 @@ class Chat extends React.Component{
             <div className="title">Chat</div>
             <hr/>
               <div className="messages">
-                  {this.state.messages.map((message, index) => {
-                    if (message instanceof Object) {
-                      return (
-                        <div key={index}>{message.username || 'Anonymous'}: {message.message}</div>
-                      )
-                    } else {
-                      return (
-                        <div key={index}>{message}</div>
-                      )
-                    }
-                  })}
+                  {this.state.messages.map((message, index) =>
+                    message instanceof Object ? (
+                      <div key={index}>{message.username || 'Anonymous'}: {message.message}</div>
+                    ) : (
+                      <div key={index}>{message}</div>
+                    )
+                  )}
               </div>
             <div>
                 <input type="text" placeholder="Username" value={this.state.username} onChange={this.usernameOnChange.bind(this)}/>

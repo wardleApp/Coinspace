@@ -47,7 +47,10 @@ const client = new Client({
 //   port: 5432,
 //   ssl: false,
 // });
+<<<<<<< c3c998b4438fd4c0f152649d793e688c77296e7a
 
+=======
+>>>>>>> refactor and add default anonymous
 
 client.connect();
 
@@ -65,7 +68,7 @@ var getWeeklyData = () => {
       from coin a
       inner join price_history b on a.id = b.coin_id
       where to_timestamp(time_stamp, 'mm/dd/yy HH24')
-      between current_date - 7 and current_date`,
+      between current_date - 7 and current_date + 1`,
       (err, res) => {
         if (err) {
           console.log('History err', err);
@@ -84,7 +87,7 @@ var getMonthData = () => {
       from coin a
       inner join price_history b on a.id = b.coin_id
       where to_timestamp(time_stamp, 'mm/dd/yy HH24')
-      between current_date - 30 and current_date`,
+      between current_date - 30 and current_date + 1`,
       (err, res) => {
         if (err) {
           console.log('History err', err);
@@ -103,7 +106,7 @@ var getYearData = () => {
       from coin a
       inner join price_history b on a.id = b.coin_id
       where to_timestamp(time_stamp, 'mm/dd/yy HH24')
-      between current_date - 365 and current_date`,
+      between current_date - 365 and current_date + 1`,
       (err, res) => {
         if (err) {
           console.log('History err', err);

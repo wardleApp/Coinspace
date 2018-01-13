@@ -32,12 +32,12 @@ class App extends React.Component {
         ['Ripple', 'rgba(255, 148, 180, 0.1)','#FF4A4A']
       ],
       labels: {
-        '1H': ['hourlyData', 'minutes', 'hh:mm a'],
-        '1D': ['dailyData', 'hours', 'hh:mm a'],
-        '1W': ['weeklyData', 'days', 'MMM DD'],
-        '1M': ['monthlyData', 'days', 'MMM DD'],
-        '1Y': ['yearlyData', 'months', 'MMM DD'],
-        'ALL': ['historicalData', 'days', 'MMM YYYY']
+        '1H': ['hourlyData', 'minutes', 'hh:mm a', 'Past Hour'],
+        '1D': ['dailyData', 'hours', 'hh:mm a', 'Since Yesterday'],
+        '1W': ['weeklyData', 'days', 'MMM DD', 'Since Last Week'],
+        '1M': ['monthlyData', 'days', 'MMM DD', 'Since Last Month'],
+        '1Y': ['yearlyData', 'months', 'MMM DD', 'Since Last Year'],
+        'ALL': ['historicalData', 'days', 'MMM YYYY', 'Since Forever']
       },
       renderedPage: 'Charts'
     };
@@ -46,6 +46,23 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    axios.get('/init')
+      .then(results => {
+        this.setState({
+          hourlyData: results.data[1],
+          dailyData: results.data[1],
+          weeklyData: results.data[2],
+          monthlyData: results.data[1],
+          yearlyData: results.data[0],
+          historicalData: results.data[0]
+        });
+      }).then(() => {
+        this.getUpdate();
+      }).then(()=> {
+        this.getChartData();
+      }).catch(err => {
+        console.log('init client', err);
+      });
     // React Cronjob
     // let minute = new Date().getMinutes() % 15;
     // console.log(15 - minute, 'minutes left');
@@ -56,24 +73,6 @@ class App extends React.Component {
     // }).catch(err => {
     //   console.log('set interval err', err);
     // });
-    this.getUpdate();
-    axios.get('/init')
-      .then(results => {
-        this.setState({
-          hourlyData: results.data.monthlyData,
-          dailyData: results.data.monthlyData,
-          weeklyData: results.data.weeklyData,
-          monthlyData: results.data.monthlyData,
-          yearlyData: results.data.yearlyData,
-          historicalData: results.data.yearlyData
-        });
-      })
-      .then(() => {
-        this.getChartData();
-      })
-      .catch(err => {
-        console.log('init client', err);
-      });
   }
 
   getChartData(){
@@ -138,17 +137,13 @@ class App extends React.Component {
   }
 
   addData(data) {
-    new Promise((resolve, reject) => {
-      this.setState({
-        hourlyData: [...this.state.hourlyData, ...data],
-        dailyData: [...this.state.dailyData, ...data],
-        weeklyData: [...this.state.weeklyData, ...data],
-        monthlyData: [...this.state.monthlyData, ...data],
-        yearlyData: [...this.state.yearlyData, ...data],
-        historicalData: [...this.state.historicalData, ...data]
-      });
-    }).then(results => {
-      console.log(data[3], 'equal', this.state.hourlyData.slice(-1));
+    this.setState({
+      hourlyData: [...this.state.hourlyData, ...data],
+      dailyData: [...this.state.dailyData, ...data],
+      weeklyData: [...this.state.weeklyData, ...data],
+      monthlyData: [...this.state.monthlyData, ...data],
+      yearlyData: [...this.state.yearlyData, ...data],
+      historicalData: [...this.state.historicalData, ...data]
     });
   }
 
@@ -161,9 +156,9 @@ class App extends React.Component {
         console.log(`Half hour update in ${30 - minute} minutes`);
         console.log(results.data.rows);
         console.log(this);
-        this.addData(results.data.rows);
+        // this.addData(results.data.rows);
         setTimeout(()=>{
-          // this.addData(results.data.rows);
+          this.addData(results.data.rows);
         }, 1800000 - 60000 * minute);
       }).catch(err => {
         console.log('update err', err);
@@ -184,8 +179,6 @@ class App extends React.Component {
       return <div/>;
     }
 
-    const page = this.state.renderedPage;
-
     return (
       <div id="mainWrapper">
         <div id="mainMenu" className="ui massive inverted menu">
@@ -204,7 +197,7 @@ class App extends React.Component {
         </div>
 
         {
-          page === 'Charts' ? (
+          this.state.renderedPage === 'Charts' ? (
             <div className="ui grid">
               <div className="three column row"></div>
               <div className="sixteen column row">
@@ -220,7 +213,7 @@ class App extends React.Component {
 
               <div className="row">
                 <div className="ui five column divided grid TriComponentRow">
-                  <TriComponentRow chartData={this.state.chartData} currentCoin={this.state.currentCoin} currentTimePeriod={this.state.currentTimePeriod}/>
+                  <TriComponentRow state={this.state} chartData={this.state.chartData} currentCoin={this.state.currentCoin} currentTimePeriod={this.state.currentTimePeriod}/>
                 </div>
               </div>
               <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>

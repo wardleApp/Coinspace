@@ -51,7 +51,7 @@ class Chat extends React.Component{
                   {this.state.messages.map((message, index) => {
                     if (message instanceof Object) {
                       return (
-                        <div key={index}>{message.username}: {message.message}</div>
+                        <div key={index}>{message.username || 'Anonymous'}: {message.message}</div>
                       )
                     } else {
                       return (

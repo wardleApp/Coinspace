@@ -17,17 +17,34 @@ src: url(fonts/minecraft.ttf);
   font-family: minecraft;
 }
 
-/*
 body {
-  background-image: url('/../img/x-pattern.png');
+  background-image: url('/../img/rise-green.gif');
   background-repeat: repeat;
+  background-size: 10%;
+  image-rendering: auto;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+
+  color: yellow;
+  text-shadow: 2px 2px #ff0000;
+  
+  text-rendering: auto;
+  text-rendering: crisp-edges;
+  text-rendering: pixelated;
 }
-*/
+
+.gradient {
+  background-image: linear-gradient(to bottom right,#002f4b,#dc4225);
+  opacity: .6; 
+}
 
 #header {
-  letter-spacing: 1px;
-  font-size: 15px;
-  font-family: fipps;
+  position: absolute;
+  padding: 20px;
+  margin: 20px;
+  letter-spacing: 3px;
+  font-size: 300%;
+  text-shadow: 2px 2px #ff0000;
 }
 
 #currencyDisplay {
@@ -38,47 +55,43 @@ body {
 
 .nav {
   letter-spacing: 1px;
-  color: gray;
   display: flex;
   justify-content: space-between;
 }
 
 .tab {
-  margin-right: 30px;
+  margin-right: 100px;
 }
 
 .centered {
   display: block; margin: 0 auto;
-  display: inline-block; text-align: center;
+  display: inline-block;
+  text-align: center;
+}
+
+.small {
+  margin-top: 20px;
+  font-size: 150%;
 }
 
 .medium {
   font-family: babyblocks;
-  font-size: 30px;
+  font-size: 200%;
 }
 
 .large {
   font-family: babyblocks;
-  font-size: 50px;
+  font-size: 300%;
 }
 
-
-@keyframes animatedBackground {
-  from { background-position: 0 100%; }
-  to { background-position: 0 0; }
-}
-
-body {  
-  background-image: url('/../img/x-pattern-gray.png');
-  background-position: 0px 0px;
-  background-repeat: repeat;
-
-  animation: animatedBackground 20s linear infinite;
+#graphBoard {
+  width: 100%;
 }
 
 #credits {
   letter-spacing: 1px;
   font-size: 10px;
+<<<<<<< HEAD
   color: gray;
 }
 
@@ -116,9 +129,6 @@ body {
   height: 125px;
 }
 
-#background {
-  /*background-color: #0e3877;*/
-}
 
 #portfolioHeading {
   font-size: 22px;

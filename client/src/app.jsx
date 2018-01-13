@@ -12,6 +12,125 @@ import Delay from 'react-delay';
 import PortfolioPage from './components/PortfolioPage.jsx';
 import Modal from 'react-responsive-modal';
 
+class FBLogin extends React.Component {
+  constructor(props) {
+    console.log("FBLogin constructor initiated");
+    super(props);
+    this.state = {};
+
+    //FB Javascript SDK //load with the page
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+  }
+
+  //SDK setup
+
+  //adpted from window.fbAsyncInit
+  fbAsyncInit() {
+    FB.init({
+      appId      : '142468679794360', //our app's id on facebook
+      xfbml      : true,
+      version    : 'v2.11' //needs to be the lastest facebook sdk version
+    });
+    // FB.AppEvents.logPageView();
+
+    //check if we're logged in
+    FB.getLoginStatus(function(response) {
+      this.statusChangeCallback(response);
+    });
+  };
+
+  //statusChangeCallback
+  statusChangeCallback(response) {
+
+    if (response.status === 'connected') {
+      console.log('Logged in and authenticated');
+      console.dir(response);
+      this.testAPI("/me?fields=name,email");
+
+    } else {
+      console.log('Not authenticated');
+    }
+  }
+
+  //checks if logged in
+  checkLoginState() {
+
+    FB.getLoginStatus(function(response) {
+      this.statusChangeCallback(response);
+    });
+  }
+
+  //test incoming data
+  testAPI(query) {
+
+    FB.api(query, function(response) {
+
+      if (response) {
+
+        if (!response.error) {
+          console.log("Welcome, ", response.name);
+          console.dir(response);
+          this.buildProfile(response,console.log);
+
+        } else {
+          console.dir(response.error);
+        }
+        
+      } else {
+        console.log("no response from API");
+      }
+    });
+  };
+
+  //build a profile
+  buildProfile(response, callback) {
+    let user = {
+      name: response.name,
+      email: response.email
+    };
+
+    callback(user);
+  };
+
+  render() {
+
+
+    console.log("FBLogin render initiated");
+
+    let login = this.checkLoginState.bind(this);
+
+    let loginButton = (
+
+      <div>
+        <fb-login-button
+          data-max-rows="1"
+          data-size="large"
+          data-button-type="login_with"
+          data-show-faces="false"
+          data-auto-logout-link="false"
+          data-use-continue-as="false"
+
+          scope="public_profile,email"
+          onlogin={login}>
+        </fb-login-button>
+      </div>
+    );
+
+  return loginButton;
+  }
+  
+}
+
+
+
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -32,12 +151,13 @@ class App extends React.Component {
         ['Ripple', 'rgba(255, 148, 180, 0.1)','#FF4A4A']
       ],
       labels: {
-        '1H': ['hourlyData', 'minutes', 'hh:mm a', 'Past Hour'],
+        //'1H': ['hourlyData', 'minutes', 'hh:mm a', 'Past Hour'],
         '1D': ['dailyData', 'hours', 'hh:mm a', 'Since Yesterday'],
         '1W': ['weeklyData', 'days', 'MMM DD', 'Since Last Week'],
         '1M': ['monthlyData', 'days', 'MMM DD', 'Since Last Month'],
         '1Y': ['yearlyData', 'months', 'MMM DD', 'Since Last Year'],
-        'ALL': ['historicalData', 'days', 'MMM YYYY', 'Since Forever']
+        //'ALL': ['historicalData', 'days', 'MMM YYYY', 'Since Forever'
+        
       },
       renderedPage: 'Charts'
     };
@@ -128,6 +248,7 @@ class App extends React.Component {
           {
             label:'Price',
             data: inputData,
+            //background-image: url('/../img/rise-green.gif'),
             backgroundColor:[this.state.coins[this.state.currentCoin - 1][1]],
             borderColor: [this.state.coins[this.state.currentCoin - 1][2]]
           }
@@ -173,6 +294,11 @@ class App extends React.Component {
 
   render() {
 
+    //removed temporarily
+      /*<a className="item" name="Charts" onClick={this.changePage}>Charts</a>*/
+      /*<a className="item" name="Portfolio" onClick={this.changePage}>Portfolio</a>*/
+
+
     if (this.state.weeklyData.length === 0) {
       return <div/>;
     } else if (!this.state.chartData.datasets) {
@@ -181,15 +307,14 @@ class App extends React.Component {
 
     return (
       <div id="mainWrapper">
+
+        
+
         <div id="mainMenu" className="ui massive inverted menu">
           <div className="ui container">
-            <a className="item" name="Charts" onClick={this.changePage}>Charts</a>
-            <a className="item" name="Portfolio" onClick={this.changePage}>Portfolio</a>
             <div className="right menu">
               <div className="item">
-                <a className="item">Log in</a>
-                <a className="item"><SignIn/></a>
-                <a className="item"><SignUp/></a>
+                <a className="item right">Log in</a>
               </div>
             </div>
             {console.log('THIS STATE', this.state)}
@@ -217,7 +342,7 @@ class App extends React.Component {
                 </div>
               </div>
               <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
-              <Chat/>
+
             </div>
           ) : (
 

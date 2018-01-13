@@ -8,7 +8,35 @@ const favicon = require('express-favicon');
 const socket = require('socket.io');
 const router = require('./routes.js');
 
+const passport = require('passport');
+const FacebookStrategy = require('passport-facebook').Strategy;
+
 const app = express();
+
+//passport + facebook
+passport.use(new FacebookStrategy({
+    clientID: '142468679794360',
+    clientSecret: 'dc9b545b3bf20babe315f1757594edf0',
+    callbackURL: "http://localhost:3000/auth/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+      return cb(err, user);
+    });
+  }
+));
+
+app.get('/auth/facebook',
+  passport.authenticate('facebook'));
+
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
+
+//rest of the app
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());

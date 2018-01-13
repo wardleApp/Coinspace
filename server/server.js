@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cryptoAPI = require('../BitFinexAPI/BitFinexAPI.js');
 const CronJob = require('cron').CronJob;
-const moment = require('moment');
+const moment = require('moment-timezone');
 const db = require('../database/index.js');
 const favicon = require('express-favicon');
 const socket = require('socket.io');
@@ -23,8 +23,7 @@ new CronJob('*/30 * * * *', () => {
 // API call
   cryptoAPI.BitfinexAPI()
     .then((data) => {
-      console.log('This is the data', data);
-      let now = moment(new Date()).format(`MM/DD/YYYY HH`);
+      let now = moment(new Date()).tz('America/Los_Angeles').format(`MM/DD/YYYY HH`);
       Promise.all(data.map((coin, index) => {
         // then write to dB
         return db.client.query(`insert into price_history (coin_id, time_stamp, price) values (${index + 1}, '${now}', ${coin[1]})`);
@@ -36,7 +35,6 @@ new CronJob('*/30 * * * *', () => {
     }).catch(err => {
       console.log('api err', err);
     });
-
 // sample result [[ 'tBTCUSD', // SYMBOL
 //                 14721, // BID
 //                 192.76423686, // BID_SIZE
@@ -63,30 +61,12 @@ app.get('/update', (req, res) => {
 
 app.get('/init', (req, res) => {
   // load historical data into client
-  var initialLoadObject = {};
-  db.getYearData()
-  .then(results => {
-    initialLoadObject.yearlyData = results;
-  })
-  .then(() => {
-    db.getMonthData()
+  Promise.all([db.getYearData(), db.getMonthData(), db.getWeeklyData()])
     .then(results => {
-      initialLoadObject.monthlyData = results;
-    })
-    .then(() => {
-      db.getWeeklyData()
-      .then(results => {
-        initialLoadObject.weeklyData = results;
-      })
-      .then(() => {
-        // console.log('THIS IS INITIALLOADOBJECT', initialLoadObject);
-        res.json(initialLoadObject);
-      })
-    })
-  })
-  .catch(err => {
-    console.log('init err', err);
-  });
+      res.json(results);
+    }).catch(err => {
+      console.log('init err', err);
+    });
 });
 
 const port = process.env.PORT || 3000;
@@ -97,12 +77,12 @@ const server = app.listen(port, () => {
 
 const io = socket(server);
 
-io.on('connection', (socket) => {
+io.on('connection', socket => {
   io.emit('new message', 'A new user joined the chat');
-  socket.on('message', function(data){
+  socket.on('message', data => {
     io.emit('new message', data);
   });
-  socket.on('disconnect', function() {
+  socket.on('disconnect', () => {
     io.emit('new message', 'A user disconnected');
   });
 });

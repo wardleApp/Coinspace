@@ -38,7 +38,7 @@ class App extends React.Component {
         '1M': ['monthlyData', 'days', 'MMM DD', 'Since Last Month'],
         '1Y': ['yearlyData', 'months', 'MMM DD', 'Since Last Year'],
         //'ALL': ['historicalData', 'days', 'MMM YYYY', 'Since Forever'
-        
+
       },
       renderedPage: 'Charts',
       userLogin: false
@@ -206,13 +206,13 @@ class App extends React.Component {
       <p id="companyTitle2">rebase</p>
       <Menu.Menu position='right'>
         <Menu.Item name='Charts' active={renderedPage === 'Charts'} onClick={this.changePage}/>
-        {this.state.userLogin ? null : <Login userLogin={this.userLogin.bind(this)} userLogout={this.userLogout.bind(this)}/>} 
+        {this.state.userLogin ? null : <Login userLogin={this.userLogin.bind(this)} userLogout={this.userLogout.bind(this)}/>}
         {this.state.userLogin ? <Menu.Item name='Portfolio' active={renderedPage === 'Portfolio'} onClick={this.changePage}/> : null}
         {this.state.userLogin ? <Menu.Item name='Logout' onClick={this.userLogout.bind(this)}/> : null}
       </Menu.Menu>
         </Menu>
-        </Container> 
-        
+        </Container>
+
         {this.state.renderedPage === 'Charts' ? (
           <div className="ui grid">
             <div className="three column row"></div>

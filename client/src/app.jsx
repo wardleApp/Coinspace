@@ -58,23 +58,21 @@ class App extends React.Component {
           yearlyData: results.data[0],
           historicalData: results.data[0]
         });
-      }).then(() => {
-        this.getUpdate();
       }).then(()=> {
         this.getChartData();
+        // React Cronjob
+        let minute = new Date().getMinutes() % 15;
+        console.log(15 - minute, 'minutes left get update from server');
+        new Promise(() => {
+          setTimeout(this.getUpdate, 900000 - 60000 * minute);
+        }).then(() => {
+          // setInterval(this.getUpdate, 1800000);
+        }).catch(err => {
+          console.log('set interval err', err);
+        });
       }).catch(err => {
         console.log('init client', err);
       });
-    // React Cronjob
-    // let minute = new Date().getMinutes() % 15;
-    // console.log(15 - minute, 'minutes left');
-    // new Promise(() => {
-    //   setTimeout(this.getUpdate, 900000 - 60000 * minute)
-    // }).then(() => {
-    //   // setInterval(this.getUpdate, 1800000);
-    // }).catch(err => {
-    //   console.log('set interval err', err);
-    // });
   }
 
   getChartData(){
@@ -157,7 +155,6 @@ class App extends React.Component {
         let minute = new Date().getMinutes() % 30;
         console.log(`Half hour update in ${30 - minute} minutes`);
         console.log(results.data.rows);
-        console.log(this);
         // this.addData(results.data.rows);
         setTimeout(()=>{
           this.addData(results.data.rows);

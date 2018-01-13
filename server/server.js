@@ -14,7 +14,7 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 const app = express();
 
 //passport + facebook
-passport.use(new FacebookStrategy({ //cannot find FacebookStrategy
+passport.use(new FacebookStrategy({
     clientID: '142468679794360',
     clientSecret: 'dc9b545b3bf20babe315f1757594edf0',
     callbackURL: "http://localhost:3000/auth/facebook/callback"
@@ -25,7 +25,6 @@ passport.use(new FacebookStrategy({ //cannot find FacebookStrategy
     });
   }
 ));
-
 
 app.get('/auth/facebook',
   passport.authenticate('facebook'));

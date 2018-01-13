@@ -3,10 +3,10 @@ require('dotenv').config();
 
 // FOR REAL LIFE HEROKU DEPLOYMENT
 const client = new Client({
-  user: 'tjqjhjzzjtindk',
-  host: 'ec2-107-20-193-202.compute-1.amazonaws.com',
-  database: 'd8siqm30rho7tc',
-  password: '784f35e06e48d45062f3ab4fb83511caca68de81182c2cba1d27b7bd3d7e463e',
+  user: process.env.USER,
+  host: process.env.HOST,
+  database: process.env.DATABASE,
+  password: process.env.PASSWORD,
   ssl: true
 });
 

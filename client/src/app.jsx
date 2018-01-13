@@ -196,18 +196,18 @@ class App extends React.Component {
 
     return (
       <div id="mainWrapper">
-      <Container fluid>
-      <Menu color='blue' inverted>
-      <p id="companyTitle1">coin</p>
-      <img id="coinRebase" src={require('../dist/img/CoinRebase.gif')}/>
-      <p id="companyTitle2">rebase</p>
-      <Menu.Menu position='right'>
-        <Menu.Item name='Charts' active={renderedPage === 'Charts'} onClick={this.changePage}/>
-        {this.state.userLogin ? null : <Login userLogin={this.userLogin.bind(this)} userLogout={this.userLogout.bind(this)}/>}
-        {this.state.userLogin ? <Menu.Item name='Portfolio' active={renderedPage === 'Portfolio'} onClick={this.changePage}/> : null}
-        {this.state.userLogin ? <Menu.Item name='Logout' onClick={this.userLogout.bind(this)}/> : null}
-      </Menu.Menu>
-        </Menu>
+        <Container fluid>
+          <Menu color='blue' inverted>
+            <p id="companyTitle1">coin</p>
+            <img id="coinRebase" src={require('../dist/img/CoinRebase.gif')}/>
+            <p id="companyTitle2">rebase</p>
+            <Menu.Menu position='right'>
+              <Menu.Item name='Charts' active={renderedPage === 'Charts'} onClick={this.changePage}/>
+              {this.state.userLogin ? null : <Login userLogin={this.userLogin.bind(this)} userLogout={this.userLogout.bind(this)}/>}
+              {this.state.userLogin ? <Menu.Item name='Portfolio' active={renderedPage === 'Portfolio'} onClick={this.changePage}/> : null}
+              {this.state.userLogin ? <Menu.Item name='Logout' onClick={this.userLogout.bind(this)}/> : null}
+            </Menu.Menu>
+          </Menu>
         </Container>
 
         {this.state.renderedPage === 'Charts' ? (
@@ -221,23 +221,19 @@ class App extends React.Component {
               <div className="four wide column"></div>
               {Object.keys(this.state.labels).map((label, index) =>
                 <Menu pointing secondary>
-                <Menu.Menu position='right'>
-                <Menu.Item active={this.state.currentTimePeriod === label} name={label} onClick={this.onSetTimePeriod.bind(this)} key={index} value={label}/>
-                </Menu.Menu>
+                  <Menu.Menu position='right'>
+                    <Menu.Item active={this.state.currentTimePeriod === label} name={label} onClick={this.onSetTimePeriod.bind(this)} key={index} value={label}/>
+                  </Menu.Menu>
                 </Menu>
               )}
-
-            <div className="one cloumn row">
-              <div className="one wide column">
-                <TriComponentRow state={this.state}/>
-              </div>
+              <div className='column'></div>
             </div>
+            <TriComponentRow state={this.state}/>
             <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
-          <Chat/>
+            <Chat/>
           </div>
-          </div>
-          ) : (<PortfolioPage chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>)
-      }
+        ) : (<PortfolioPage chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>)
+        }
       </div>
     );
   }

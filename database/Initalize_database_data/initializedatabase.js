@@ -21,7 +21,7 @@ const client = new Client({
 
 client.connect();
 
-client.query(` CREATE TABLE IF NOT EXISTS users ()
+client.query(` CREATE TABLE IF NOT EXISTS users (
   id serial NOT NULL PRIMARY KEY,
   email varchar(50) NOT NULL,
   password text NOT NULL
@@ -49,6 +49,8 @@ client.query(`CREATE TABLE IF NOT EXISTS price_history (
   time_stamp varchar(50) NOT NULL,
   price decimal NOT NULL
 )`);
+
+client.query('alter table price_history add constraint id unique(coin_id, time_stamp)');
 
 const data = [require('./BTCUSDHistoricalData.js'), require('./ETHUSDHistoricalData.js'), require('./LTCUSDHistoricalData.js'), require('./XRPUSDHistoricalData.js')];
 

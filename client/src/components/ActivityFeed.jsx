@@ -31,7 +31,7 @@ const ActivityFeed = (props) => {
         <Feed.Event>
           <Feed.Content>
             <Feed.Summary>
-              <Icon color="blue" circular name="remove"></Icon> Sold 10 BitCoin <Icon name="bitcoin"></Icon> @ $1,744.17 USD on 5/15/2018
+              <Icon color="blue" circular name="remove"></Icon> Sold 10 BitCoin <Icon name="bitcoin"></Icon> @ $1,744.17 USD on 5/15/2017
             </Feed.Summary>
           </Feed.Content>
         </Feed.Event>

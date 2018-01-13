@@ -63,7 +63,7 @@ new CronJob('*/30 * * * *', () => {
       let now = moment(new Date()).tz('America/Los_Angeles').format(`MM/DD/YYYY HH`);
       Promise.all(data.map((coin, index) => {
         // then write to dB
-        return db.client.query(`insert into price_history (coin_id, time_stamp, price) values (${index + 1}, '${now}', ${coin[1]})`);
+        return db.client.query(`insert into price_history (coin_id, time_stamp, price) values (${index + 1}, '${now}', ${coin[1]}) on conflict(coin_id, time_stamp) do nothing`);
       })).then(result => {
         console.log('insert sucess', result);
       }).catch(err => {

@@ -201,9 +201,9 @@ class App extends React.Component {
       <div id="mainWrapper">
       <Container fluid>
       <Menu color='blue' inverted>
-      <Header id="companyTitle1" as='h2'>coin</Header>
+      <p id="companyTitle1">coin</p>
       <img id="coinRebase" src={require('../dist/img/CoinRebase.gif')}/>
-      <Header id="companyTitle2" as='h2'>rebase</Header>
+      <p id="companyTitle2">rebase</p>
       <Menu.Menu position='right'>
         <Menu.Item name='Charts' active={renderedPage === 'Charts'} onClick={this.changePage}/>
         {this.state.userLogin ? null : <Login userLogin={this.userLogin.bind(this)} userLogout={this.userLogout.bind(this)}/>} 
@@ -230,21 +230,17 @@ class App extends React.Component {
                 </Menu>
               )}
 
-        
-
             <div className="row">
               <div className="ui five column divided grid TriComponentRow">
                 <TriComponentRow state={this.state} chartData={this.state.chartData} currentCoin={this.state.currentCoin} currentTimePeriod={this.state.currentTimePeriod}/>
-              }
               </div>
             </div>
             <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
+          <Chat/>
           </div>
-          ) : (
-            <PortfolioPage chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
-          )
-        }
-        <div><Chat/></div>
+          </div>
+          ) : (<PortfolioPage chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>)
+      }
       </div>
     );
   }

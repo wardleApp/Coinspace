@@ -55,11 +55,6 @@
   color: gray;
 }
 
-#centered {
-  display: block; margin: 0 auto;
-  display: inline-block; text-align: center;
-}
-
 .graphRow {
   height: 400px;
 }

@@ -5,7 +5,6 @@ import axios from 'axios';
 import $ from 'jquery';
 import 'semantic-ui/dist/semantic.min.js';
 import 'semantic-ui/dist/semantic.min.css';
-import { Button } from 'semantic-ui-react';
 import PasswordMask from 'react-password-mask';
 import { Button, Dimmer, Loader, Image, Segment, Transition } from 'semantic-ui-react';
 

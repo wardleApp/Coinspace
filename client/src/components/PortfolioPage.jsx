@@ -2,6 +2,7 @@ import React from 'react';
 import TotalAllocations from './TotalAllocations.jsx';
 import CoinChartCard from './CoinChartCard.jsx';
 import TopCryptoNews from './TopCryptoNews.jsx';
+import ActivityFeed from './ActivityFeed.jsx';
 
 class PortfolioPage extends React.Component {
   constructor(props) {
@@ -52,19 +53,9 @@ class PortfolioPage extends React.Component {
             <div className="ui two stackable cards">
 
               <CoinChartCard chartData={this.props.chartData}/>
-
-              {/* These are cards, they are how you add new content 
-              <div id="dashCard" className="ui blue raised link card">
-                <div className="content">
-                  <h2 className="header">Total Allocations</h2>
-                  <div className="ui divider"></div>
-                  <canvas></canvas>
-                </div>
-              </div>*/}
-
               <TotalAllocations />
-
               <TopCryptoNews /> 
+              <ActivityFeed />
               {/* -------------- The Content Space HTML Ends here -------------------------*/}
 
 

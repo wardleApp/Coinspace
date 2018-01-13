@@ -7,6 +7,7 @@ import 'semantic-ui/dist/semantic.min.js';
 import 'semantic-ui/dist/semantic.min.css';
 import { Button } from 'semantic-ui-react';
 import PasswordMask from 'react-password-mask';
+import { Button, Dimmer, Loader, Image, Segment, Transition } from 'semantic-ui-react';
 
 class Login extends React.Component {
   constructor(props) {
@@ -47,7 +48,8 @@ class Login extends React.Component {
   }
 
   onSuccessfulSignUp() {
-  	this.props.userLogin()
+  	this.props.userLogin();
+    this.onCloseModal();
   }
 
   onUnsuccessfulSignUp() {
@@ -72,6 +74,15 @@ class Login extends React.Component {
     .catch(function(error) {
       console.log('this is the error on sign in', error);
     })
+  }
+
+  onSuccessfulSignIn() {
+    this.props.userLogin();
+    this.onCloseModal();
+  }
+
+  onUnsuccessfulSignIn() {
+    console.log('Nothing here yet. Need to add a shake')
   }
 
   render() {

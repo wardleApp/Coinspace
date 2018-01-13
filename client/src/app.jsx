@@ -196,7 +196,7 @@ class App extends React.Component {
     } else if (!this.state.chartData.datasets) {
       return <div/>;
     }
-    <Header as='h2'>Second Header</Header>
+
     return (
       <div id="mainWrapper">
       <Container fluid>
@@ -229,11 +229,11 @@ class App extends React.Component {
                 </Menu.Menu>
                 </Menu>
               )}
-            </div>
+
+        
 
             <div className="row">
               <div className="ui five column divided grid TriComponentRow">
-              {console.log(this.state)}
                 <TriComponentRow state={this.state} chartData={this.state.chartData} currentCoin={this.state.currentCoin} currentTimePeriod={this.state.currentTimePeriod}/>
               }
               </div>

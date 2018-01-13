@@ -37,12 +37,21 @@ app.get('/auth/facebook/callback',
   });
 
 //rest of the app
-
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(favicon(__dirname + '/../client/dist/img/favicon.ico'));
 
 app.use(express.static(__dirname + '../../client/dist'));
+
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+}
+
+app.use(allowCrossDomain);
+
 
 // Dillon Experimental Route for SignUp UserPassword
 app.use('/sign', router);
@@ -89,13 +98,23 @@ app.get('/update', (req, res) => {
 
 app.get('/init', (req, res) => {
   // load historical data into client
-  Promise.all([db.getYearData(), db.getMonthData(), db.getWeeklyData()])
+  Promise.all([db.getData(365), db.getData(30), db.getData(7)])
     .then(results => {
       res.json(results);
     }).catch(err => {
       console.log('init err', err);
     });
 });
+
+// app.get('/init', (req, res) => {
+//   // load historical data into client
+//   Promise.all([db.getYearData(), db.getMonthData(), db.getWeeklyData()])
+//     .then(results => {
+//       res.json(results);
+//     }).catch(err => {
+//       console.log('init err', err);
+//     });
+// });
 
 const port = process.env.PORT || 3000;
 

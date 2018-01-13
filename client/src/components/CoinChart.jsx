@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Pie, Line, Bar, defaults} from 'react-chartjs-2';
-defaults.global.defaultFontFamily = 'minecraft';
-defaults.global.defaultFontSize = 14;
 
 class CoinChart extends React.Component {
   constructor(props) {
@@ -11,13 +9,13 @@ class CoinChart extends React.Component {
 
   render() {
     return (
-      <div id="graphBoard" className="">
-        <div className="">
-          <Line height="500px" data={this.props.chartData} options={{
+      <div id="graphBoard">
+        <div>
+          <Line height={300} width={150} data={this.props.chartData} options={{
             responsive: true, 
             maintainAspectRatio: false, 
-            scales: { xAxes: [{ gridLines: { display:false }, ticks: { autoSkip: true, maxTicksLimit: 7, maxRotation: 0, minRotation: 0}}], 
-              yAxes: [{ gridLines: { display:true }, ticks: { maxTicksLimit: 4, maxRotation: 0, minRotation: 0, 
+            scales: { xAxes: [{ gridLines: { display:false }, ticks: {fontFamily: "Avenir Next", autoSkip: true, maxTicksLimit: 7, maxRotation: 0, minRotation: 0}}], 
+              yAxes: [{ gridLines: { display:false }, ticks: {fontFamily: "Avenir Next", maxTicksLimit: 3, maxRotation: 0, minRotation: 0, 
                 callback: function(value, index, values) {
                   return '$' + (parseFloat(value).toFixed(2)).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
                 }}}]},

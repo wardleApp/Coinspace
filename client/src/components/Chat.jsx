@@ -13,7 +13,7 @@ class Chat extends React.Component{
     const addMessage = (data) => {
       this.setState({messages: [...this.state.messages, data]});
     };
-    this.socket = io();
+    this.socket = io('https://coinspace.herokuapp.com');
     this.socket.on('new message', function(data) {
       addMessage(data);
     });

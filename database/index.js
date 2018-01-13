@@ -76,63 +76,6 @@ var getData = (time) => {
     });
 };
 
-// var getWeeklyData = () => {
-//   return new Promise(function(resolve, reject) {
-//     client.query(
-//       `select a.name, b.coin_id, b.price, to_timestamp(time_stamp, 'mm/dd/yy HH24') as date
-//       from coin a
-//       inner join price_history b on a.id = b.coin_id
-//       where to_timestamp(time_stamp, 'mm/dd/yy HH24')
-//       between current_date - 7 and current_date + 1`,
-//       (err, res) => {
-//         if (err) {
-//           console.log('History err', err);
-//           return reject(err);
-//         }
-//         console.log('Query success');
-//         return resolve(res.rows);
-//       });
-//   });
-// };
-
-// var getMonthData = () => {
-//   return new Promise(function(resolve, reject) {
-//     client.query(
-//       `select a.name, b.coin_id, b.price, to_timestamp(time_stamp, 'mm/dd/yy HH24') as date
-//       from coin a
-//       inner join price_history b on a.id = b.coin_id
-//       where to_timestamp(time_stamp, 'mm/dd/yy HH24')
-//       between current_date - 30 and current_date + 1`,
-//       (err, res) => {
-//         if (err) {
-//           console.log('History err', err);
-//           return reject(err);
-//         }
-//         console.log('Query success');
-//         return resolve(res.rows);
-//       });
-//   });
-// };
-
-// var getYearData = () => {
-//   return new Promise(function(resolve, reject) {
-//     client.query(
-//       `select a.name, b.coin_id, b.price, to_timestamp(time_stamp, 'mm/dd/yy HH24') as date
-//       from coin a
-//       inner join price_history b on a.id = b.coin_id
-//       where to_timestamp(time_stamp, 'mm/dd/yy HH24')
-//       between current_date - 365 and current_date + 1`,
-//       (err, res) => {
-//         if (err) {
-//           console.log('History err', err);
-//           return reject(err);
-//         }
-//         console.log('Query success');
-//         return resolve(res.rows);
-//       });
-//   });
-// };
-
 var insertNewUser = (username, hashedPassword) => {
   return new Promise(function(resolve, reject) {
     client.query(
@@ -160,9 +103,6 @@ var findExistingUser = () => {
 module.exports = {
   client,
   pool,
-  // getWeeklyData,
-  // getMonthData,
-  // getYearData,
   getData,
   insertNewUser,
   findExistingUser

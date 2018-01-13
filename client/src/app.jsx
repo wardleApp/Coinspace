@@ -38,7 +38,7 @@ class App extends React.Component {
         '1M': ['monthlyData', 'days', 'MMM DD', 'Since Last Month'],
         '1Y': ['yearlyData', 'months', 'MMM DD', 'Since Last Year'],
         //'ALL': ['historicalData', 'days', 'MMM YYYY', 'Since Forever'
-        
+
       },
       renderedPage: 'Charts',
       userLogin: false
@@ -58,23 +58,21 @@ class App extends React.Component {
           yearlyData: results.data[0],
           historicalData: results.data[0]
         });
-      }).then(() => {
-        this.getUpdate();
       }).then(()=> {
         this.getChartData();
+        // React Cronjob
+        let minute = new Date().getMinutes() % 15;
+        console.log(15 - minute, 'minutes left get update from server');
+        new Promise(() => {
+          setTimeout(this.getUpdate, 900000 - 60000 * minute);
+        }).then(() => {
+          // setInterval(this.getUpdate, 1800000);
+        }).catch(err => {
+          console.log('set interval err', err);
+        });
       }).catch(err => {
         console.log('init client', err);
       });
-    // React Cronjob
-    // let minute = new Date().getMinutes() % 15;
-    // console.log(15 - minute, 'minutes left');
-    // new Promise(() => {
-    //   setTimeout(this.getUpdate, 900000 - 60000 * minute)
-    // }).then(() => {
-    //   // setInterval(this.getUpdate, 1800000);
-    // }).catch(err => {
-    //   console.log('set interval err', err);
-    // });
   }
 
   getChartData(){
@@ -157,7 +155,6 @@ class App extends React.Component {
         let minute = new Date().getMinutes() % 30;
         console.log(`Half hour update in ${30 - minute} minutes`);
         console.log(results.data.rows);
-        console.log(this);
         // this.addData(results.data.rows);
         setTimeout(()=>{
           this.addData(results.data.rows);
@@ -206,13 +203,13 @@ class App extends React.Component {
       <p id="companyTitle2">rebase</p>
       <Menu.Menu position='right'>
         <Menu.Item name='Charts' active={renderedPage === 'Charts'} onClick={this.changePage}/>
-        {this.state.userLogin ? null : <Login userLogin={this.userLogin.bind(this)} userLogout={this.userLogout.bind(this)}/>} 
+        {this.state.userLogin ? null : <Login userLogin={this.userLogin.bind(this)} userLogout={this.userLogout.bind(this)}/>}
         {this.state.userLogin ? <Menu.Item name='Portfolio' active={renderedPage === 'Portfolio'} onClick={this.changePage}/> : null}
         {this.state.userLogin ? <Menu.Item name='Logout' onClick={this.userLogout.bind(this)}/> : null}
       </Menu.Menu>
         </Menu>
-        </Container> 
-        
+        </Container>
+
         {this.state.renderedPage === 'Charts' ? (
           <div className="ui grid">
             <div className="three column row"></div>
@@ -221,7 +218,7 @@ class App extends React.Component {
               {this.state.coins.map((coin, index) =>
                 <SmallCurrencyToggle key={index} currentCoin={this.state.currentCoin} onSetCoin={this.onSetCoin.bind(this)} coin_id={index + 1} name={coin[0]} coin={this.state.historicalData.filter((allCoins) => {return allCoins.coin_id === index + 1}).reverse()[0].price} />
               )}
-              <div className="five wide column"></div>
+              <div className="four wide column"></div>
               {Object.keys(this.state.labels).map((label, index) =>
                 <Menu pointing secondary>
                 <Menu.Menu position='right'>
@@ -230,9 +227,9 @@ class App extends React.Component {
                 </Menu>
               )}
 
-            <div className="row">
-              <div className="ui five column divided grid TriComponentRow">
-                <TriComponentRow state={this.state} chartData={this.state.chartData} currentCoin={this.state.currentCoin} currentTimePeriod={this.state.currentTimePeriod}/>
+            <div className="one cloumn row">
+              <div className="one wide column">
+                <TriComponentRow state={this.state}/>
               </div>
             </div>
             <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>

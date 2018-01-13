@@ -1,32 +1,31 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import $ from 'jquery';
-import 'semantic-ui/dist/semantic.min.js';
-import 'semantic-ui/dist/semantic.min.css';
+import {Statistic} from 'semantic-ui-react';
 
 const TriComponentRow = (props) => {
+  const price = +props.state.chartData.datasets[0].data.slice(-1);
+  const delta = price - (+props.state.chartData.datasets[0].data[0]);
+  const percentDelta = 100 * (delta / (+props.state.chartData.datasets[0].data[0]));
+  const renderNumber = (num) => {
+    return Math.abs(num).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+  }
   return (
+    <div>
+      <Statistic.Group widths='three'>
+        <Statistic>
+          <Statistic.Value>${renderNumber(price)}</Statistic.Value>
+          <Statistic.Label>{props.state.coins[props.state.currentCoin - 1][0] + ' Price'}</Statistic.Label>
+        </Statistic>
 
-    <div id="currencyDisplay" className="centered">
-      <div className='column'></div>
-      <div style={{}} className="column">
-        <span className="large">${parseFloat(props.state.chartData.datasets[0].data[props.state.chartData.datasets[0].data.length-1]).toFixed(2)}</span>
-        <p className="small">{props.state.coins[props.state.currentCoin - 1][0] + ' Price'}</p>
-      </div>
+        <Statistic>
+          <Statistic.Value>{delta > 0 ? '+' : '-'}${renderNumber(delta)}</Statistic.Value>
+          <Statistic.Label>{props.state.labels[props.state.currentTimePeriod][3] + ' (USD)'}</Statistic.Label>
+        </Statistic>
 
-      <div style={{}} className="column">
-        <span className="plus_minus medium">{(parseInt(props.state.chartData.datasets[0].data[props.state.chartData.datasets[0].data.length-1])-parseInt(props.state.chartData.datasets[0].data[0])) > 0 ? '+' : '-' }</span>
-        <span className="large">${Math.abs(parseFloat(parseInt(props.state.chartData.datasets[0].data[props.state.chartData.datasets[0].data.length-1])-parseInt(props.state.chartData.datasets[0].data[0]))).toFixed(2)}</span>
-        <p className="small">{props.state.labels[props.state.currentTimePeriod][3] + ' (USD)'}</p>
-      </div>
-
-      <div style={{}} className="column">
-        <span className="plus_minus medium">{(parseInt(props.state.chartData.datasets[0].data[props.state.chartData.datasets[0].data.length-1])-parseInt(props.state.chartData.datasets[0].data[0])) > 0 ? '+' : '-' }</span>
-        <span className="large">{Math.abs(100*(parseInt(props.state.chartData.datasets[0].data[props.state.chartData.datasets[0].data.length-1])-parseInt(props.state.chartData.datasets[0].data[0]))/parseInt(props.state.chartData.datasets[0].data[0])).toFixed(2)} %</span>
-        <p className="small">{props.state.labels[props.state.currentTimePeriod][3] + ' (%)'}</p>
-      </div>
-      <div className='column'></div>
-
+        <Statistic>
+          <Statistic.Value>{percentDelta > 0 ? '+' : '-'}{renderNumber(percentDelta)} %</Statistic.Value>
+          <Statistic.Label>{props.state.labels[props.state.currentTimePeriod][3] + ' (%)'}</Statistic.Label>
+        </Statistic>
+      </Statistic.Group>
     </div>
   );
 };

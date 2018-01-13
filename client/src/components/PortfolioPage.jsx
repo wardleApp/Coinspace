@@ -53,14 +53,14 @@ class PortfolioPage extends React.Component {
 
               <CoinChartCard chartData={this.props.chartData}/>
 
-              {/* These are cards, they are how you add new content */}
+              {/* These are cards, they are how you add new content 
               <div id="dashCard" className="ui blue raised link card">
                 <div className="content">
                   <h2 className="header">Total Allocations</h2>
                   <div className="ui divider"></div>
                   <canvas></canvas>
                 </div>
-              </div>
+              </div>*/}
 
               <TotalAllocations />
 

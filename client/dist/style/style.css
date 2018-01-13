@@ -133,3 +133,8 @@ body {
   width: 525px;
   height: 335px;
 }
+
+#nextButton {
+  margin-bottom: 0px;
+  bottom: 3px;
+}

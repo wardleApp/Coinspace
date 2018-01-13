@@ -51,6 +51,7 @@
     "react-chartjs-2": "^2.6.4",
     "react-delay": "^0.1.0",
     "react-dom": "^16.2.0",
+    "react-password-mask": "^3.3.0",
     "react-responsive-modal": "^2.0.0",
     "semantic-ui": "^2.2.13",
     "semantic-ui-react": "^0.77.2",
@@ -77,6 +78,7 @@
     "postcss-loader": "^2.0.10",
     "react-chartjs-2": "^2.6.4",
     "react-delay": "^0.1.0",
+    "react-password-mask": "^3.3.0",
     "style-loader": "^0.19.1",
     "url-loader": "^0.6.2",
     "webpack": "^3.10.0"

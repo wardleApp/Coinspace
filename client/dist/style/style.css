@@ -1,50 +1,11 @@
-@font-face {
-font-family: babyblocks;
-src: url(fonts/baby-blocks.ttf);
-}
-
-@font-face {
-font-family: fipps;
-src: url(fonts/fipps-regular.otf);
-}
-
-@font-face {
-font-family: minecraft;
-src: url(fonts/minecraft.ttf);
-}
-
 * {
-  font-family: minecraft;
-}
-
-body {
-  background-image: url('/../img/rise-green.gif');
-  background-repeat: repeat;
-  background-size: 10%;
-  image-rendering: auto;
-  image-rendering: crisp-edges;
-  image-rendering: pixelated;
-
-  color: yellow;
-  text-shadow: 2px 2px #ff0000;
-  
-  text-rendering: auto;
-  text-rendering: crisp-edges;
-  text-rendering: pixelated;
-}
-
-.gradient {
-  background-image: linear-gradient(to bottom right,#002f4b,#dc4225);
-  opacity: .6; 
+  font-family: Avenir Next;
 }
 
 #header {
   position: absolute;
-  padding: 20px;
-  margin: 20px;
   letter-spacing: 3px;
   font-size: 300%;
-  text-shadow: 2px 2px #ff0000;
 }
 
 #currencyDisplay {
@@ -75,23 +36,22 @@ body {
 }
 
 .medium {
-  font-family: babyblocks;
-  font-size: 200%;
+  font-family: Avenir Next;
+  font-size: 100%;
 }
 
 .large {
-  font-family: babyblocks;
-  font-size: 300%;
+  font-family: Avenir Next;
+  font-size: 150%;
 }
 
 #graphBoard {
-  width: 100%;
+  width: 99%;
 }
 
 #credits {
   letter-spacing: 1px;
   font-size: 10px;
-<<<<<<< HEAD
   color: gray;
 }
 
@@ -112,15 +72,8 @@ body {
   padding-left: 165px;
 }
 
-#mainWrapper {
-  height: 750px; 
-}
-
-#mainMenu {
-  margin-bottom: 0px;
-}
-
 #portfolioPage {
+  font-family: Avenir Next;
   margin-top: 0px;
   border: 0px;
 }
@@ -128,7 +81,6 @@ body {
 .chatRow{
   height: 125px;
 }
-
 
 #portfolioHeading {
   font-size: 22px;
@@ -147,4 +99,16 @@ body {
 #nextButton {
   margin-bottom: 0px;
   bottom: 3px;
+}
+
+#coinRebase {
+  padding: 5px 5px 5px 5px;
+  width: 35px;
+  height: 35px;
+}
+
+#companyTitle1, #companyTitle2 {
+  font-family: Avenir Next;
+  padding: 5px 5px 5px 5px;
+  color: white;
 }

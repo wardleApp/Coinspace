@@ -5,131 +5,12 @@ import SmallCurrencyToggle from './components/SmallCurrencyToggle.jsx';
 import TriComponentRow from './components/TriComponentRow.jsx';
 import CoinChart from './components/CoinChart.jsx';
 import Chat from './components/Chat.jsx';
-import SignUp from './components/SignUp.jsx';
-import SignIn from './components/SignIn.jsx';
+import Login from './components/Login.jsx';
+import FBLogin from './components/FacebookLogin.jsx';
 import moment from 'moment';
-import Delay from 'react-delay';
 import PortfolioPage from './components/PortfolioPage.jsx';
 import Modal from 'react-responsive-modal';
-
-class FBLogin extends React.Component {
-  constructor(props) {
-    console.log("FBLogin constructor initiated");
-    super(props);
-    this.state = {};
-
-    //FB Javascript SDK //load with the page
-    (function(d, s, id){
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-
-  }
-
-  //SDK setup
-
-  //adpted from window.fbAsyncInit
-  fbAsyncInit() {
-    FB.init({
-      appId      : '142468679794360', //our app's id on facebook
-      xfbml      : true,
-      version    : 'v2.11' //needs to be the lastest facebook sdk version
-    });
-    // FB.AppEvents.logPageView();
-
-    //check if we're logged in
-    FB.getLoginStatus(function(response) {
-      this.statusChangeCallback(response);
-    });
-  };
-
-  //statusChangeCallback
-  statusChangeCallback(response) {
-
-    if (response.status === 'connected') {
-      console.log('Logged in and authenticated');
-      console.dir(response);
-      this.testAPI("/me?fields=name,email");
-
-    } else {
-      console.log('Not authenticated');
-    }
-  }
-
-  //checks if logged in
-  checkLoginState() {
-
-    FB.getLoginStatus(function(response) {
-      this.statusChangeCallback(response);
-    });
-  }
-
-  //test incoming data
-  testAPI(query) {
-
-    FB.api(query, function(response) {
-
-      if (response) {
-
-        if (!response.error) {
-          console.log("Welcome, ", response.name);
-          console.dir(response);
-          this.buildProfile(response,console.log);
-
-        } else {
-          console.dir(response.error);
-        }
-        
-      } else {
-        console.log("no response from API");
-      }
-    });
-  };
-
-  //build a profile
-  buildProfile(response, callback) {
-    let user = {
-      name: response.name,
-      email: response.email
-    };
-
-    callback(user);
-  };
-
-  render() {
-
-
-    console.log("FBLogin render initiated");
-
-    let login = this.checkLoginState.bind(this);
-
-    let loginButton = (
-
-      <div>
-        <fb-login-button
-          data-max-rows="1"
-          data-size="large"
-          data-button-type="login_with"
-          data-show-faces="false"
-          data-auto-logout-link="false"
-          data-use-continue-as="false"
-
-          scope="public_profile,email"
-          onlogin={login}>
-        </fb-login-button>
-      </div>
-    );
-
-  return loginButton;
-  }
-  
-}
-
-
-
+import { Header, Input, Menu, Segment, Container, Divider, Grid } from 'semantic-ui-react';
 
 class App extends React.Component {
   constructor(props) {
@@ -159,7 +40,8 @@ class App extends React.Component {
         //'ALL': ['historicalData', 'days', 'MMM YYYY', 'Since Forever'
         
       },
-      renderedPage: 'Charts'
+      renderedPage: 'Charts',
+      userLogin: false
     };
     this.changePage = this.changePage.bind(this);
     this.addData = this.addData.bind(this);
@@ -235,20 +117,19 @@ class App extends React.Component {
     });
   }
 
-  onSetTimePeriod(e) {
-    let label = this.state.labels[e.target.value];
+  onSetTimePeriod(e, { value }) {
+    let label = this.state.labels[value];
     let currentDataSet = this.state[label[0]];
     let inputData = currentDataSet.filter((allCoins) => +allCoins.coin_id === +this.state.currentCoin).map((entry) => entry.price);
     let inputLabel = inputData.map((data, index) => moment().subtract(index, label[1]).format(label[2]));
     this.setState({
-      currentTimePeriod: e.target.value,
+      currentTimePeriod: value,
       chartData: {
         labels: inputLabel.reverse(),
         datasets:[
           {
             label:'Price',
             data: inputData,
-            //background-image: url('/../img/rise-green.gif'),
             backgroundColor:[this.state.coins[this.state.currentCoin - 1][1]],
             borderColor: [this.state.coins[this.state.currentCoin - 1][2]]
           }
@@ -286,70 +167,84 @@ class App extends React.Component {
       });
   }
 
-  changePage(e) {
+  changePage(e, { name }) {
     this.setState({
-      renderedPage: e.target.name
+      renderedPage: name
     });
+    console.log(name)
+  }
+
+  userLogin() {
+    this.setState({
+      userLogin: true
+    })
+  }
+
+  userLogout() {
+    this.setState({
+      userLogin: false,
+      renderedPage: 'Charts'
+    })
   }
 
   render() {
 
-    //removed temporarily
-      /*<a className="item" name="Charts" onClick={this.changePage}>Charts</a>*/
-      /*<a className="item" name="Portfolio" onClick={this.changePage}>Portfolio</a>*/
-
+    const { renderedPage } = this.state
 
     if (this.state.weeklyData.length === 0) {
       return <div/>;
     } else if (!this.state.chartData.datasets) {
       return <div/>;
     }
-
+    <Header as='h2'>Second Header</Header>
     return (
       <div id="mainWrapper">
-
+      <Container fluid>
+      <Menu color='blue' inverted>
+      <Header id="companyTitle1" as='h2'>coin</Header>
+      <img id="coinRebase" src={require('../dist/img/CoinRebase.gif')}/>
+      <Header id="companyTitle2" as='h2'>rebase</Header>
+      <Menu.Menu position='right'>
+        <Menu.Item name='Charts' active={renderedPage === 'Charts'} onClick={this.changePage}/>
+        {this.state.userLogin ? null : <Login userLogin={this.userLogin.bind(this)} userLogout={this.userLogout.bind(this)}/>} 
+        {this.state.userLogin ? <Menu.Item name='Portfolio' active={renderedPage === 'Portfolio'} onClick={this.changePage}/> : null}
+        {this.state.userLogin ? <Menu.Item name='Logout' onClick={this.userLogout.bind(this)}/> : null}
+      </Menu.Menu>
+        </Menu>
+        </Container> 
         
+        {this.state.renderedPage === 'Charts' ? (
+          <div className="ui grid">
+            <div className="three column row"></div>
+            <div className="sixteen column row">
+              <div className="one wide column"></div>
+              {this.state.coins.map((coin, index) =>
+                <SmallCurrencyToggle key={index} currentCoin={this.state.currentCoin} onSetCoin={this.onSetCoin.bind(this)} coin_id={index + 1} name={coin[0]} coin={this.state.historicalData.filter((allCoins) => {return allCoins.coin_id === index + 1}).reverse()[0].price} />
+              )}
+              <div className="five wide column"></div>
+              {Object.keys(this.state.labels).map((label, index) =>
+                <Menu pointing secondary>
+                <Menu.Menu position='right'>
+                <Menu.Item active={this.state.currentTimePeriod === label} name={label} onClick={this.onSetTimePeriod.bind(this)} key={index} value={label}/>
+                </Menu.Menu>
+                </Menu>
+              )}
+            </div>
 
-        <div id="mainMenu" className="ui massive inverted menu">
-          <div className="ui container">
-            <div className="right menu">
-              <div className="item">
-                <a className="item right">Log in</a>
+            <div className="row">
+              <div className="ui five column divided grid TriComponentRow">
+              {console.log(this.state)}
+                <TriComponentRow state={this.state} chartData={this.state.chartData} currentCoin={this.state.currentCoin} currentTimePeriod={this.state.currentTimePeriod}/>
+              }
               </div>
             </div>
-            {console.log('THIS STATE', this.state)}
+            <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
           </div>
-        </div>
-
-        {
-          this.state.renderedPage === 'Charts' ? (
-            <div className="ui grid">
-              <div className="three column row"></div>
-              <div className="sixteen column row">
-                <div className="one wide column"></div>
-                {this.state.coins.map((coin, index) =>
-                  <SmallCurrencyToggle key={index} onSetCoin={this.onSetCoin.bind(this)} coin_id={index + 1} name={coin[0]} coin={this.state.weeklyData.filter((allCoins) => {return allCoins.coin_id === index + 1})[0].price} />
-                )}
-                <div className="three wide column"></div>
-                {Object.keys(this.state.labels).map((label, index) =>
-                  <button className="ui left floated mini button" key={index} value={label} onClick={this.onSetTimePeriod.bind(this)}>{label}</button>
-                )}
-              </div>
-
-              <div className="row">
-                <div className="ui five column divided grid TriComponentRow">
-                  <TriComponentRow state={this.state} chartData={this.state.chartData} currentCoin={this.state.currentCoin} currentTimePeriod={this.state.currentTimePeriod}/>
-                </div>
-              </div>
-              <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
-
-            </div>
           ) : (
-
             <PortfolioPage chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
-
           )
         }
+        <div><Chat/></div>
       </div>
     );
   }

@@ -47,10 +47,6 @@ const client = new Client({
 //   port: 5432,
 //   ssl: false,
 // });
-<<<<<<< c3c998b4438fd4c0f152649d793e688c77296e7a
-
-=======
->>>>>>> refactor and add default anonymous
 
 client.connect();
 
@@ -141,29 +137,6 @@ var findExistingUser = () => {
       });
   });
 };
-
-// var getYearData = () => {
-//   return new Promise(function(resolve, reject) {
-//     client.query(
-//       `select a.name, a.coin_id, a.monthName, a.avgMonthPrice from
-//       (
-//         select a.name, b.coin_id, to_char(to_timestamp(time_stamp, 'mm/dd/yy HH24'), 'Month') as monthName, avg(price) over (partition by to_char(to_timestamp(time_stamp, 'mm/dd/yy HH24'), 'Month')) as avgMonthPrice
-//         from coin a
-//         inner join price_history b on a.id = b.coin_id
-//         where to_timestamp(time_stamp, 'mm/dd/yy HH24')
-//         between current_date - 365 and current_date
-//       ) as a
-//       group by 1, 2, 3, 4
-//       order by name, monthName`,
-//       (err, res) => {
-//         if (err) {
-//           console.log('History err', err);
-//           return reject(err);
-//         }
-//         return resolve(res.rows);
-//       });
-//   });
-// };
 
 module.exports = {
   client,

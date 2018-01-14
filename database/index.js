@@ -57,14 +57,14 @@ client.query('SELECT NOW()', (err, res) => {
   console.log('Client Connected');
 });
 
-var getData = (time) => {
+var getData = () => {
   return new Promise((resolve, reject) => {
     client.query(
       `select a.name, b.coin_id, b.price, to_timestamp(time_stamp, 'mm/dd/yy HH24') as date
       from coin a
-      inner join price_history b on a.id = b.coin_id
-      where to_timestamp(time_stamp, 'mm/dd/yy HH24')
-      between current_date - ${time} and current_date + 1`,
+      inner join price_history b on a.id = b.coin_id`,
+      // where to_timestamp(time_stamp, 'mm/dd/yy HH24')
+      // between current_date - ${time} and current_date + 1`,
       (err, res) => {
         if (err) {
           console.log('History err', err);

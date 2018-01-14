@@ -13,36 +13,33 @@ import Modal from 'react-responsive-modal';
 import { Header, Input, Menu, Segment, Container, Divider, Grid } from 'semantic-ui-react';
 import io from "socket.io-client";
 
+const coins = [
+  ['Bitcoin', 'rgba(79, 232, 255, 0.1)', '#4FC7FF'],
+  ['Ethereum', 'rgba(241, 245, 125, 0.1)', '#f2b632'],
+  ['Litecoin', 'rgba(125, 245, 141, 0.1)', '#2ECC71'],
+  ['Ripple', 'rgba(255, 148, 180, 0.1)','#FF4A4A']
+];
+const labels = {
+  // console.log(lastyear > lastweek); // false
+  //'1H': [new Date(new Date() - (1000*60*60)), 'minutes', 'hh:mm a', 'Past Hour'],
+  '1D': [new Date(new Date() - (1000*60*60*24)), 'hours', 'hh:mm a', 'Since Yesterday'],
+  '1W': [new Date(new Date() - (1000*60*60*24*7)), 'days', 'MMM DD', 'Since Last Week'],
+  '1M': [new Date(new Date() - (1000*60*60*24*30)), 'days', 'MMM DD', 'Since Last Month'],
+  '1Y': [new Date(new Date() - (1000*60*60*24*365)), 'months', 'MMM DD', 'Since Last Year'],
+  //'ALL': ['allData', 'days', 'MMM YYYY', 'Since Forever']
+};
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       currentCoin: 1,
       currentTimePeriod: '1Y',
-      hourlyData: [],
-      dailyData: [],
-      weeklyData: [],
-      monthlyData: [],
-      yearlyData: [],
-      historicalData: [],
+      allData: [],
       chartLabels: [],
       chartDataSet:[],
       chartBGcolor:'',
       chartBorderColor: '',
-      coins: [
-        ['Bitcoin', 'rgba(79, 232, 255, 0.1)', '#4FC7FF'],
-        ['Ethereum', 'rgba(241, 245, 125, 0.1)', '#f2b632'],
-        ['Litecoin', 'rgba(125, 245, 141, 0.1)', '#2ECC71'],
-        ['Ripple', 'rgba(255, 148, 180, 0.1)','#FF4A4A']
-      ],
-      labels: {
-        //'1H': ['hourlyData', 'minutes', 'hh:mm a', 'Past Hour'],
-        '1D': ['dailyData', 'hours', 'hh:mm a', 'Since Yesterday'],
-        '1W': ['weeklyData', 'days', 'MMM DD', 'Since Last Week'],
-        '1M': ['monthlyData', 'days', 'MMM DD', 'Since Last Month'],
-        '1Y': ['yearlyData', 'months', 'MMM DD', 'Since Last Year'],
-        //'ALL': ['historicalData', 'days', 'MMM YYYY', 'Since Forever'
-      },
       renderedPage: 'Charts',
       userLogin: false
     };
@@ -51,7 +48,6 @@ class App extends React.Component {
     this.addData = this.addData.bind(this);
     this.getChartData = this.getChartData.bind(this);
     this.socket.on('new data', (results) =>{
-      console.log(results);
       this.addData(results);
     });
   }
@@ -60,12 +56,7 @@ class App extends React.Component {
     axios.get('/init')
       .then(results => {
         this.setState({
-          hourlyData: results.data[1],
-          dailyData: results.data[1],
-          weeklyData: results.data[2],
-          monthlyData: results.data[1],
-          yearlyData: results.data[0],
-          historicalData: results.data[0]
+          allData: results.data
         }, () => {
           this.getChartData();
         });
@@ -75,17 +66,17 @@ class App extends React.Component {
   }
 
   getChartData (coinID = this.state.currentCoin, time = this.state.currentTimePeriod) {
-    let label = this.state.labels[time];
-    let currentDataSet = this.state[label[0]];
-    let inputData = currentDataSet.filter((allCoins) => +allCoins.coin_id === +coinID).map((entry) => entry.price);
+    let label = labels[time];
+    // filter by current time period and coin and map to prices
+    let inputData = this.state.allData.filter((allCoins) => new Date(allCoins.date) > label[0] && +allCoins.coin_id === +coinID).map((entry) => entry.price);
     let inputLabels = inputData.map((data, index) => moment().subtract(index, label[1]).format(label[2]));
     this.setState({
       currentCoin: +coinID,
       currentTimePeriod: time,
       chartLabels: inputLabels.reverse(),
       chartDataSet: inputData,
-      chartBGcolor: [this.state.coins[coinID - 1][1]],
-      chartBorderColor: [this.state.coins[coinID - 1][2]]
+      chartBGcolor: [coins[coinID - 1][1]],
+      chartBorderColor: [coins[coinID - 1][2]]
     });
   }
 
@@ -95,12 +86,7 @@ class App extends React.Component {
 
   addData(data) {
     this.setState({
-      hourlyData: [...this.state.hourlyData, ...data],
-      dailyData: [...this.state.dailyData, ...data],
-      weeklyData: [...this.state.weeklyData, ...data],
-      monthlyData: [...this.state.monthlyData, ...data],
-      yearlyData: [...this.state.yearlyData, ...data],
-      historicalData: [...this.state.historicalData, ...data]
+      allData: [...this.state.allData, ...data]
     }, () => {
       this.getChartData();
     });
@@ -155,20 +141,20 @@ class App extends React.Component {
             <div className="three column row"></div>
             <div className="sixteen column row">
               <div className="one wide column"></div>
-              {this.state.coins.map((coin, index) =>
-                <SmallCurrencyToggle key={index} state={this.state} currentCoin={this.state.currentCoin} onSetCoin={this.getChartData.bind(this)} coin_id={index + 1} name={coin[0]} coin={this.state.historicalData.filter((allCoins) => {return allCoins.coin_id === index + 1}).reverse()[0].price} />
+              {coins.map((coin, index) =>
+                <SmallCurrencyToggle key={index} state={this.state} onSetCoin={this.getChartData.bind(this)} coin_id={index + 1} name={coin[0]} />
               )}
               <div className="four wide column"></div>
-              {Object.keys(this.state.labels).map((label, index) =>
-                <Menu pointing secondary>
+              {Object.keys(labels).map((label, index) =>
+                <Menu pointing secondary key={index}>
                   <Menu.Menu position='right'>
-                    <Menu.Item active={this.state.currentTimePeriod === label} name={label} onClick={this.onSetTimePeriod.bind(this)} key={index} value={label}/>
+                    <Menu.Item active={this.state.currentTimePeriod === label} name={label} onClick={this.onSetTimePeriod.bind(this)} value={label}/>
                   </Menu.Menu>
                 </Menu>
               )}
               <div className='column'></div>
             </div>
-            <TriComponentRow state={this.state}/>
+            <TriComponentRow coins={coins} labels={labels} state={this.state}/>
             <CoinChart state={this.state} />
             <Chat socket={this.socket}/>
           </div>

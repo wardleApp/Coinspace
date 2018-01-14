@@ -144,7 +144,7 @@ class App extends React.Component {
     const { renderedPage } = this.state;
 
     if (this.state.allData.length === 0) {
-      return <div/>
+      return <div/>;
     }
 
     return (

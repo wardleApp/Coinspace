@@ -116,15 +116,8 @@ class App extends React.Component {
 
     const { renderedPage } = this.state;
 
-<<<<<<< e7d41f5f0400e1af16e3f8d1010d207098a13749
     if (this.state.weeklyData.length === 0) {
       return <div/>
-=======
-    if (this.state.allData.length === 0) {
-      return <div/>;
-    // } else if (!this.state.chartData.datasets) {
-    //   return <div/>;
->>>>>>> rid of extra datasets
     }
 
     return (

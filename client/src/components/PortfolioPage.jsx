@@ -87,7 +87,6 @@ class PortfolioPage extends React.Component {
           <div className="ui segment">
             <h2 className="header centered"> {this.state.page} </h2>
             <div className="ui two stackable cards">
-
               <CoinChartCard chartData={this.chartData}/> 
               <TotalAllocations />
 

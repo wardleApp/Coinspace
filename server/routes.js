@@ -44,14 +44,18 @@ router.post('/in', (req, res) => {
 		})
 	})
 	.then((results) => {
-		bcrypt.compare(req.body.password, results[0].password)
-		.then(function(res) {
-			if(res) {
-				res.status(201).send(true);
-			} else {
-				res.status(201).send(false);
-			}
-		})
+		if(results.length === 0) {
+			res.json('Username or Password Incorrect!');
+		} else {
+			bcrypt.compare(req.body.password, results[0].password)
+			.then(function(validation) {
+				if(validation) {
+					res.json('Success!');
+				} else {
+					res.json('Username or Password Incorrect!');
+				}
+			})
+		}
 	})
 	.catch((error) => {
     	console.log('There is an error in routes.js sign in', error);

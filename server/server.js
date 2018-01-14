@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cryptoAPI = require('../BitFinexAPI/BitFinexAPI.js');
+const newsAPI = require('../NewsApi/newsapi.js');
 const CronJob = require('cron').CronJob;
 const moment = require('moment-timezone');
 const db = require('../database/index.js');
@@ -22,15 +23,15 @@ const io = socket(server);
 
 //passport + facebook
 passport.use(new FacebookStrategy({
-    clientID: '142468679794360',
-    clientSecret: 'dc9b545b3bf20babe315f1757594edf0',
-    callbackURL: "http://localhost:3000/auth/facebook/callback"
-  },
-  function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ facebookId: profile.id }, function (err, user) {
-      return cb(err, user);
-    });
-  }
+  clientID: '142468679794360',
+  clientSecret: 'dc9b545b3bf20babe315f1757594edf0',
+  callbackURL: "http://localhost:3000/auth/facebook/callback"
+},
+function(accessToken, refreshToken, profile, cb) {
+  User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+    return cb(err, user);
+  });
+}
 ));
 
 app.get('/auth/facebook',
@@ -51,11 +52,11 @@ app.use(favicon(__dirname + '/../client/dist/img/favicon.ico'));
 app.use(express.static(__dirname + '../../client/dist'));
 
 var allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-}
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+};
 
 app.use(allowCrossDomain);
 
@@ -107,6 +108,27 @@ app.get('/init', (req, res) => {
       console.log('init err', err);
     });
 });
+
+app.get('/news', (req, res) => {
+  newsAPI.CryptoNewsAPI()
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      console.log('News API call error', err);
+    });
+});
+
+// app.get('/init', (req, res) => {
+//   // load historical data into client
+//   Promise.all([db.getYearData(), db.getMonthData(), db.getWeeklyData()])
+//     .then(results => {
+//       res.json(results);
+//     }).catch(err => {
+//       console.log('init err', err);
+//     });
+// });
+
 
 io.on('connection', socket => {
   io.emit('new message', 'A new user joined the chat');

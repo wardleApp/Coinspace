@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import TotalAllocations from './TotalAllocations.jsx';
 import CoinChartCard from './CoinChartCard.jsx';
 import TopCryptoNews from './TopCryptoNews.jsx';
@@ -8,8 +9,10 @@ class PortfolioPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 'Dashboard'
+      page: 'Dashboard',
+      articles: []
     };
+    
     const chartData = {
       labels: props.state.chartLabels,
       datasets: [{
@@ -20,6 +23,23 @@ class PortfolioPage extends React.Component {
       }]
     };
     this.changeLayout = this.changeLayout.bind(this);
+    this.getNews = this.getNews.bind(this);
+  }
+
+  componentDidMount() {
+    this.getNews();
+  }
+
+  getNews() {
+    axios.get('/news')
+      .then(results => {
+        console.log('API call success');
+        this.setState({
+          articles: results.data.articles
+        });
+      }).catch(err => {
+        console.log('update err', err);
+      });
   }
 
   changeLayout (e) {
@@ -29,6 +49,11 @@ class PortfolioPage extends React.Component {
   }
 
   render() {
+
+    if (this.state.articles.length === 0) {
+      return <div/>;
+    } 
+
     return (
       <div className="ui segment pushable" id="portfolioPage">
 
@@ -62,7 +87,8 @@ class PortfolioPage extends React.Component {
 
               <CoinChartCard chartData={chartData}/>
               <TotalAllocations />
-              <TopCryptoNews />
+
+              <TopCryptoNews articles={this.state.articles}/> 
               <ActivityFeed />
               {/* -------------- The Content Space HTML Ends here -------------------------*/}
 

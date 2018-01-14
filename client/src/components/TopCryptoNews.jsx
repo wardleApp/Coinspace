@@ -3,15 +3,17 @@ import moment from 'moment';
 import sampleData from '../exampleData/newsFeedData.js';
 
 class TopCryptoNews extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      articles: sampleData,  
+      articles: props.articles,   
       curArticle: 0
     };
 
     this.changeArticle = this.changeArticle.bind(this);
   }
+
+
 
   changeArticle(e) {
     if (this.state.curArticle === this.state.articles.length - 1) {

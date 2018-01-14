@@ -10,7 +10,15 @@ class PortfolioPage extends React.Component {
     this.state = {
       page: 'Dashboard'
     };
-
+    const chartData = {
+      labels: props.state.chartLabels,
+      datasets: [{
+        label: 'Price',
+        data: props.state.chartDataSet,
+        backgroundColor: props.state.chartBGcolor,
+        borderColor: props.state.chartBorderColor
+      }]
+    };
     this.changeLayout = this.changeLayout.bind(this);
   }
 
@@ -52,9 +60,9 @@ class PortfolioPage extends React.Component {
             <h2 className="header centered"> {this.state.page} </h2>
             <div className="ui two stackable cards">
 
-              <CoinChartCard chartData={this.props.chartData}/>
+              <CoinChartCard chartData={chartData}/>
               <TotalAllocations />
-              <TopCryptoNews /> 
+              <TopCryptoNews />
               <ActivityFeed />
               {/* -------------- The Content Space HTML Ends here -------------------------*/}
 
@@ -69,4 +77,3 @@ class PortfolioPage extends React.Component {
 }
 
 export default PortfolioPage;
-

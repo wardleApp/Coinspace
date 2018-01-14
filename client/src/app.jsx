@@ -11,6 +11,7 @@ import moment from 'moment';
 import PortfolioPage from './components/PortfolioPage.jsx';
 import Modal from 'react-responsive-modal';
 import { Header, Input, Menu, Segment, Container, Divider, Grid } from 'semantic-ui-react';
+import io from "socket.io-client";
 
 class App extends React.Component {
   constructor(props) {
@@ -24,7 +25,10 @@ class App extends React.Component {
       monthlyData: [],
       yearlyData: [],
       historicalData: [],
-      chartData: {},
+      chartLabels: [],
+      chartDataSet:[],
+      chartBGcolor:'',
+      chartBorderColor: '',
       coins: [
         ['Bitcoin', 'rgba(79, 232, 255, 0.1)', '#4FC7FF'],
         ['Ethereum', 'rgba(241, 245, 125, 0.1)', '#f2b632'],
@@ -38,13 +42,18 @@ class App extends React.Component {
         '1M': ['monthlyData', 'days', 'MMM DD', 'Since Last Month'],
         '1Y': ['yearlyData', 'months', 'MMM DD', 'Since Last Year'],
         //'ALL': ['historicalData', 'days', 'MMM YYYY', 'Since Forever'
-
       },
       renderedPage: 'Charts',
       userLogin: false
     };
+    this.socket = io('http://localhost:3000');
     this.changePage = this.changePage.bind(this);
     this.addData = this.addData.bind(this);
+    this.getChartData = this.getChartData.bind(this);
+    this.socket.on('new data', (results) =>{
+      console.log(results);
+      this.addData(results);
+    });
   }
 
   componentDidMount() {
@@ -57,83 +66,31 @@ class App extends React.Component {
           monthlyData: results.data[1],
           yearlyData: results.data[0],
           historicalData: results.data[0]
-        });
-      }).then(()=> {
-        this.getChartData();
-        // React Cronjob
-        let minute = new Date().getMinutes() % 15;
-        console.log(15 - minute, 'minutes left get update from server');
-        new Promise(() => {
-          setTimeout(this.getUpdate, 900000 - 60000 * minute);
-        }).then(() => {
-          // setInterval(this.getUpdate, 1800000);
-        }).catch(err => {
-          console.log('set interval err', err);
+        }, () => {
+          this.getChartData();
         });
       }).catch(err => {
         console.log('init client', err);
       });
   }
 
-  getChartData(){
-    // Define the initial labels.
-    var inputLabel = [];
-    for (let i = 0; i < 365; i++) {
-      inputLabel.push(moment().subtract(i, 'days').format('MMM YYYY'));
-    }
-    this.setState({
-      chartData:{
-        labels: inputLabel.reverse(),
-        datasets:[
-          {
-            label:'Price',
-            data: this.state.historicalData.filter((allCoins) => allCoins.coin_id === this.state.currentCoin).map((entry) => entry.price),
-            backgroundColor:[this.state.coins[0][1]],
-            borderColor: [this.state.coins[0][2]]
-          }
-        ]
-      }
-    });
-  }
-
-  onSetCoin(coinID) {
-    let currentDataSet = this.state[this.state.labels[this.state.currentTimePeriod][0]];
-    let inputData = currentDataSet.filter((allCoins) => allCoins.coin_id === parseInt(coinID)).map((entry) => entry.price);
+  getChartData (coinID = this.state.currentCoin, time = this.state.currentTimePeriod) {
+    let label = this.state.labels[time];
+    let currentDataSet = this.state[label[0]];
+    let inputData = currentDataSet.filter((allCoins) => +allCoins.coin_id === +coinID).map((entry) => entry.price);
+    let inputLabels = inputData.map((data, index) => moment().subtract(index, label[1]).format(label[2]));
     this.setState({
       currentCoin: +coinID,
-      chartData: {
-        labels: this.state.chartData.labels,
-        datasets:[
-          {
-            label:'Price',
-            data: inputData,
-            backgroundColor:[this.state.coins[coinID - 1][1]],
-            borderColor: [this.state.coins[coinID - 1][2]]
-          }
-        ]
-      }
+      currentTimePeriod: time,
+      chartLabels: inputLabels.reverse(),
+      chartDataSet: inputData,
+      chartBGcolor: [this.state.coins[coinID - 1][1]],
+      chartBorderColor: [this.state.coins[coinID - 1][2]]
     });
   }
 
   onSetTimePeriod(e, { value }) {
-    let label = this.state.labels[value];
-    let currentDataSet = this.state[label[0]];
-    let inputData = currentDataSet.filter((allCoins) => +allCoins.coin_id === +this.state.currentCoin).map((entry) => entry.price);
-    let inputLabel = inputData.map((data, index) => moment().subtract(index, label[1]).format(label[2]));
-    this.setState({
-      currentTimePeriod: value,
-      chartData: {
-        labels: inputLabel.reverse(),
-        datasets:[
-          {
-            label:'Price',
-            data: inputData,
-            backgroundColor:[this.state.coins[this.state.currentCoin - 1][1]],
-            borderColor: [this.state.coins[this.state.currentCoin - 1][2]]
-          }
-        ]
-      }
-    });
+    this.getChartData(this.state.currentCoin, value);
   }
 
   addData(data) {
@@ -144,24 +101,9 @@ class App extends React.Component {
       monthlyData: [...this.state.monthlyData, ...data],
       yearlyData: [...this.state.yearlyData, ...data],
       historicalData: [...this.state.historicalData, ...data]
+    }, () => {
+      this.getChartData();
     });
-  }
-
-  getUpdate() {
-    // axios call to server
-    // on success, set timeout(at the 00 minute, set the state)
-    axios.get('/update')
-      .then(results => {
-        let minute = new Date().getMinutes() % 30;
-        console.log(`Half hour update in ${30 - minute} minutes`);
-        console.log(results.data.rows);
-        // this.addData(results.data.rows);
-        setTimeout(()=>{
-          this.addData(results.data.rows);
-        }, 1800000 - 60000 * minute);
-      }).catch(err => {
-        console.log('update err', err);
-      });
   }
 
   changePage(e, { name }) {
@@ -190,8 +132,8 @@ class App extends React.Component {
 
     if (this.state.weeklyData.length === 0) {
       return <div/>;
-    } else if (!this.state.chartData.datasets) {
-      return <div/>;
+    // } else if (!this.state.chartData.datasets) {
+    //   return <div/>;
     }
 
     return (
@@ -216,7 +158,7 @@ class App extends React.Component {
             <div className="sixteen column row">
               <div className="one wide column"></div>
               {this.state.coins.map((coin, index) =>
-                <SmallCurrencyToggle key={index} currentCoin={this.state.currentCoin} onSetCoin={this.onSetCoin.bind(this)} coin_id={index + 1} name={coin[0]} coin={this.state.historicalData.filter((allCoins) => {return allCoins.coin_id === index + 1}).reverse()[0].price} />
+                <SmallCurrencyToggle key={index} state={this.state} currentCoin={this.state.currentCoin} onSetCoin={this.getChartData.bind(this)} coin_id={index + 1} name={coin[0]} coin={this.state.historicalData.filter((allCoins) => {return allCoins.coin_id === index + 1}).reverse()[0].price} />
               )}
               <div className="four wide column"></div>
               {Object.keys(this.state.labels).map((label, index) =>
@@ -229,10 +171,10 @@ class App extends React.Component {
               <div className='column'></div>
             </div>
             <TriComponentRow state={this.state}/>
-            <CoinChart chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>
-            <Chat/>
+            <CoinChart state={this.state} />
+            <Chat socket={this.socket}/>
           </div>
-        ) : (<PortfolioPage chartData={this.state.chartData} onSetCoin={this.onSetCoin.bind(this)} onSetTimePeriod={this.onSetTimePeriod.bind(this)}/>)
+        ) : (<PortfolioPage state={this.state} onSetCoin={this.getChartData.bind(this)} onSetTimePeriod={this.onSetChartData.bind(this)}/>)
         }
       </div>
     );

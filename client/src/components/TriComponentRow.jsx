@@ -2,9 +2,9 @@ import React from 'react';
 import {Statistic} from 'semantic-ui-react';
 
 const TriComponentRow = (props) => {
-  const price = +props.state.chartData.datasets[0].data.slice(-1);
-  const delta = price - (+props.state.chartData.datasets[0].data[0]);
-  const percentDelta = 100 * (delta / (+props.state.chartData.datasets[0].data[0]));
+  const price = +props.state.chartDataSet.slice(-1);
+  const delta = price - (+props.state.chartDataSet[0]);
+  const percentDelta = 100 * (delta / (+props.state.chartDataSet[0]));
   const renderNumber = (num) => {
     return Math.abs(num).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
   };

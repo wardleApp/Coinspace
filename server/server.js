@@ -12,6 +12,13 @@ const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 
 const app = express();
+const port = process.env.PORT || 3000;
+
+const server = app.listen(port, () => {
+  console.log(`server, listening on port ${port}`);
+});
+
+const io = socket(server);
 
 //passport + facebook
 passport.use(new FacebookStrategy({
@@ -57,7 +64,7 @@ app.use(allowCrossDomain);
 app.use('/sign', router);
 
 new CronJob('*/30 * * * *', () => {
-// API call
+  // API call
   cryptoAPI.BitfinexAPI()
     .then((data) => {
       let now = moment(new Date()).tz('America/Los_Angeles').format(`MM/DD/YYYY HH`);
@@ -65,7 +72,13 @@ new CronJob('*/30 * * * *', () => {
         // then write to dB
         return db.client.query(`insert into price_history (coin_id, time_stamp, price) values (${index + 1}, '${now}', ${coin[1]}) on conflict(coin_id, time_stamp) do nothing`);
       })).then(result => {
-        console.log('insert sucess', result);
+        // send to client
+        db.client.query(`select *, to_timestamp(time_stamp, 'MM/DD/YY HH24') as date from price_history order by date desc limit 4`)
+          .then(results => {
+            io.emit('new data', results.rows);
+          }).catch(err => {
+            console.log('get current price err', err);
+          });
       }).catch(err => {
         console.log('insert err', err);
       });
@@ -85,17 +98,6 @@ new CronJob('*/30 * * * *', () => {
 //                 14122 // LOW]]
 }, null, true, 'America/Los_Angeles');
 
-app.get('/update', (req, res) => {
-  // front end has cronJob to ask for new update every half hour
-  // Read from db and then respond with latest prices
-  db.client.query(`select *, to_timestamp(time_stamp, 'MM/DD/YY HH24') as date from price_history order by date desc limit 4`)
-    .then(results => {
-      res.json(results);
-    }).catch(err => {
-      console.log('get current price err', err);
-    });
-});
-
 app.get('/init', (req, res) => {
   // load historical data into client
   Promise.all([db.getData(365), db.getData(30), db.getData(7)])
@@ -105,24 +107,6 @@ app.get('/init', (req, res) => {
       console.log('init err', err);
     });
 });
-
-// app.get('/init', (req, res) => {
-//   // load historical data into client
-//   Promise.all([db.getYearData(), db.getMonthData(), db.getWeeklyData()])
-//     .then(results => {
-//       res.json(results);
-//     }).catch(err => {
-//       console.log('init err', err);
-//     });
-// });
-
-const port = process.env.PORT || 3000;
-
-const server = app.listen(port, () => {
-  console.log(`server, listening on port ${port}`);
-});
-
-const io = socket(server);
 
 io.on('connection', socket => {
   io.emit('new message', 'A new user joined the chat');

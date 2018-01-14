@@ -13,8 +13,7 @@ class Chat extends React.Component{
     const addMessage = (data) => {
       this.setState({messages: [...this.state.messages, data]});
     };
-    this.socket = io('https://coinspace.herokuapp.com');
-    this.socket.on('new message', function(data) {
+    this.props.socket.on('new message', function(data) {
       addMessage(data);
     });
   }
@@ -36,7 +35,7 @@ class Chat extends React.Component{
 
   sendMessage() {
     if (this.state.message) {
-      this.socket.emit('message', {
+      this.props.socket.emit('message', {
         username: this.state.username,
         message: this.state.message
       });

@@ -2,24 +2,24 @@ const { Pool, Client } = require('pg');
 require('dotenv').config();
 
 // FOR HEROKU DEPLOYMENT
-// const pool = new Pool({
-//   user: process.env.USER,
-//   host: process.env.HOST,
-//   database: process.env.DATABASE,
-//   password: process.env.PASSWORD,
-//   port: process.env.DB_PORT,
-//   ssl: true,
-// });
+const pool = new Pool({
+  user: process.env.USER,
+  host: process.env.HOST,
+  database: process.env.DATABASE,
+  password: process.env.PASSWORD,
+  port: process.env.DB_PORT,
+  ssl: true,
+});
 
 // FOR LOCAL DATABASE TESTING
-const pool = new Pool({
-  user: 'dillonlin',
-  host: 'localhost',
-  database: 'coinspace',
-  password: '',
-  port: 5432,
-  ssl: false,
-});
+// const pool = new Pool({
+//   user: 'dillonlin',
+//   host: 'localhost',
+//   database: 'coinspace',
+//   password: '',
+//   port: 5432,
+//   ssl: false,
+// });
 
 pool.query('SELECT NOW()', (err, res) => {
   if (err) {
@@ -29,24 +29,24 @@ pool.query('SELECT NOW()', (err, res) => {
 });
 
 // FOR HEROKU DEPLOYMENT
-// const client = new Client({
-//   user: process.env.USER,
-//   host: process.env.HOST,
-//   database: process.env.DATABASE,
-//   password: process.env.PASSWORD,
-//   port: process.env.DB_PORT,
-//   ssl: true,
-// });
+const client = new Client({
+  user: process.env.USER,
+  host: process.env.HOST,
+  database: process.env.DATABASE,
+  password: process.env.PASSWORD,
+  port: process.env.DB_PORT,
+  ssl: true,
+});
 
 // FOR LOCAL DATABASE TESTING
-const client = new Client({
-  user: 'dillonlin',
-  host: 'localhost',
-  database: 'coinspace',
-  password: '',
-  port: 5432,
-  ssl: false,
-});
+// const client = new Client({
+//   user: 'dillonlin',
+//   host: 'localhost',
+//   database: 'coinspace',
+//   password: '',
+//   port: 5432,
+//   ssl: false,
+// });
 
 client.connect();
 

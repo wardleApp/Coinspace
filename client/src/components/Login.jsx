@@ -6,13 +6,13 @@ import $ from 'jquery';
 import 'semantic-ui/dist/semantic.min.js';
 import 'semantic-ui/dist/semantic.min.css';
 import PasswordMask from 'react-password-mask';
-import { Button, Dimmer, Loader, Image, Segment, Transition, Form, Message } from 'semantic-ui-react';
+import { Button, Dimmer, Loader, Image, Segment, Transition, Form, Message, Icon } from 'semantic-ui-react';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-    	open: false,
+    	open: this.props.openLogin,
       success: '',
     }
   }
@@ -23,6 +23,7 @@ class Login extends React.Component {
  
   onCloseModal() {
     this.setState({ open: false });
+    this.props.closeLoginModal();
   };
 
   onClickSignUp() {
@@ -47,7 +48,7 @@ class Login extends React.Component {
 
   onSuccessfulSignUp() {
     this.setState({success: 'true'})
-  	setTimeout(() => {this.props.userLogin()}, 5000);
+  	setTimeout(() => {this.props.userLogin()}, 5000)
   }
 
   onUnsuccessfulSignUp() {
@@ -76,7 +77,7 @@ class Login extends React.Component {
 
   onSuccessfulSignIn() {
     this.setState({success: 'true'})
-    setTimeout(() => {this.props.userLogin()}, 5000);
+    setTimeout(() => {this.props.userLogin()}, 5000)
   }
 
   onUnsuccessfulSignIn() {
@@ -84,19 +85,27 @@ class Login extends React.Component {
   }
 
   render() {
-  	const { open } = this.state;
   	return (
   		<div>
-        <Button onClick={this.onOpenModal.bind(this)} color='green' fluid>Login</Button>
-        <Modal open={open} onClose={this.onCloseModal.bind(this)} id="loginModal">
+        <Modal open={this.state.open} onClose={this.onCloseModal.bind(this)} id="loginModal">
           <h2>Become a CryptoMillionaire!</h2>
+          <Form><Form.Field><label>Please Enter Your Email Address</label>  
           <input id="signUpEmail" type="text" placeholder="Email Address"></input>
-          <PasswordMask id="signUpPassword" placeholder="Enter Password" useVendorStyles={false}/>
-          <button onClick={this.onClickSignUp.bind(this)}>Sign Up!</button>
+          </Form.Field></Form>
+          <Form><Form.Field><label>Choose A Password</label> 
+          <PasswordMask id="signUpPassword" placeholder="Password" useVendorStyles={false}/>
+          </Form.Field></Form>
+          <Button onClick={this.onClickSignUp.bind(this)} basic color='green' animated>
+          <Button.Content visible>Sign Up!</Button.Content><Button.Content hidden>
+          <Icon name='right arrow'/></Button.Content></Button>
           <h2>Check Your Altcoin Losses!</h2>
+          <Form><Form.Field><label>Email Address</label> 
           <input id="signInEmail" type="text" placeholder="Email Address"></input>
-          <PasswordMask id="signInPassword" placeholder="Enter Password" useVendorStyles={false}/>
-          <button onClick={this.onClickSignIn.bind(this)}>Sign In!</button>
+          </Form.Field></Form>
+          <Form><Form.Field><label>Password</label> 
+          <PasswordMask id="signInPassword" placeholder="Password" useVendorStyles={false}/>
+          </Form.Field></Form>
+          <Button onClick={this.onClickSignIn.bind(this)} inverted color='blue'>Sign In!</Button>
           {this.state.success === 'true' ? (<Form success>
             <Message
               success

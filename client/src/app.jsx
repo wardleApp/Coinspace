@@ -10,7 +10,7 @@ import FBLogin from './components/FacebookLogin.jsx';
 import moment from 'moment';
 import PortfolioPage from './components/PortfolioPage.jsx';
 import Modal from 'react-responsive-modal';
-import { Header, Input, Menu, Segment, Container, Divider, Grid } from 'semantic-ui-react';
+import { Header, Input, Menu, Segment, Container, Divider, Grid, Sticky, Button, Icon, Image } from 'semantic-ui-react';
 import io from "socket.io-client";
 
 const coins = [
@@ -41,7 +41,9 @@ class App extends React.Component {
       chartBGcolor:'',
       chartBorderColor: '',
       renderedPage: 'Charts',
-      userLogin: false
+      openLogin: false,
+      userLogin: false,
+      chatOpen: false,
     };
     this.socket = io('http://localhost:3000');
     this.changePage = this.changePage.bind(this);
@@ -99,9 +101,22 @@ class App extends React.Component {
     console.log(name);
   }
 
+  openLoginModal() {
+    this.setState({
+      openLogin: true
+    });
+  }
+
+  closeLoginModal() {
+    this.setState({
+      openLogin: false
+    });
+  }
+
   userLogin() {
     this.setState({
-      userLogin: true
+      userLogin: true,
+      openLogin: false
     });
   }
 
@@ -112,11 +127,23 @@ class App extends React.Component {
     });
   }
 
+  onChatOpen() {
+    this.setState({ 
+      chatOpen: true 
+    });
+  }
+
+  onChatClose() {
+    this.setState({ 
+      chatOpen: false 
+    })
+  }
+
   render() {
 
     const { renderedPage } = this.state;
 
-    if (this.state.weeklyData.length === 0) {
+    if (this.state.allData.length === 0) {
       return <div/>
     }
 
@@ -124,12 +151,19 @@ class App extends React.Component {
       <div id="mainWrapper">
         <Container fluid>
           <Menu color='blue' inverted>
-            <p id="companyTitle1">coin</p>
-            <img id="coinRebase" src={require('../dist/img/CoinRebase.gif')}/>
-            <p id="companyTitle2">rebase</p>
+          <Header as='h2' id="companyLogo">
+          <Image circular id="coinRebase" src={require('../dist/img/sfkiwi.gif')}/>
+          <Header.Content>
+            coin
+            <Header.Subheader id="companyLogo2">
+              rebase
+            </Header.Subheader>
+          </Header.Content>
+          </Header>
             <Menu.Menu position='right'>
               <Menu.Item name='Charts' active={renderedPage === 'Charts'} onClick={this.changePage}/>
-              {this.state.userLogin ? null : <Login userLogin={this.userLogin.bind(this)} userLogout={this.userLogout.bind(this)}/>}
+              {this.state.userLogin ? null : <Menu.Item name='Login' active={this.state.openLogin} onClick={this.openLoginModal.bind(this)}></Menu.Item>}
+              {this.state.openLogin ? <Login userLogin={this.userLogin.bind(this)} userLogout={this.userLogout.bind(this)} openLogin={this.state.openLogin} closeLoginModal={this.closeLoginModal.bind(this)}/> : null}
               {this.state.userLogin ? <Menu.Item name='Portfolio' active={renderedPage === 'Portfolio'} onClick={this.changePage}/> : null}
               {this.state.userLogin ? <Menu.Item name='Logout' onClick={this.userLogout.bind(this)}/> : null}
             </Menu.Menu>
@@ -144,6 +178,10 @@ class App extends React.Component {
               {coins.map((coin, index) =>
                 <SmallCurrencyToggle key={index} state={this.state} onSetCoin={this.getChartData.bind(this)} coin_id={index + 1} name={coin[0]} />
               )}
+              <Menu pointing secondary>
+              <Menu.Item active={this.state.chatOpen} name='chat' onClick={this.onChatOpen.bind(this)}><Icon name='comments' size='big'/></Menu.Item>
+              </Menu>
+              {this.state.chatOpen ? <Chat socket={this.socket} chatOpen={this.state.chatOpen} onChatClose={this.onChatClose.bind(this)}/> : null}
               <div className="four wide column"></div>
               {Object.keys(labels).map((label, index) =>
                 <Menu pointing secondary key={index}>
@@ -152,11 +190,11 @@ class App extends React.Component {
                   </Menu.Menu>
                 </Menu>
               )}
+
               <div className='column'></div>
             </div>
             <TriComponentRow coins={coins} labels={labels} state={this.state}/>
             <CoinChart state={this.state} />
-            <Chat socket={this.socket}/>
           </div>
         ) : (<PortfolioPage state={this.state}/>)
         }

@@ -22,7 +22,7 @@ class PortfolioPage extends React.Component {
       }]
     };
     
-    this.changeLayout = this.changeLayout.bind(this);
+    // this.changeLayout = this.changeLayout.bind(this);
     this.getNews = this.getNews.bind(this);
   }
 
@@ -42,11 +42,11 @@ class PortfolioPage extends React.Component {
       });
   }
 
-  changeLayout (e) {
-    this.setState({
-      page: e.target.name
-    });
-  }
+  // changeLayout (e) {
+  //   this.setState({
+  //     page: e.target.name
+  //   });
+  // }
 
   render() {
 

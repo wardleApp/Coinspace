@@ -131,9 +131,7 @@ class App extends React.Component {
     const { renderedPage } = this.state;
 
     if (this.state.weeklyData.length === 0) {
-      return <div/>;
-    // } else if (!this.state.chartData.datasets) {
-    //   return <div/>;
+      return <div/>
     }
 
     return (
@@ -174,7 +172,7 @@ class App extends React.Component {
             <CoinChart state={this.state} />
             <Chat socket={this.socket}/>
           </div>
-        ) : (<PortfolioPage state={this.state} />)
+        ) : (<PortfolioPage state={this.state}/>)
         }
       </div>
     );

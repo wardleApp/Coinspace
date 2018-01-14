@@ -174,7 +174,7 @@ class App extends React.Component {
             <CoinChart state={this.state} />
             <Chat socket={this.socket}/>
           </div>
-        ) : (<PortfolioPage state={this.state} onSetCoin={this.getChartData.bind(this)} onSetTimePeriod={this.onSetChartData.bind(this)}/>)
+        ) : (<PortfolioPage state={this.state} />)
         }
       </div>
     );

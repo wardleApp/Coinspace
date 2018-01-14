@@ -12,7 +12,6 @@ class PortfolioPage extends React.Component {
       page: 'Dashboard',
       articles: []
     };
-    
     const chartData = {
       labels: props.state.chartLabels,
       datasets: [{
@@ -22,6 +21,7 @@ class PortfolioPage extends React.Component {
         borderColor: props.state.chartBorderColor
       }]
     };
+    
     this.changeLayout = this.changeLayout.bind(this);
     this.getNews = this.getNews.bind(this);
   }
@@ -52,7 +52,10 @@ class PortfolioPage extends React.Component {
 
     if (this.state.articles.length === 0) {
       return <div/>;
-    } 
+    } else if (this.props.state.chartLabels === undefined) {
+      return <div/>;
+    }
+
 
     return (
       <div className="ui segment pushable" id="portfolioPage">
@@ -85,7 +88,7 @@ class PortfolioPage extends React.Component {
             <h2 className="header centered"> {this.state.page} </h2>
             <div className="ui two stackable cards">
 
-              <CoinChartCard chartData={chartData}/>
+              <CoinChartCard chartData={this.chartData}/> 
               <TotalAllocations />
 
               <TopCryptoNews articles={this.state.articles}/> 

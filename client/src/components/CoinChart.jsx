@@ -1,19 +1,6 @@
 import React from 'react';
 import {Pie, Line, Bar, defaults} from 'react-chartjs-2';
 
-// chartData:
-// {
-//   labels: inputLabel.reverse(),
-//   datasets: [
-//     {
-//       label:'Price',
-//       data: this.state.historicalData.filter((allCoins) => allCoins.coin_id === this.state.currentCoin).map((entry) => entry.price),
-//       backgroundColor:[this.state.coins[0][1]],
-//       borderColor: [this.state.coins[0][2]]
-//     }
-//   ]
-// }
-
 const CoinChart = (props) => {
   const chartData = {
     labels: props.state.chartLabels,

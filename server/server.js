@@ -101,7 +101,7 @@ new CronJob('*/30 * * * *', () => {
 
 app.get('/init', (req, res) => {
   // load historical data into client
-  Promise.all([db.getData(365), db.getData(30), db.getData(7)])
+  db.getData()
     .then(results => {
       res.json(results);
     }).catch(err => {

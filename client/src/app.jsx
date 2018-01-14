@@ -110,25 +110,25 @@ class App extends React.Component {
     this.setState({
       renderedPage: name
     });
-    console.log(name)
+    console.log(name);
   }
 
   userLogin() {
     this.setState({
       userLogin: true
-    })
+    });
   }
 
   userLogout() {
     this.setState({
       userLogin: false,
       renderedPage: 'Charts'
-    })
+    });
   }
 
   render() {
 
-    const { renderedPage } = this.state
+    const { renderedPage } = this.state;
 
     if (this.state.weeklyData.length === 0) {
       return <div/>;
@@ -174,7 +174,7 @@ class App extends React.Component {
             <CoinChart state={this.state} />
             <Chat socket={this.socket}/>
           </div>
-        ) : (<PortfolioPage state={this.state} onSetCoin={this.getChartData.bind(this)} onSetTimePeriod={this.onSetChartData.bind(this)}/>)
+        ) : (<PortfolioPage state={this.state} />)
         }
       </div>
     );

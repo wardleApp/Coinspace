@@ -45,7 +45,7 @@ class App extends React.Component {
       userLogin: false,
       chatOpen: false,
     };
-    this.socket = io('http://localhost:3000');
+    this.socket = io('https://coinspace.herokuapp.com');
     this.changePage = this.changePage.bind(this);
     this.addData = this.addData.bind(this);
     this.getChartData = this.getChartData.bind(this);

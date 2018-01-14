@@ -1,14 +1,16 @@
 import React from "react";
 import io from "socket.io-client";
+import Modal from 'react-responsive-modal';
+import { Button, Dimmer, Loader, Image, Segment, Transition, Form, Message } from 'semantic-ui-react';
 
 class Chat extends React.Component{
   constructor(props) {
     super(props);
-
     this.state = {
       username: '',
       message: '',
-      messages: []
+      messages: [],
+      openChat: this.props.chatOpen
     };
     const addMessage = (data) => {
       this.setState({messages: [...this.state.messages, data]});
@@ -42,10 +44,16 @@ class Chat extends React.Component{
       this.setState({message: ''});
     }
   }
+ 
+  onCloseChat() {
+    this.setState({ openChat: false });
+    this.props.onChatClose();
+  };
 
   render(){
       return (
           <div>
+           <Modal open={this.state.openChat} onClose={this.onCloseChat.bind(this)} id="loginModal">
             <div className="title">Chat</div>
             <hr/>
               <div className="messages">
@@ -57,13 +65,18 @@ class Chat extends React.Component{
                     )
                   )}
               </div>
-            <div>
+            <div>    
+                <Form><Form.Field> <label>Username</label>  
                 <input type="text" placeholder="Username" value={this.state.username} onChange={this.usernameOnChange.bind(this)}/>
+                </Form.Field></Form>
                 <br/>
+                <Form><Form.Field> <label>Message</label> 
                 <input type="text" placeholder="Message" value={this.state.message} onChange={this.messageOnChange.bind(this)} onKeyUp={this.handleKeyUp.bind(this)}/>
+                </Form.Field></Form>
                 <br/>
-                <button onClick={this.sendMessage.bind(this)}>Send</button>
+                <Button onClick={this.sendMessage.bind(this)} basic color='green'>Send</Button>
             </div>
+            </Modal>
           </div>
       );
   }

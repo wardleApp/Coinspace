@@ -97,13 +97,11 @@
 }
 
 #coinRebase {
-  padding: 5px 5px 5px 5px;
-  width: 35px;
-  height: 35px;
+  width: 45px;
+  height: 45px;
 }
 
-#companyTitle1, #companyTitle2 {
+#companyLogo #companyLogo2{
   font-family: Avenir Next;
-  padding: 5px 5px 5px 5px;
   color: white;
 }

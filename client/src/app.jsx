@@ -10,7 +10,7 @@ import FBLogin from './components/FacebookLogin.jsx';
 import moment from 'moment';
 import PortfolioPage from './components/PortfolioPage.jsx';
 import Modal from 'react-responsive-modal';
-import { Header, Input, Menu, Segment, Container, Divider, Grid, Sticky, Button, Icon, Image } from 'semantic-ui-react';
+import { Header, Input, Menu, Segment, Container, Divider, Grid, Sticky, Button, Icon, Image, Statistic } from 'semantic-ui-react';
 import io from "socket.io-client";
 
 const coins = [
@@ -153,19 +153,14 @@ class App extends React.Component {
           <Menu color='blue' inverted>
           <Header as='h2' id="companyLogo">
           <Image circular id="coinRebase" src={require('../dist/img/sfkiwi.gif')}/>
-          <Header.Content>
-            coin
-            <Header.Subheader id="companyLogo2">
-              rebase
-            </Header.Subheader>
-          </Header.Content>
+            coin rebase
           </Header>
             <Menu.Menu position='right'>
-              <Menu.Item name='Charts' active={renderedPage === 'Charts'} onClick={this.changePage}/>
-              {this.state.userLogin ? null : <Menu.Item name='Login' active={this.state.openLogin} onClick={this.openLoginModal.bind(this)}></Menu.Item>}
+              <Menu.Item name='Charts' active={renderedPage === 'Charts'} onClick={this.changePage}><Icon name='line chart'/>Charts</Menu.Item>
+              {this.state.userLogin ? null : <Menu.Item name='Login' active={this.state.openLogin} onClick={this.openLoginModal.bind(this)}><Icon name='key'/>Login</Menu.Item>}
               {this.state.openLogin ? <Login userLogin={this.userLogin.bind(this)} userLogout={this.userLogout.bind(this)} openLogin={this.state.openLogin} closeLoginModal={this.closeLoginModal.bind(this)}/> : null}
-              {this.state.userLogin ? <Menu.Item name='Portfolio' active={renderedPage === 'Portfolio'} onClick={this.changePage}/> : null}
-              {this.state.userLogin ? <Menu.Item name='Logout' onClick={this.userLogout.bind(this)}/> : null}
+              {this.state.userLogin ? <Menu.Item name='Portfolio' active={renderedPage === 'Portfolio'} onClick={this.changePage}><Icon name='dashboard'/>Portfolio</Menu.Item> : null}
+              {this.state.userLogin ? <Menu.Item name='Logout' onClick={this.userLogout.bind(this)}><Icon name='power'/>Logout</Menu.Item> : null}
             </Menu.Menu>
           </Menu>
         </Container>

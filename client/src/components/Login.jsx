@@ -6,7 +6,7 @@ import $ from 'jquery';
 import 'semantic-ui/dist/semantic.min.js';
 import 'semantic-ui/dist/semantic.min.css';
 import PasswordMask from 'react-password-mask';
-import { Button, Dimmer, Loader, Image, Segment, Transition, Form, Message, Icon } from 'semantic-ui-react';
+import { Button, Dimmer, Loader, Image, Segment, Transition, Form, Message, Icon, Checkbox, Divider, Header } from 'semantic-ui-react';
 
 class Login extends React.Component {
   constructor(props) {
@@ -88,17 +88,22 @@ class Login extends React.Component {
   	return (
   		<div>
         <Modal open={this.state.open} onClose={this.onCloseModal.bind(this)} id="loginModal">
-          <h2>Become a CryptoMillionaire!</h2>
+          <Header as='h2'><Icon name='money' color='green'/><Header.Content>Become A Crypto Millionaire!</Header.Content></Header>
+          <Divider hidden />
           <Form><Form.Field><label>Please Enter Your Email Address</label>  
           <input id="signUpEmail" type="text" placeholder="Email Address"></input>
           </Form.Field></Form>
           <Form><Form.Field><label>Choose A Password</label> 
           <PasswordMask id="signUpPassword" placeholder="Password" useVendorStyles={false}/>
           </Form.Field></Form>
+           <Checkbox toggle label='I Agree To The Terms & Conditions'/>
+           <Divider hidden />
           <Button onClick={this.onClickSignUp.bind(this)} basic color='green' animated>
           <Button.Content visible>Sign Up!</Button.Content><Button.Content hidden>
           <Icon name='right arrow'/></Button.Content></Button>
-          <h2>Check Your Altcoin Losses!</h2>
+          <Divider hidden />
+          <Header as='h2'><Icon name='thumbs outline down' color='red'/><Header.Content>Check Your Altcoin Losses</Header.Content></Header>
+          <Divider hidden />
           <Form><Form.Field><label>Email Address</label> 
           <input id="signInEmail" type="text" placeholder="Email Address"></input>
           </Form.Field></Form>

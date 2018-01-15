@@ -101,7 +101,8 @@
   height: 45px;
 }
 
-#companyLogo #companyLogo2{
+#companyLogo {
   font-family: Avenir Next;
+  font-weight: normal;
   color: white;
 }

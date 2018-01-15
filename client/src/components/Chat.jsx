@@ -1,13 +1,13 @@
 import React from "react";
 import io from "socket.io-client";
 import Modal from 'react-responsive-modal';
-import { Button, Dimmer, Loader, Image, Segment, Transition, Form, Message, TextArea, Icon, Header, Container, Divider} from 'semantic-ui-react';
+import { Button, Dimmer, Loader, Image, Segment, Transition, Form, Message, TextArea, Icon, Header, Container, Divider, Label} from 'semantic-ui-react';
 
 class Chat extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      username: this.props.currentUser,
       message: '',
       messages: [],
       openChat: this.props.chatOpen
@@ -36,9 +36,14 @@ class Chat extends React.Component{
   }
 
   sendMessage() {
+    if(this.state.username === '') {
+      var chatUsername = document.getElementById('chatUsername').value;
+    } else {
+      chatUsername = this.props.currentUser
+    }
     if (this.state.message) {
       this.props.socket.emit('message', {
-        username: this.state.username,
+        username: chatUsername,
         message: this.state.message
       });
       this.setState({message: ''});
@@ -71,9 +76,9 @@ class Chat extends React.Component{
               </div>
             <div>    
                 <Divider hidden />
-                <Form><Form.Field> <label>Username</label>  
-                <input type="text" placeholder="Username" value={this.state.username} onChange={this.usernameOnChange.bind(this)}/>
-                </Form.Field></Form>
+                {this.state.username === '' ? <Form><Form.Field> <label>Username</label>  
+                <input id="chatUsername" type="text" placeholder="Username"></input>
+                </Form.Field></Form> : <div><Label as='a' color='black'>Logged In As   </Label><Label as='a' color='green'><Icon name='id card outline'/>{this.state.username}</Label></div>}
                 <br/>
                 <Form><Form.Field> <label>Message</label> 
                 <TextArea placeholder='Message' value={this.state.message} onChange={this.messageOnChange.bind(this)} onKeyUp={this.handleKeyUp.bind(this)} style={{ minHeight: 100 }} />

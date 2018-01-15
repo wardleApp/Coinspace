@@ -148,7 +148,7 @@ class App extends React.Component {
     }
 
     return (
-      <div id="mainWrapper">
+      <div id="mainWrapper" className="mainBackground">
         <Container fluid>
           <Menu color='blue' inverted>
           <Header as='h2' id="companyLogo">

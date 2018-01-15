@@ -63,20 +63,24 @@ class PortfolioPage extends React.Component {
         {/* ------- The HTML below is for the Left Main Sidebar ---------------*/}
         <div className="ui visible inverted left vertical sidebar menu">
           <a className="item" name="Dashboard" onClick={this.changeLayout}>
-            <i className="large inverted blue dashboard icon"></i>
+            <i className="bordered white dashboard icon"></i>
             Dashboard
           </a>
+          <a className="item" name="Graph" onClick={this.changeLayout}>
+            <i className="bordered white line chart icon"></i>
+            Current Graph
+          </a>
           <a className="item" name="Total Allocations" onClick={this.changeLayout}>
-            <i className="large inverted blue pie chart icon"></i>
+            <i className="bordered white pie chart icon"></i>
             Total Allocations
           </a>
-          <a className="item" name="Bitcoin Graph" onClick={this.changeLayout}>
-            <i className="large inverted blue bitcoin icon"></i>
-            BitCoin
+          <a className="item" name="News Feed" onClick={this.changeLayout}>
+            <i className="bordered white feed icon"></i>
+            News Feed
           </a>
-          <a className="item" name="Ethereum Graph" onClick={this.changeLayout}>
-            <i className="large inverted blue sort icon"></i>
-            Ethereum
+          <a className="item" name="Recent Activity" onClick={this.changeLayout}>
+            <i className="bordered white tasks icon"></i>
+            Recent Activity
           </a>
         </div>
         {/* -------------- The Side Bar HTML Ends here -------------------------*/}

@@ -5,13 +5,16 @@ import {Pie, Line, Bar, defaults} from 'react-chartjs-2';
 class CoinChartCard extends React.Component {
   constructor(props) {
     super(props);
+    console.log(this.props.currentCoinData)
   }
 
   render() {
     return (
       <div id="dashCard" className="ui blue raised card" name='Graph' onClick={this.props.changeLayout}>
         <div className="content">
-          <h2 className="header">Current Selected Graph</h2>
+        {this.props.currentCoinData.currentCoin === 1 ? <h2 className="header">Selected Bitcoin Chart</h2> : 
+        this.props.currentCoinData.currentCoin === 2 ? <h2 className="header">Selected Ethereum Chart</h2> :
+        this.props.currentCoinData.currentCoin === 3 ? <h2 className="header">Selected Litecoin Chart</h2> : <h2 className="header">Selected Ripple Chart</h2>}
           <div className="ui divider"></div> 
           <Line data={this.props.chartData} options={{
             responsive: true, 

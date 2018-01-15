@@ -32,7 +32,7 @@ class TotalAllocations extends React.Component {
       }]
     };
     return (
-      <div id="dashCard" className="ui blue raised link card">
+      <div id="dashCard" className="ui blue raised card">
         <div className="content">
           <h2 className="header">Total Allocations</h2>
           <div className="ui divider"></div> 

@@ -11,7 +11,7 @@ class CoinChartCard extends React.Component {
 
   render() {
     return (
-      <div id="dashCard" className="ui blue raised link card">
+      <div id="dashCard" className="ui blue raised card" name='Graph' onClick={this.props.changeLayout}>
         <div className="content">
           <h2 className="header">Current Selected Graph</h2>
           <div className="ui divider"></div> 

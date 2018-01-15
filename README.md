@@ -31,6 +31,21 @@
 
 ## Development
 
+### Setting Config Vars
+```
+Create a Postgres Database Addon with Heroku (this will be used to fillout below)
+Open example.env file
+Fill out env variables as defined
+```
+
+### Initializing the Database and Historical Data
+```
+Navigate to directory database/Initialize_database_data/ in terminal
+Open initalizedatabase.js
+Uncomment "ssl: true", for both the Pool and Client models
+From terminal execute: node initalizedatabase.js
+```
+
 ### Installing Dependencies
 
 From within the root directory:

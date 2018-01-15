@@ -1,6 +1,5 @@
 import React from 'react';
 import moment from 'moment';
-import sampleData from '../exampleData/newsFeedData.js';
 
 class TopCryptoNews extends React.Component {
   constructor(props) {

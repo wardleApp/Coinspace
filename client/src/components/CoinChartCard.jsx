@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Pie, Line, Bar, defaults} from 'react-chartjs-2';
-defaults.global.defaultFontFamily = 'minecraft';
-defaults.global.defaultFontSize = 14;
 
 class CoinChartCard extends React.Component {
   constructor(props) {

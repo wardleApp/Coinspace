@@ -39,16 +39,16 @@ class Login extends React.Component {
   		password: newPassword
   	})
     .then(function(response) {
-    	response.data === 'New Sign Up Successful' ? that.onSuccessfulSignUp() : that.onUnsuccessfulSignUp()
+    	response.data === 'New Sign Up Successful' ? that.onSuccessfulSignUp(newEmail) : that.onUnsuccessfulSignUp()
     })
     .catch(function(error) {
       console.log('this is the error on sign up', error);
     })
   }
 
-  onSuccessfulSignUp() {
+  onSuccessfulSignUp(newEmail) {
     this.setState({success: 'true'})
-  	setTimeout(() => {this.props.userLogin()}, 5000)
+  	setTimeout(() => {this.props.userLogin(newEmail)}, 5000)
   }
 
   onUnsuccessfulSignUp() {
@@ -68,16 +68,16 @@ class Login extends React.Component {
   		password: enteredPassword
   	})
   	.then(function(response) {
-    	response.data === 'Success!' ? that.onSuccessfulSignUp() : that.onUnsuccessfulSignUp()
+    	response.data === 'Success!' ? that.onSuccessfulSignUp(emailAddress) : that.onUnsuccessfulSignUp()
     })
     .catch(function(error) {
       console.log('this is the error on sign in', error);
     })
   }
 
-  onSuccessfulSignIn() {
+  onSuccessfulSignIn(emailAddress) {
     this.setState({success: 'true'})
-    setTimeout(() => {this.props.userLogin()}, 5000)
+    setTimeout(() => {this.props.userLogin(emailAddress)}, 5000)
   }
 
   onUnsuccessfulSignIn() {

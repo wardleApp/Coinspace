@@ -4,13 +4,15 @@ import TotalAllocations from './TotalAllocations.jsx';
 import CoinChartCard from './CoinChartCard.jsx';
 import TopCryptoNews from './TopCryptoNews.jsx';
 import ActivityFeed from './ActivityFeed.jsx';
+import { Header, Input, Menu, Segment, Container, Divider, Grid, Sticky, Button, Icon, Image, Statistic } from 'semantic-ui-react';
 
 class PortfolioPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       page: 'Dashboard',
-      articles: []
+      articles: [],
+      coinAllocation: [100, 25, 35]
     };
 
     this.chartData = {
@@ -43,9 +45,25 @@ class PortfolioPage extends React.Component {
       });
   }
 
+
   changeLayout (e) {
     console.log(e.target);
   }
+
+  getCoinAllocation() {
+    var bitcoinQuantity = parseInt(document.getElementById('bitcoinInput').value);
+    var ethereumQuantity = parseInt(document.getElementById('ethereumInput').value);
+    var litecoinQuantity = parseInt(document.getElementById('litecoinInput').value);
+    this.setState({
+      coinAllocation: [bitcoinQuantity, ethereumQuantity, litecoinQuantity]
+    })
+  }
+
+  // changeLayout (e) {
+  //   this.setState({
+  //     page: e.target.name
+  //   });
+  // }
 
   render() {
 
@@ -81,6 +99,20 @@ class PortfolioPage extends React.Component {
             <i name="ActivityFeed" className="bordered white tasks icon"></i>
             Recent Activity
           </a>
+          <a className="item" name="Bitcoin Graph" onClick={this.changeLayout}>
+            <Input id='bitcoinInput' fluid icon='add circle' iconPosition='left' placeholder='Bitcoin'></Input>
+          </a>
+          <a className="item" name="Bitcoin Graph" onClick={this.changeLayout}>
+            <Input id='ethereumInput' fluid icon='add circle' iconPosition='left' placeholder='Ethereum' size='tiny'></Input>
+          </a>
+          <a className="item" name="Bitcoin Graph" onClick={this.changeLayout}>
+            <Input id='litecoinInput' fluid icon='add circle' iconPosition='left' placeholder='Litecoin' size='tiny'></Input>
+          </a>
+          <a className="item" name="Bitcoin Graph" onClick={this.changeLayout}>
+            <Button animated circular color='green' onClick={this.getCoinAllocation.bind(this)}>
+            <Button.Content visible><Icon name='add circle'/></Button.Content>
+            <Button.Content hidden><Icon name='right arrow'/></Button.Content></Button>
+          </a>
         </div>
         {/* -------------- The Side Bar HTML Ends here -------------------------*/}
 
@@ -91,7 +123,7 @@ class PortfolioPage extends React.Component {
             <h2 className="header centered"> {this.state.page} </h2>
             <div className="ui two stackable cards">
               <CoinChartCard chartData={this.chartData}/> 
-              <TotalAllocations name='TotalAllocations'/>
+              <TotalAllocations name='TotalAllocations' coinAllocation={this.state.coinAllocation}/>
               <TopCryptoNews name='NewsFeed' articles={this.state.articles}/> 
               <ActivityFeed name='ActivityFeed'/>
               {/* -------------- The Content Space HTML Ends here -------------------------*/}

@@ -46,6 +46,7 @@ class App extends React.Component {
       openLogin: false,
       userLogin: false,
       chatOpen: false,
+      currentUser: '',
     };
     this.socket = io('https://coinspace.herokuapp.com');
     this.changePage = this.changePage.bind(this);
@@ -113,17 +114,19 @@ class App extends React.Component {
     });
   }
 
-  userLogin() {
+  userLogin(userName) {
     this.setState({
       userLogin: true,
-      openLogin: false
+      openLogin: false,
+      currentUser: userName
     });
   }
 
   userLogout() {
     this.setState({
       userLogin: false,
-      renderedPage: 'Charts'
+      renderedPage: 'Charts',
+      currentUser: ''
     });
   }
 
@@ -149,11 +152,11 @@ class App extends React.Component {
 
     return (
       <div id="mainWrapper" className="mainBackground">
-        <Container fluid>
-          <Menu color='blue' inverted>
+        <Grid width={16}><Grid.Row style={{"height": 73}}><Grid.Column color='blue'>
+          <Menu color='blue' borderless inverted>
           <Header as='h2' id="companyLogo">
-          <Image circular id="coinRebase" src={require('../dist/img/sfkiwi.gif')}/>
-            coin rebase
+          <Image id="coinRebase" src={require('../dist/img/sfkiwi.gif')}/>
+            coin <b><font color="black">re</font></b>base
           </Header>
             <Menu.Menu position='right'>
               <Menu.Item name='Charts' active={renderedPage === 'Charts'} onClick={this.changePage}><Icon name='line chart'/>Charts</Menu.Item>
@@ -163,7 +166,7 @@ class App extends React.Component {
               {this.state.userLogin ? <Menu.Item name='Logout' onClick={this.userLogout.bind(this)}><Icon name='power'/>Logout</Menu.Item> : null}
             </Menu.Menu>
           </Menu>
-        </Container>
+          </Grid.Column></Grid.Row></Grid>
 
         {this.state.renderedPage === 'Charts' ? (
           <div className="ui grid">
@@ -176,7 +179,7 @@ class App extends React.Component {
               <Menu pointing secondary>
                 <Menu.Item active={this.state.chatOpen} name='chat' onClick={this.onChatOpen.bind(this)}><Icon name='comments' size='big'/></Menu.Item>
               </Menu>
-              {this.state.chatOpen ? <Chat socket={this.socket} chatOpen={this.state.chatOpen} onChatClose={this.onChatClose.bind(this)}/> : null}
+              {this.state.chatOpen ? <Chat socket={this.socket} chatOpen={this.state.chatOpen} onChatClose={this.onChatClose.bind(this)} currentUser={this.state.currentUser}/> : null}
               <div className="four wide column"></div>
               {Object.keys(labels).map((label, index) =>
                 <TimeIntervalToggle key={index} label={label} currentCoin={this.state.currentCoin} currentTimePeriod={this.state.currentTimePeriod} onSetTimePeriod={this.getChartData.bind(this)}/>

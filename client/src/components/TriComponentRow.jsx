@@ -17,12 +17,12 @@ const TriComponentRow = (props) => {
       </Statistic>
 
       <Statistic>
-        <Statistic.Value>{delta > 0 ? '+' : '-'}${renderNumber(delta)}</Statistic.Value>
+        <Statistic.Value>{delta > 0 ? <b><font color='green'>{'+'}</font></b> : <b><font color='red'>{'-'}</font></b>}${renderNumber(delta)}</Statistic.Value>
         <Statistic.Label>{props.labels[props.state.currentTimePeriod][3] + ' (USD)'}</Statistic.Label>
       </Statistic>
 
       <Statistic>
-        <Statistic.Value>{percentDelta > 0 ? '+' : '-'}{renderNumber(percentDelta)} %</Statistic.Value>
+        <Statistic.Value>{percentDelta > 0 ? <b><font color='green'>{'+'}</font></b> : <b><font color='red'>{'-'}</font></b>}{renderNumber(percentDelta)} %</Statistic.Value>
         <Statistic.Label>{props.labels[props.state.currentTimePeriod][3] + ' (%)'}</Statistic.Label>
       </Statistic>
     </Statistic.Group>

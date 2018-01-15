@@ -109,8 +109,8 @@ class PortfolioPage extends React.Component {
             <Input id='litecoinInput' fluid icon='add circle' iconPosition='left' placeholder='Litecoin' size='tiny'></Input>
           </a>
           <a className="item" name="Bitcoin Graph" onClick={this.changeLayout}>
-            <Button animated circular color='green' onClick={this.getCoinAllocation.bind(this)}>
-            <Button.Content visible><Icon name='add circle'/></Button.Content>
+            <Button icon labelPosition='right' animated color='green' onClick={this.getCoinAllocation.bind(this)}>
+            <Button.Content visible>Change Your Portfolio<Icon name='add circle'/></Button.Content>
             <Button.Content hidden><Icon name='right arrow'/></Button.Content></Button>
           </a>
         </div>
@@ -122,7 +122,7 @@ class PortfolioPage extends React.Component {
           <div className="ui segment">
             <h2 className="header centered"> {this.state.page} </h2>
             <div className="ui two stackable cards">
-              <CoinChartCard chartData={this.chartData}/> 
+              <CoinChartCard chartData={this.chartData} currentCoinData={this.props.state}/> 
               <TotalAllocations name='TotalAllocations' coinAllocation={this.state.coinAllocation}/>
               <TopCryptoNews name='NewsFeed' articles={this.state.articles}/> 
               <ActivityFeed name='ActivityFeed'/>

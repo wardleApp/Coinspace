@@ -111,6 +111,7 @@ class Login extends React.Component {
           <PasswordMask id="signInPassword" placeholder="Password" useVendorStyles={false}/>
           </Form.Field></Form>
           <Button onClick={this.onClickSignIn.bind(this)} inverted color='blue'>Sign In!</Button>
+          <Divider hidden />
           {this.state.success === 'true' ? (<Form success>
             <Message
               success

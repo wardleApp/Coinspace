@@ -25,9 +25,8 @@
 
 ## Requirements
 
-- Node 8.9.4
+- Node 8.9.1
 - Postgresql 10.1
-- etc
 
 ## Development
 
@@ -51,14 +50,12 @@ From terminal execute: node initalizedatabase.js
 From within the root directory:
 
 ```sh
-npm install -g bower
 npm install
-bower install
 ```
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_DOC)
+View the project roadmap [here](https://docs.google.com/spreadsheets/d/1jKqRBsl55nnvQkFvP-IGpUZXj8pgGDHMPH6e1joLihU/edit?usp=sharing)
 
 
 ## Contributing

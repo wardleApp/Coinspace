@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import SmallCurrencyToggle from './components/SmallCurrencyToggle.jsx';
+import TimeIntervalToggle from './components/TimeIntervalToggle.jsx';
 import TriComponentRow from './components/TriComponentRow.jsx';
 import CoinChart from './components/CoinChart.jsx';
 import Chat from './components/Chat.jsx';
@@ -36,6 +37,7 @@ class App extends React.Component {
       currentCoin: 1,
       currentTimePeriod: '1Y',
       allData: [],
+      latestPrices: [],
       chartLabels: [],
       chartDataSet:[],
       chartBGcolor:'',
@@ -58,7 +60,8 @@ class App extends React.Component {
     axios.get('/init')
       .then(results => {
         this.setState({
-          allData: results.data
+          allData: results.data,
+          latestPrices: results.data.slice(-4).sort((a,b) => (+a.coin_id - +b.coin_id))
         }, () => {
           this.getChartData();
         });
@@ -82,13 +85,10 @@ class App extends React.Component {
     });
   }
 
-  onSetTimePeriod(e, { value }) {
-    this.getChartData(this.state.currentCoin, value);
-  }
-
   addData(data) {
     this.setState({
-      allData: [...this.state.allData, ...data]
+      allData: [...this.state.allData, ...data],
+      latestPrices: data.sort((a,b) => (+a.coin_id - +b.coin_id)),
     }, () => {
       this.getChartData();
     });
@@ -128,14 +128,14 @@ class App extends React.Component {
   }
 
   onChatOpen() {
-    this.setState({ 
-      chatOpen: true 
+    this.setState({
+      chatOpen: true
     });
   }
 
   onChatClose() {
-    this.setState({ 
-      chatOpen: false 
+    this.setState({
+      chatOpen: false
     })
   }
 
@@ -171,19 +171,15 @@ class App extends React.Component {
             <div className="sixteen column row">
               <div className="one wide column"></div>
               {coins.map((coin, index) =>
-                <SmallCurrencyToggle key={index} state={this.state} onSetCoin={this.getChartData.bind(this)} coin_id={index + 1} name={coin[0]} />
+                <SmallCurrencyToggle key={index} name={coin[0]} currentCoin={this.state.currentCoin} currentTimePeriod={this.state.currentTimePeriod} coin={this.state.latestPrices[index]} onSetCoin={this.getChartData.bind(this)} />
               )}
               <Menu pointing secondary>
-              <Menu.Item active={this.state.chatOpen} name='chat' onClick={this.onChatOpen.bind(this)}><Icon name='comments' size='big'/></Menu.Item>
+                <Menu.Item active={this.state.chatOpen} name='chat' onClick={this.onChatOpen.bind(this)}><Icon name='comments' size='big'/></Menu.Item>
               </Menu>
               {this.state.chatOpen ? <Chat socket={this.socket} chatOpen={this.state.chatOpen} onChatClose={this.onChatClose.bind(this)}/> : null}
               <div className="four wide column"></div>
               {Object.keys(labels).map((label, index) =>
-                <Menu pointing secondary key={index}>
-                  <Menu.Menu position='right'>
-                    <Menu.Item active={this.state.currentTimePeriod === label} name={label} onClick={this.onSetTimePeriod.bind(this)} value={label}/>
-                  </Menu.Menu>
-                </Menu>
+                <TimeIntervalToggle key={index} label={label} currentCoin={this.state.currentCoin} currentTimePeriod={this.state.currentTimePeriod} onSetTimePeriod={this.getChartData.bind(this)}/>
               )}
 
               <div className='column'></div>

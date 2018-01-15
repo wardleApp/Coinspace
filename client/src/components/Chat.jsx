@@ -1,7 +1,7 @@
 import React from "react";
 import io from "socket.io-client";
 import Modal from 'react-responsive-modal';
-import { Button, Dimmer, Loader, Image, Segment, Transition, Form, Message } from 'semantic-ui-react';
+import { Button, Dimmer, Loader, Image, Segment, Transition, Form, Message, TextArea, Icon, Header, Container, Divider} from 'semantic-ui-react';
 
 class Chat extends React.Component{
   constructor(props) {
@@ -54,9 +54,11 @@ class Chat extends React.Component{
       return (
           <div>
            <Modal open={this.state.openChat} onClose={this.onCloseChat.bind(this)} id="loginModal">
-            <div className="title">Chat</div>
+            <Header as='h2'><Icon name='talk outline' color='green'/><Header.Content>Shill Your Coin Here!</Header.Content></Header>
             <hr/>
               <div className="messages">
+              <Container textAlign='left'>
+              <Segment color='green'>
                   {this.state.messages.map((message, index) =>
                     message instanceof Object ? (
                       <div key={index}>{message.username || 'Anonymous'}: {message.message}</div>
@@ -64,14 +66,17 @@ class Chat extends React.Component{
                       <div key={index}>{message}</div>
                     )
                   )}
+              </Segment>
+              </Container>
               </div>
             <div>    
+                <Divider hidden />
                 <Form><Form.Field> <label>Username</label>  
                 <input type="text" placeholder="Username" value={this.state.username} onChange={this.usernameOnChange.bind(this)}/>
                 </Form.Field></Form>
                 <br/>
                 <Form><Form.Field> <label>Message</label> 
-                <input type="text" placeholder="Message" value={this.state.message} onChange={this.messageOnChange.bind(this)} onKeyUp={this.handleKeyUp.bind(this)}/>
+                <TextArea placeholder='Message' value={this.state.message} onChange={this.messageOnChange.bind(this)} onKeyUp={this.handleKeyUp.bind(this)} style={{ minHeight: 100 }} />
                 </Form.Field></Form>
                 <br/>
                 <Button onClick={this.sendMessage.bind(this)} basic color='green'>Send</Button>
@@ -81,5 +86,7 @@ class Chat extends React.Component{
       );
   }
 }
+
+
 
 export default Chat;

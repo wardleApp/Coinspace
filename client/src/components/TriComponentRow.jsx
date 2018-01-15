@@ -16,7 +16,6 @@ const TriComponentRow = (props) => {
         <Statistic.Label>{props.coins[props.state.currentCoin - 1][0] + ' Price'}</Statistic.Label>
       </Statistic>
 
-
       <Statistic>
         <Statistic.Value>{delta > 0 ? '+' : '-'}${renderNumber(delta)}</Statistic.Value>
         <Statistic.Label>{props.labels[props.state.currentTimePeriod][3] + ' (USD)'}</Statistic.Label>

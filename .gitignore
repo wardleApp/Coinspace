@@ -3,6 +3,10 @@ database/Initialize_database_data/
 .env
 .DS_Store
 client/dist/bundle.js
+client/dist/674f50d287a8c48dc19ba404d20fe713.eot
+client/dist/912ec66d7572ff821749319396470bde.svg
+client/dist/b06871f281fee6b241d60582ae9369b9.ttf
+client/dist/be14d13d077b5d919005273ec1fcd069.png
 
 ### node etc ###
 
@@ -28,5 +32,3 @@ coverage
 # Deployed apps should consider commenting these lines out:
 # see https://npmjs.org/doc/faq.html#Should-I-check-my-node_modules-folder-into-git
 node_modules/
-
-

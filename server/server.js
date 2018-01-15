@@ -64,7 +64,7 @@ app.use(allowCrossDomain);
 // Dillon Experimental Route for SignUp UserPassword
 app.use('/sign', router);
 
-new CronJob('*/30 * * * *', () => {
+new CronJob('00 */1 * * *', () => {
   // API call
   cryptoAPI.BitfinexAPI()
     .then((data) => {

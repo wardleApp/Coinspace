@@ -152,9 +152,6 @@ class App extends React.Component {
 
     return (
       <div id="mainWrapper" className="mainBackground">
-        <Container fluid>
-          <Menu color='blue' inverted>
-      <div id="mainWrapper" className="mainBackground">
         <Grid width={16}><Grid.Row style={{"height": 73}}><Grid.Column color='blue'>
           <Menu color='blue' borderless inverted>
           <Header as='h2' id="companyLogo">

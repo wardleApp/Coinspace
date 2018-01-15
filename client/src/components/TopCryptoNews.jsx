@@ -30,7 +30,7 @@ class TopCryptoNews extends React.Component {
   render() {
 
     return (
-      <div id="dashCard" className="ui blue raised link card">
+      <div id="dashCard" className="ui blue raised card">
         <div className="content">
           <div onClick={this.changeArticle} id="nextButton" className="mini ui blue basic right floated animated button" tabIndex="0">
             <div className="visible content">Next</div>

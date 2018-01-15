@@ -45,7 +45,7 @@ class App extends React.Component {
       userLogin: false,
       chatOpen: false,
     };
-    this.socket = io('http://localhost:3000');
+    this.socket = io('https://coinspace.herokuapp.com');
     this.changePage = this.changePage.bind(this);
     this.addData = this.addData.bind(this);
     this.getChartData = this.getChartData.bind(this);
@@ -144,11 +144,11 @@ class App extends React.Component {
     const { renderedPage } = this.state;
 
     if (this.state.allData.length === 0) {
-      return <div/>
+      return <div/>;
     }
 
     return (
-      <div id="mainWrapper">
+      <div id="mainWrapper" className="mainBackground">
         <Container fluid>
           <Menu color='blue' inverted>
           <Header as='h2' id="companyLogo">

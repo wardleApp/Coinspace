@@ -1,6 +1,8 @@
-# Project Name
+<img src="https://github.com/wardleApp/Coinspace/blob/master/coinspace_150x150px.png?raw=true" />
 
-Coin Rebase (aka coinspace)
+# Coinspace
+
+The digital currency exchange you can handle
 
 ## Team
 
